@@ -1,0 +1,205 @@
+body {
+	background: #ebebeb;
+}
+
+.layui-layout-right {
+	padding: 0 60px 0 0;
+}
+
+.layui-layout-right li {
+	padding: 0 15px;
+}
+
+.layui-layout-admin .layui-header {
+	background: #0070e5;
+}
+
+.layui-nav-item h2 {
+	font-size: 26px;
+	font-weight: 600;
+}
+
+.layui-logo img {
+	width: 72%;
+}
+
+.line {
+	width: 4px;
+	height: 34px;
+	background: #FFFFFF;
+	display: block;
+	margin-right: 20px;
+}
+
+.layui-layout-left .layui-nav-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.layui-layout-left {
+	padding-left: 0;
+}
+
+.layui-layout-admin .layui-body {
+	top: 65px;
+	background: #FFFFFF;
+}
+
+.layui-layout-admin .layui-side {
+	top: 65px;
+}
+
+.layui-layout-admin .layui-side {
+	background: #FFFFFF;
+}
+
+.layui-nav-tree .layui-nav-item a {
+	display: flex;
+	align-items: center;
+}
+
+.layui-nav-tree .layui-nav-item img {
+	margin-right: 5px;
+}
+
+.select {
+	display: none;
+}
+
+.layui-nav-tree .layui-nav-item a:hover .select {
+	display: block;
+}
+
+.layui-nav-tree .layui-nav-item a:hover .nosele {
+	display: none;
+}
+
+.bigbox {
+	width: 100%;
+	height: 100%;
+}
+
+.bigbox .report,
+.bigbox .supervision,
+.bigbox .facility,
+.bigbox .consult {
+	width: 99%;
+}
+
+.bigbox div h3 {
+	font-size: 18px;
+	font-weight: 600;
+	color: #FFFFFF;
+	background: #0070e5;
+	padding: 10px 20px;
+	text-align: center;
+}
+
+.tabs {
+	width: 100%;
+}
+
+.tabs tr {
+	width: 100%;
+	border-bottom: 1px solid #555;
+}
+
+.tabs tr:last-child {
+	border: 0;
+}
+
+.tabs tr td {
+	width: 29.3%;
+	padding-left: 4%;
+	height: 80px;
+	border-right: 1px solid #555;
+	color: #555;
+	font-size: 18px;
+}
+
+.tabs tr td:nth-child(3n) {
+	border-right: 0;
+}
+
+.yyjl {
+	padding: 0 4%;
+	margin: 40px 0;
+}
+
+.zxmess {
+	width: 100%;
+	margin-bottom: 50px;
+}
+
+.zxmess label {
+	font-size: 22px;
+	color: #555;
+	width: 140px;
+	display: inline-block;
+}
+
+.zxmess input {
+	border: 1px solid #006fe5;
+	background: #fff;
+	outline: none;
+	color: #555;
+	padding: 13px 20px;
+	font-size: 22px;
+	width: 57%;
+}
+
+.zxmess textarea {
+	border: 1px solid #006fe5;
+	background: #fff;
+	outline: none;
+	color: #555;
+	padding: 6px 20px;
+	font-size: 22px;
+	width: 57%;
+	line-height: 35px;
+}
+
+.layui-btn-lg {
+	padding: 0 40px;
+}
+
+.del {
+	width: 20%;
+	height: 230px;
+	background: #FFFFFF;
+	border-radius: 5px;
+	position: fixed;
+	top: 40%;
+	left: 40%;
+	box-shadow: 3px 3px 3px #CCCCCC;
+	border: 1px solid #F2F2F2;
+	display: none;
+}
+
+.del .deltit {
+	height: 40px;
+	font-size: 18px;
+	color: #fff;
+	background: #0070e5;
+	text-align: center;
+	line-height: 40px;
+	margin-bottom: 34px;
+}
+
+.del p {
+	width: 100%;
+	padding-bottom: 15px;
+	text-align: center;
+}
+
+.del .resume {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 20px;
+}
+
+.del .resume button {
+	width: 30%;
+	font-size: 16px;
+}

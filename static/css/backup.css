@@ -1,0 +1,156 @@
+body{
+	background: #ebebeb;
+}
+.layui-layout-right{
+	padding: 0 60px 0 0;
+}
+.layui-layout-right li{
+	padding: 0 15px;
+}
+.layui-layout-admin .layui-header{
+	background: #0070e5;
+}
+.layui-nav-item h2{
+	font-size: 26px;
+	font-weight: 600;
+}
+.layui-logo img{
+	width: 72%;
+}
+.line{
+	width: 4px;
+	height: 34px;
+	background: #FFFFFF;
+	display: block;
+	margin-right:20px ;
+}
+.layui-layout-left .layui-nav-item{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.layui-layout-left{
+	padding-left: 0;
+}
+.layui-layout-admin .layui-body{
+	top:65px;
+}
+.layui-layout-admin .layui-side{
+	top:65px;
+}
+.layui-layout-admin .layui-side{
+	background: #FFFFFF;
+}
+.layui-nav-tree .layui-nav-item a{
+	display: flex;
+	align-items: center;
+}
+.layui-nav-tree .layui-nav-item img{
+	margin-right: 5px;
+}
+.select{
+	display: none;
+}
+.layui-nav-tree .layui-nav-item a:hover .select{
+	display: block;
+}
+.layui-nav-tree .layui-nav-item a:hover .nosele{
+	display: none;
+}
+.bigbox{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+.bigbox .report{
+	width:100%;
+	height: 483px;
+	margin-bottom: 10px;
+}
+.bigbox div h3{
+	font-size: 18px;
+	font-weight: 600;
+	color: #FFFFFF;
+	background: #0070e5;
+	padding:10px 20px;
+	text-align: center;
+}
+.layui-table td, .layui-table th{
+	width: 33.3%;
+	text-align: center;
+}
+.layui-table{
+	text-align: center;
+	font-size: 16px!important;
+}
+.layui-table td{
+	height: 62px;
+	padding: 0;
+	font-size: 16px!important;
+}
+.layui-table th{
+	height: 40px;
+	font-size: 16px!important;
+}
+.layui-table, .layui-table-view{
+	margin: 0;
+}
+.supervision .layui-table td, .layui-table th{
+	width: 50%;
+	text-align: center;
+}
+  .swiper-container {
+      width: 100%;
+      height: 100%;
+	  background: #FFFFFF;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+	  flex-direction: column;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+	  /* margin-right: 19px!important; */
+    }
+	.facility .tab{
+		height: 91%;
+		display: flex;
+		align-items: center;
+	}
+#test1{
+	display: flex;
+	justify-content: center;
+	padding: 1.25rem;
+}
+.layui-laypage a{
+	margin: 0 0.625rem;
+	border: 1px solid #0070e5;
+	color: #0070e5;
+}
+.layui-laypage>:first-child,.layui-laypage>:last-child{
+	background-color: #0070e5;
+	color: #FFFFFF;
+}
+.layui-laypage a:hover{
+	color: #000!important;
+}
+.layui-btn-normal{
+	width: 9%;
+	font-size: 1.125rem;
+	margin-bottom: 0.625rem;
+}

@@ -1,0 +1,70 @@
+.editduty{
+	padding:30px 4%;
+}
+.editduty li{
+	width: 100%;
+	border-top: 1px solid #006fe5 ;
+	padding: 20px 0;
+}
+.editduty li:nth-child(1){
+	border-top:0 ;
+}
+.editduty li h4{
+	font-size: 24px;
+	color:#006fe5 ;
+	margin-bottom: 20px;
+}
+.editduty li{
+	color: #555;
+}
+.guard{
+	font-size:16px;
+}
+.guard div{
+	display: flex;
+}
+.guard label{
+	display: inline-block;
+	margin: 0 30px 0 10px;
+}
+.guard .zbyime{
+	margin:0 20px 0 10px;
+}
+.guard .zbyime div label{
+	margin: 0 4px;
+}
+.lined span{
+	display: inline-block;
+	width: 3px;
+	height: 18px;
+	background: #0070e5;
+	margin-right: 10px;
+}	
+.lined{
+	font-size: 18px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+.guard input,.guard select{
+	color: #555;
+}
+.guardmid{
+	margin: 20px 0;
+}
+.guard .nums{
+	width: 50px;
+}
+.zxaddress .guard input{
+	width: 34%;
+	padding: 10px 4px;
+}
+.zxaddress .guard label{
+	margin-right: 2px;
+}
+.resume{
+	margin: 60px 0;
+}
+.resume button{
+	width: 8%;
+}

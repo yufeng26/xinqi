@@ -1,0 +1,128 @@
+body{
+	background: #ebebeb;
+}
+.layui-layout-right{
+	padding: 0 60px 0 0;
+}
+.layui-layout-right li{
+	padding: 0 15px;
+}
+.layui-layout-admin .layui-header{
+	background: #0070e5;
+}
+.layui-nav-item h2{
+	font-size: 30px;
+	font-weight: 600;
+}
+.layui-logo img{
+	width: 80%;
+}
+.line{
+	width: 4px;
+	height: 34px;
+	background: #FFFFFF;
+	display: block;
+	margin-right:20px ;
+}
+.layui-layout-left .layui-nav-item{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.layui-layout-left{
+	padding-left: 0;
+}
+.layui-layout-admin .layui-body{
+	top:65px;
+	background: #FFFFFF;
+	margin:0 10px;
+}
+.layui-layout-admin .layui-side{
+	top:65px;
+}
+.layui-layout-admin .layui-side{
+	background: #FFFFFF;
+}
+.layui-nav-tree .layui-nav-item a{
+	display: flex;
+	align-items: center;
+}
+.layui-nav-tree .layui-nav-item img{
+	margin-right: 5px;
+}
+.select{
+	display: none;
+}
+.layui-nav-tree .layui-nav-item a:hover .select{
+	display: block;
+}
+.layui-nav-tree .layui-nav-item a:hover .nosele{
+	display: none;
+}
+.tittop{
+	width: 100%;
+	height:60px;
+	display: flex;
+}
+.tittop li{
+	width: 50%;
+	text-align: center;
+	line-height: 60px;
+	font-size: 26px;
+	border: 1px solid #006fe5;
+}
+
+/*.tittop li:first-child{*/
+	/*background: #006fe5;*/
+	/*color: #fff;*/
+/*}*/
+/*.tittop li:last-child{*/
+	/*color: #006fe5;*/
+/*}*/
+.mycenters{
+	width: 100%;
+}
+.mycenters li{
+	padding-left: 4%;
+}
+.mycenters li p {
+	width: 40%;
+	margin: 30px 0;
+}
+.mycenters li p label{
+	width: 130px;
+	display: inline-block;
+	font-size: 22px;
+	color: #555;
+	text-align: right;
+
+}
+.mycenters li p input{
+	height: 56px;
+	border:1px solid #006fe5;
+	width: 75%;
+}
+.mycenters li{
+	display: flex;
+	flex-wrap: wrap;
+}
+.mycenters li .resume{
+	width: 100%;
+}
+.mycenters li .resume textarea{
+	border:1px solid #006fe5;
+	width: 70%;
+	padding: 15px 6px;
+}
+.mycenters li .resume label{
+	width: 8%;
+	text-align: right;
+	height: 100%;
+	vertical-align: top;
+}
+.mycenters li button{
+	width: 10%;
+}
+.mycenters li .layui-btn-normal{
+	margin-left: 8%
+	}
