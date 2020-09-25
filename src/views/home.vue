@@ -22,7 +22,7 @@
     <div class="layui-side layui-bg-black">
       <div class="layui-side-scroll">
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all">
           <li class="layui-nav-item">
             <a @click="goto('/index')" class="menu" href="javascript:;">
               <img class="nosele" src="/static/img/首页默认.png" />
@@ -47,7 +47,10 @@
           <li class="layui-nav-item">
             <a @click="goto('/testresult')" href="javascript:;">
               <img class="nosele" src="/static/img/测评管理默认.png" />
-              <img class="select" src="/static/img/测评管理选中.png" />测评管理
+              <img
+                class="select"
+                src="/static/img/测评管理选中.png"
+              />投射测验管理
             </a>
           </li>
           <li class="layui-nav-item">
@@ -69,12 +72,12 @@
               </dd>
               <dd>
                 <a @click="goto('/devicebaisirui')" href="javascript:;"
-                  >百思锐</a
+                  >身心反馈</a
                 >
               </dd>
               <dd>
                 <a @click="goto('/devicejida')" href="javascript:;"
-                  >击打(iii)</a
+                  >团体身心反馈</a
                 >
               </dd>
               <dd>
@@ -107,8 +110,10 @@
                 <a @click="goto('/duty')" href="javascript:;">值日表</a>
               </dd>
               <dd>
-                <a @click="goto('/admincenter')" href="javascript:;"
-                  >个人中心</a
+                <a @click="goto('/admincenter')" href="javascript:;">
+                  <img class="nosele" src="/static/img/个人中心默认.png" />
+                  <img class="select" src="/static/img/个人中心选中.png" />
+                  个人中心</a
                 >
               </dd>
             </dl>
