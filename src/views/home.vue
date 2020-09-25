@@ -22,7 +22,12 @@
     <div class="layui-side layui-bg-black">
       <div class="layui-side-scroll">
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-        <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all">
+        <ul
+          ref="menu-list"
+          class="layui-nav layui-nav-tree"
+          lay-filter="test"
+          lay-shrink="all"
+        >
           <li class="layui-nav-item">
             <a @click="goto('/index')" class="menu" href="javascript:;">
               <img class="nosele" src="/static/img/首页默认.png" />
@@ -166,6 +171,7 @@
 
 
 <script>
+import $ from "jquery";
 export default {
   name: "home",
   data() {
@@ -186,6 +192,11 @@ export default {
   },
   created() {},
   mounted() {
+    const $menuList = $(this.$refs["menu-list"]);
+    console.log(this.$route.path);
+    if (this.$route.path === "/testresult") {
+      this.pickTheMenu($menuList, 2, null);
+    }
     if (this.$route.path == "/") {
       this.$router.push({ path: "/index" });
       window.location.reload();
@@ -248,6 +259,19 @@ export default {
 
       this.$router.push("/login");
       this.$message.success("退出成功");
+    },
+    pickTheMenu($menuList, par, son) {
+      $menuList.find("li").each(function (i, obj) {
+        $(obj).removeClass("layui-nav-itemed");
+        $(obj)
+          .find("dl dd")
+          .each(function (k, inner) {
+            $(inner).removeClass("layui-this");
+          });
+      });
+      $menuList.find("li").eq(par).addClass("layui-nav-itemed");
+      if (son === null) return;
+      $menuList.find("li").eq(par).find("dl dd").eq(son).addClass("layui-this");
     },
   },
 };
