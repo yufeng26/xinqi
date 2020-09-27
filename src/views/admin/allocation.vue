@@ -1,17 +1,19 @@
 <template>
   <!-- 内容主体区域 -->
-  <div class="bigbox" style="padding:0 10px;">
+  <div class="bigbox">
     <div class="consult">
       <p
         style="background:#0070e5;text-align: center;color:#fff;width:100%;line-height: 60px; font-size: 26px;"
-      >权限设置</p>
+      >
+        权限设置
+      </p>
       <ul class="editduty">
-        <li v-for="(yiji,index) of menus" :key="index">
-          <P class="yiji">{{yiji.MenuName}}</P>
+        <li v-for="(yiji, index) of menus" :key="index">
+          <P class="yiji">{{ yiji.MenuName }}</P>
           <div v-for="erji in yiji.erji" :key="erji.ID">
             <p class="lined">
               <span></span>
-              {{erji.MenuName}}
+              {{ erji.MenuName }}
             </p>
             <div class="guard">
               <el-checkbox
@@ -19,7 +21,8 @@
                 v-model="sanji.Usable"
                 v-for="sanji in erji.sanji"
                 :key="sanji.ID"
-              >{{sanji.MenuName}}</el-checkbox>
+                >{{ sanji.MenuName }}</el-checkbox
+              >
             </div>
           </div>
         </li>
@@ -53,13 +56,21 @@
         </div>-->
         <li class="zxaddress">
           <p class="resume">
-            <button type="button" @click="SaveLimit" class="layui-btn layui-btn-normal">确认</button>
+            <button
+              type="button"
+              @click="SaveLimit"
+              class="layui-btn layui-btn-normal"
+            >
+              确认
+            </button>
             <button
               type="button"
               @click="$router.go(-1)"
               style="background: #9571f9;"
               class="layui-btn"
-            >返回</button>
+            >
+              返回
+            </button>
           </p>
         </li>
       </ul>
@@ -76,7 +87,7 @@ export default {
       admindID: "",
       fenpeiID: "",
       viewPath: "",
-      limitsId: "",
+      limitsId: ""
     };
   },
   methods: {
@@ -85,7 +96,7 @@ export default {
       let param = new URLSearchParams();
       param.append("adminID", this.admindID);
       param.append("fenpeiID", this.fenpeiID);
-      this.$SystemAPI.GetLimitsList(param, function (data) {
+      this.$SystemAPI.GetLimitsList(param, function(data) {
         if (data.Code == 1) {
           that.menus = data.Result;
         }
@@ -94,9 +105,9 @@ export default {
     SaveLimit() {
       this.limitsId = "";
       let that = this;
-      this.menus.forEach((item) => {
-        item.erji.forEach((c) => {
-          c.sanji.forEach((x) => {
+      this.menus.forEach(item => {
+        item.erji.forEach(c => {
+          c.sanji.forEach(x => {
             if (x.Usable) {
               this.limitsId += x.ID + ",";
             }
@@ -108,12 +119,12 @@ export default {
       console.log(ids);
       param.append("limitsId", ids);
       param.append("fenpeiId", this.fenpeiID);
-      this.$SystemAPI.SaveLimit(param, function (data) {
+      this.$SystemAPI.SaveLimit(param, function(data) {
         if (data.Code == 1) {
           that.$message.success("保存成功!");
         }
       });
-    },
+    }
   },
   mounted() {
     this.admindID = this.$store.state.userinfo.ID;
@@ -121,7 +132,7 @@ export default {
     this.viewPath = this.$route.path;
     this.getLimits();
     // this.getdutydetail();
-  },
+  }
 };
 </script>
 

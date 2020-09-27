@@ -1,22 +1,60 @@
 <template>
   <!-- 内容主体区域 -->
-  <div class="bigbox" style="padding:0 10px;">
+  <div class="bigbox">
     <div class="consult">
-      <h3 @click="gotoadd" v-if="menuModel.addUsable">{{menuModel.add}}</h3>
+      <h3 @click="gotoadd" v-if="menuModel.addUsable">{{ menuModel.add }}</h3>
       <div class="tab">
-        <el-table style="width: 100%;" :data="userList" >
+        <el-table style="width: 100%;" :data="userList">
           <el-table-column type="index"></el-table-column>
-          <el-table-column label="真实姓名" prop="a_RealName" width="250"></el-table-column>
-          <el-table-column label="创建时间" prop="a_CreateTime" width="250"></el-table-column>
-          <el-table-column label="操作" >
+          <el-table-column
+            label="真实姓名"
+            prop="a_RealName"
+            width="250"
+          ></el-table-column>
+          <el-table-column
+            label="创建时间"
+            prop="a_CreateTime"
+            width="250"
+          ></el-table-column>
+          <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button @click.native.prevent="editRow(scope.row,false)" type="success" v-if="menuModel.lookUsable">{{menuModel.look}}</el-button>
+              <el-button
+                @click.native.prevent="editRow(scope.row, false)"
+                type="success"
+                v-if="menuModel.lookUsable"
+                >{{ menuModel.look }}</el-button
+              >
 
-              <el-button @click.native.prevent="editRow(scope.row,true)" type="warning" v-if="menuModel.updateUsable">{{menuModel.update}}</el-button>
-              <el-button @click.native.prevent="ResetPwd(scope.row,true)" type="danger" v-if="menuModel.resetUsable">{{menuModel.reset}}</el-button>
-              <el-button @click.native.prevent="fenpeiquanxian(scope.row,true)" type="warning" v-if="menuModel.quanxianUsable">{{menuModel.quanxian}}</el-button>
-              <el-button @click.native.prevent="Allocation(scope.row)" type="warning" v-if="menuModel.fenpeiUsable">{{menuModel.fenpei}}</el-button>
-              <el-button @click.native.prevent="deleteRow(scope.row)" type="danger" v-if="menuModel.deleteUsable">{{menuModel.delete}}</el-button>
+              <el-button
+                @click.native.prevent="editRow(scope.row, true)"
+                type="warning"
+                v-if="menuModel.updateUsable"
+                >{{ menuModel.update }}</el-button
+              >
+              <el-button
+                @click.native.prevent="ResetPwd(scope.row, true)"
+                type="danger"
+                v-if="menuModel.resetUsable"
+                >{{ menuModel.reset }}</el-button
+              >
+              <el-button
+                @click.native.prevent="fenpeiquanxian(scope.row, true)"
+                type="warning"
+                v-if="menuModel.quanxianUsable"
+                >{{ menuModel.quanxian }}</el-button
+              >
+              <el-button
+                @click.native.prevent="Allocation(scope.row)"
+                type="warning"
+                v-if="menuModel.fenpeiUsable"
+                >{{ menuModel.fenpei }}</el-button
+              >
+              <el-button
+                @click.native.prevent="deleteRow(scope.row)"
+                type="danger"
+                v-if="menuModel.deleteUsable"
+                >{{ menuModel.delete }}</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -61,8 +99,8 @@ export default {
         fenpei: "",
         fenpeiUsable: false,
         delete: "",
-        deleteUsable: false,
-      },
+        deleteUsable: false
+      }
     };
   },
   created() {},
@@ -74,48 +112,40 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", this.viewPath);
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
     });
-   this.handleUserList();
+    this.handleUserList();
   },
   methods: {
     setmenuModel(item) {
-
       let that = this;
-      item.forEach(c=>{
-              if(c.ID==9){
-                   that.menuModel.add=c.MenuName
-                   that.menuModel.addUsable=c.Usable
-              }
-             else if(c.ID==10){
-                   that.menuModel.look=c.MenuName
-                   that.menuModel.lookUsable=c.Usable
-              }
-               else if(c.ID==11){
-                   that.menuModel.update=c.MenuName
-                   that.menuModel.updateUsable=c.Usable
-              }
-               else if(c.ID==12){
-                   that.menuModel.reset=c.MenuName
-                   that.menuModel.resetUsable=c.Usable
-              }
-               else if(c.ID==13){
-                   that.menuModel.quanxian=c.MenuName
-                   that.menuModel.quanxianUsable=c.Usable
-              }
-               else if(c.ID==14){
-                   that.menuModel.fenpei=c.MenuName
-                   that.menuModel.fenpeiUsable=c.Usable
-              }
-               else if(c.ID==15){
-                   that.menuModel.delete=c.MenuName
-                   that.menuModel.deleteUsable=c.Usable
-              }
-
-          })
+      item.forEach(c => {
+        if (c.ID == 9) {
+          that.menuModel.add = c.MenuName;
+          that.menuModel.addUsable = c.Usable;
+        } else if (c.ID == 10) {
+          that.menuModel.look = c.MenuName;
+          that.menuModel.lookUsable = c.Usable;
+        } else if (c.ID == 11) {
+          that.menuModel.update = c.MenuName;
+          that.menuModel.updateUsable = c.Usable;
+        } else if (c.ID == 12) {
+          that.menuModel.reset = c.MenuName;
+          that.menuModel.resetUsable = c.Usable;
+        } else if (c.ID == 13) {
+          that.menuModel.quanxian = c.MenuName;
+          that.menuModel.quanxianUsable = c.Usable;
+        } else if (c.ID == 14) {
+          that.menuModel.fenpei = c.MenuName;
+          that.menuModel.fenpeiUsable = c.Usable;
+        } else if (c.ID == 15) {
+          that.menuModel.delete = c.MenuName;
+          that.menuModel.deleteUsable = c.Usable;
+        }
+      });
     },
     gotoadd() {
       this.$router.push({ path: "/addadmin" });
@@ -135,7 +165,7 @@ export default {
       param.append("pageNum", this.currentPage);
       param.append("pageSize", this.pagesize);
       param.append("AdminID", this.AdminID);
-      this.userList = this.$AdminAPI.getAdminList(param, function (data) {
+      this.userList = this.$AdminAPI.getAdminList(param, function(data) {
         if (data.Code == 1) {
           v.userList = data.Result.Data;
           v.totalRecords = data.Result.totalRecords;
@@ -148,13 +178,13 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("ID", row.ID);
 
-          this.$AdminAPI.DeleteUser(param, function (data) {
+          this.$AdminAPI.DeleteUser(param, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -167,7 +197,7 @@ export default {
     editRow(row, issave) {
       this.$router.push({
         name: "editadmin",
-        query: { ID: row.ID, issave: issave },
+        query: { ID: row.ID, issave: issave }
       });
     },
     //重置密码
@@ -176,13 +206,13 @@ export default {
       this.$confirm("确认要重置密码吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("ID", row.ID);
 
-          this.$AccountAPI.ResetPWD(param, function (data) {
+          this.$AccountAPI.ResetPWD(param, function(data) {
             if (data.Code == 1) {
               v.$message.success(data.Msg);
               v.handleUserList();
@@ -197,22 +227,22 @@ export default {
       //先跳转到用户列表 然后进行分配
       this.$router.push({
         name: "AllocationUser",
-        query: { ID: row.ID, a_Authorization: row.a_Authorization },
+        query: { ID: row.ID, a_Authorization: row.a_Authorization }
       });
     },
     fenpeiquanxian(row) {
       this.$router.push({
         name: "allocation",
-        query: { ID: row.ID, a_Authorization: row.a_Authorization },
+        query: { ID: row.ID, a_Authorization: row.a_Authorization }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
 @import "../../../static/css/admin.css";
-.cell{
+.cell {
   text-align: center;
 }
 </style>

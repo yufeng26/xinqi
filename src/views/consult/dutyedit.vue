@@ -1,6 +1,6 @@
 <template>
   <!-- 内容主体区域 -->
-  <div class="bigbox" style="padding:0 10px;">
+  <div class="bigbox">
     <div class="consult">
       <p style="background:#0070e5;text-align: center;color:#fff;width:100%;line-height: 60px; font-size: 26px;">编辑值班表</p>
       <ul class="editduty">

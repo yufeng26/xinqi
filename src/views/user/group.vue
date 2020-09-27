@@ -16,32 +16,46 @@
         @click="handleUserList"
         style="background:#006fe5 ;margin-left: 50%;"
         class="layui-btn layui-btn-normal"
-      >开始检索</button>
+      >
+        开始检索
+      </button>
     </div>
-    <div class="bigbox" style="padding:0 10px;">
+    <div class="bigbox">
       <div class="consult">
         <div class="grouping" v-if="groupvisible">
           <h2 style="color: #0070e5;">创建分组</h2>
-          <input type="text" v-model="newgroupid" placeholder="请输入分组名称" />
+          <input
+            type="text"
+            v-model="newgroupid"
+            placeholder="请输入分组名称"
+          />
 
           <button
             type="button"
             style="background:#006fe5;width: 40%;"
             @click="addgrouphanlde"
             class="layui-btn layui-btn-normal"
-          >确定</button>
+          >
+            确定
+          </button>
           <button
             type="button"
             style="background:#006fe5 ;width: 40%;"
-            @click="groupvisible=false;"
+            @click="groupvisible = false"
             class="layui-btn layui-btn-normal returnd"
-          >返回</button>
+          >
+            返回
+          </button>
         </div>
         <div class="move" v-show="movingvisible">
           <h2>移动至</h2>
           <div class="movercount">
             <img style="display:block ;" class="xia" src="/static/img/jt.png" />
-            <img style="display: none;" class="shang" src="/static/img/jtup.png" />
+            <img
+              style="display: none;"
+              class="shang"
+              src="/static/img/jtup.png"
+            />
             全部分组
           </div>
           <SelectTree
@@ -61,27 +75,37 @@
             style="background:#258DFF;margin-left:30px;width: 40%;"
             @click="movehandle"
             class="layui-btn layui-btn-normal ensure"
-          >确定</button>
+          >
+            确定
+          </button>
           <button
             type="button"
             style="background:#9571F9 ;width: 40%;"
-            @click="movingvisible=false;"
+            @click="movingvisible = false"
             class="layui-btn layui-btn-normal reve"
-          >返回</button>
+          >
+            返回
+          </button>
         </div>
         <div style="display: flex;justify-content: flex-start">
           <button
             type="button"
             style="background:#006fe5 ;"
-            @click="groupvisible=true;"
-            class="layui-btn layui-btn-normal cjfz" v-if="menuModel.addfenzuUsable"
-          >{{menuModel.addfenzu}}</button>
+            @click="groupvisible = true"
+            class="layui-btn layui-btn-normal cjfz"
+            v-if="menuModel.addfenzuUsable"
+          >
+            {{ menuModel.addfenzu }}
+          </button>
           <button
             type="button"
             style="background:#ff433f ;"
             @click="handlePLDelete"
-            class="layui-btn layui-btn-normal" v-if="menuModel.deleteUsable"
-          >{{menuModel.delete}}</button>
+            class="layui-btn layui-btn-normal"
+            v-if="menuModel.deleteUsable"
+          >
+            {{ menuModel.delete }}
+          </button>
         </div>
 
         <div class="tab">
@@ -95,16 +119,35 @@
             <el-table-column label="名称">
               <template slot-scope="scope">
                 <img v-if="scope.row.IsGroup" src="/static/img/zu.png" />
-                {{scope.row.RealName}}
+                {{ scope.row.RealName }}
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" prop="CreateTime"></el-table-column>
+            <el-table-column
+              label="创建时间"
+              prop="CreateTime"
+            ></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="success" @click.native.prevent="editRow(scope.row,false)">查看</el-button>
-                <el-button @click.native.prevent="moveRow(scope.row)" type="primary">移动</el-button>
-                <el-button type="warning" @click.native.prevent="editRow(scope.row,true)">编辑</el-button>
-                <el-button @click.native.prevent="deleteRow(scope.row)" type="danger">删除</el-button>
+                <el-button
+                  type="success"
+                  @click.native.prevent="editRow(scope.row, false)"
+                  >查看</el-button
+                >
+                <el-button
+                  @click.native.prevent="moveRow(scope.row)"
+                  type="primary"
+                  >移动</el-button
+                >
+                <el-button
+                  type="warning"
+                  @click.native.prevent="editRow(scope.row, true)"
+                  >编辑</el-button
+                >
+                <el-button
+                  @click.native.prevent="deleteRow(scope.row)"
+                  type="danger"
+                  >删除</el-button
+                >
               </template>
             </el-table-column>
           </el-table>
@@ -148,14 +191,14 @@ export default {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       props2: {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       list: [],
@@ -167,8 +210,8 @@ export default {
         addfenzu: "",
         addfenzuUsable: false,
         delete: "",
-        deleteUsable: false,
-      },
+        deleteUsable: false
+      }
     };
   },
   components: { SelectTree },
@@ -180,7 +223,7 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", "/user");
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
@@ -191,7 +234,7 @@ export default {
   methods: {
     setmenuModel(item) {
       let that = this;
-      item.forEach((c) => {
+      item.forEach(c => {
         if (c.ID == 16) {
           that.menuModel.addfenzu = c.MenuName;
           that.menuModel.addfenzuUsable = c.Usable;
@@ -218,7 +261,7 @@ export default {
       param.append("groupid", this.addgroupid);
       param.append("pageNum", this.currentPage);
       param.append("pageSize", this.pagesize);
-      this.userList = this.$UserAPI.getUserPageList2(param, function (data) {
+      this.userList = this.$UserAPI.getUserPageList2(param, function(data) {
         if (data.Code == 1) {
           v.userList = data.Result.Data;
           v.totalRecords = data.Result.totalRecords;
@@ -247,7 +290,7 @@ export default {
 
       let param = new URLSearchParams();
       param.append("adminID", this.AdminID);
-      this.$UserAPI.getUserGroupList(param, function (data) {
+      this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;
           v.list2 = data.Result2;
@@ -261,11 +304,11 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function (value, index, array) {
+          selectrows.forEach(function(value, index, array) {
             newarr += value.ID + ",";
           });
           if (newarr) {
@@ -273,7 +316,7 @@ export default {
           }
           var params = new URLSearchParams();
           params.append("ID", newarr);
-          this.$UserAPI.PlDeleteUser(params, function (data) {
+          this.$UserAPI.PlDeleteUser(params, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -288,12 +331,12 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("ID", row.ID);
-          this.$UserAPI.DeleteUser(param, function (data) {
+          this.$UserAPI.DeleteUser(param, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -308,7 +351,7 @@ export default {
       let param = new URLSearchParams();
       param.append("ID", this.userid);
       param.append("u_GroupID", this.valueId2);
-      this.$UserAPI.MoveGroup(param, function (data) {
+      this.$UserAPI.MoveGroup(param, function(data) {
         if (data.Code == 1) {
           v.$message.success("移动成功!");
           v.movingvisible = false;
@@ -323,7 +366,7 @@ export default {
       param.append("ug_GroupName", this.newgroupid);
 
       param.append("ug_ParentID", "0");
-      this.$UserAPI.AddGroup(param, function (data) {
+      this.$UserAPI.AddGroup(param, function(data) {
         if (data.Code == 1) {
           v.$message.success("创建成功!");
           v.groupvisible = false;
@@ -338,25 +381,23 @@ export default {
       } else {
         this.$router.push({
           name: "edituser",
-          query: { ID: row.ID, issave: issave },
+          query: { ID: row.ID, issave: issave }
         });
       }
-    },
+    }
   },
   computed: {
     /* 转树形数据 */
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
-      return cloneData.filter((father) => {
+      return cloneData.filter(father => {
         // 循环所有项，并添加children属性
-        let branchArr = cloneData.filter(
-          (child) => father.id == child.parentId
-        ); // 返回每一项的子级数组
+        let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
         branchArr.length > 0 ? (father.children = branchArr) : ""; //给父级添加一个children属性，并赋值
         return father.parentId == 0; //返回第一层
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
