@@ -57,7 +57,7 @@
                 <tr v-for="item in PlanList">
                   <td class="left">{{ item.UserName }}</td>
                   <td>{{ item.TopicName }}</td>
-                  <th>{{ item.progress }}</th>
+                  <td>{{ item.progress }}</td>
                   <td>{{ item.CreateTime | convertDate }}</td>
                 </tr>
               </tbody>

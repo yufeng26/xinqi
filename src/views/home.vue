@@ -13,7 +13,7 @@
       </ul>
       <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
-          您好，{{ userinfo.a_RealName }}.欢迎使用心企物联网云平台!
+          您好，{{ userinfo.a_RealName }}.欢迎使用心企物联网云平台！
         </li>
         <li class="layui-nav-item" @click="layout">【退出】</li>
       </ul>
@@ -169,7 +169,6 @@
   </div>
 </template>
 
-
 <script>
 import $ from "jquery";
 export default {
@@ -177,7 +176,7 @@ export default {
   data() {
     return {
       userinfo: {
-        a_RealName: "",
+        a_RealName: ""
       },
       adminID: "",
       viewPath: "",
@@ -187,7 +186,7 @@ export default {
       shujubeifen: false,
       kuozhanziduan: false,
       zixunyuyue: false,
-      zhiribiao: false,
+      zhiribiao: false
     };
   },
   created() {},
@@ -208,10 +207,10 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.adminID);
     param.append("ViewPath", "");
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
         that.menus = data.Result;
-        that.menus.forEach((c) => {
+        that.menus.forEach(c => {
           if (c.ID == 57 && c.Usable) {
             that.zixunyuyue = true;
           }
@@ -241,12 +240,12 @@ export default {
       loopFillGroupWithBlank: true,
       pagination: {
         el: ".swiper-pagination",
-        clickable: true,
+        clickable: true
       },
       navigation: {
         nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
+        prevEl: ".swiper-button-prev"
+      }
     });
   },
   methods: {
@@ -263,19 +262,27 @@ export default {
       this.$message.success("退出成功");
     },
     pickTheMenu($menuList, par, son) {
-      $menuList.find("li").each(function (i, obj) {
+      $menuList.find("li").each(function(i, obj) {
         $(obj).removeClass("layui-nav-itemed");
         $(obj)
           .find("dl dd")
-          .each(function (k, inner) {
+          .each(function(k, inner) {
             $(inner).removeClass("layui-this");
           });
       });
-      $menuList.find("li").eq(par).addClass("layui-nav-itemed");
+      $menuList
+        .find("li")
+        .eq(par)
+        .addClass("layui-nav-itemed");
       if (son === null) return;
-      $menuList.find("li").eq(par).find("dl dd").eq(son).addClass("layui-this");
-    },
-  },
+      $menuList
+        .find("li")
+        .eq(par)
+        .find("dl dd")
+        .eq(son)
+        .addClass("layui-this");
+    }
+  }
 };
 </script>
 
