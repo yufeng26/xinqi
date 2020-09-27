@@ -3,13 +3,13 @@
 import Vue from "vue";
 import App from "./App";
 import Router from "vue-router";
-import Moment from "moment";
+import moment from "moment";
 import "babel-polyfill";
 import "url-search-params-polyfill";
-Vue.filter("convertDate", function(value) {
-  return Moment(value).format("YYYY/MM/DD HH:mm:ss");
-});
-
+// Vue.filter("convertDate", function(value) {
+//   return Moment(value).format("YYYY/MM/DD HH:mm:ss");
+// });
+Vue.prototype.$moment = moment; //赋值使用
 import VueAwesomeSwiper from "vue-awesome-swiper";
 Vue.use(VueAwesomeSwiper);
 require("swiper/dist/css/swiper.css");
@@ -89,6 +89,7 @@ router.beforeEach((to, from, next) => {
 });
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+
 /* eslint-disable no-new */
 new Vue({
   el: "#app",

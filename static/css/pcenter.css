@@ -127,3 +127,43 @@ body {
 .mycenters li .layui-btn-normal {
   margin-left: 8%;
 }
+/* 此处是带搜索款列表的统一样式css- 20200926-ch */
+.searchPage {
+  background-color: #ebebeb;
+}
+.searchBox {
+  background-color: #ffffff;
+  padding-bottom: 15px;
+}
+.searchPage .searchBox .searchLabel {
+  width: 80px;
+  display: inline-block;
+  text-align: right;
+}
+.searchPage .searchBox .searchData {
+  width: calc(100% - 100px) !important;
+  display: inline-block;
+  text-align: left;
+}
+.searchPage .searchBox .searchSelect {
+  width: 100%;
+}
+.searchPage .searchBox .textRight {
+  text-align: right;
+}
+.secachBtn {
+  font-size: 18px;
+}
+.bgColorBlue {
+  background-color: #006fe5;
+}
+.searchPage .actionBox {
+  margin: 15px 0;
+  text-align: left;
+}
+.searchPage .searchData {
+  background-color: #fff;
+}
+.searchPage .searchData .el-pagination {
+  margin: 15px auto;
+}

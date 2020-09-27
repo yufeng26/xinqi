@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "App",
+  name: "App"
 };
 </script>
 
@@ -17,5 +17,24 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+/* 此处定义一些全局公用样式 */
+.mtop10 {
+  margin-top: 10px;
+}
+.mtop15 {
+  margin-top: 15px;
+}
+.mtop20 {
+  margin-top: 20px;
+}
+.mbottom10 {
+  margin-bottom: 10px;
+}
+.mbottom15 {
+  margin-bottom: 15px;
+}
+.mbottom20 {
+  margin-bottom: 20px;
 }
 </style>
