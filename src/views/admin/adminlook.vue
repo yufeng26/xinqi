@@ -1,9 +1,9 @@
 <template>
   <div class="formPage">
     <!-- 内容主体区域 -->
-    <ul class="tittop">
-      <li style="width: 100%; color:blue;">个人资料</li>
-    </ul>
+    <div class="pageTille">
+      个人资料
+    </div>
     <div class="inputBox">
       <el-row class="mtop15">
         <el-col :span="8">
@@ -82,7 +82,7 @@
           <el-button type="primary" @click="addadminhandle" class="InputBtn">
             确定
           </el-button>
-          <el-button type="success" @click="router.go(-1)" class="InputBtn">
+          <el-button type="success" @click="goback" class="InputBtn">
             返回
           </el-button>
         </div>
@@ -127,6 +127,9 @@ export default {
   },
 
   methods: {
+    goback() {
+      this.$router.go(-1);
+    },
     //取值
     selectTime(val) {
       console.log(val);
@@ -238,4 +241,5 @@ export default {
 
 <style scoped>
 @import "../../../static/css/pcenter.css";
+@import "../../../static/css/common.css";
 </style>

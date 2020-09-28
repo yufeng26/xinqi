@@ -1,75 +1,89 @@
 <template>
   <!-- 内容主体区域 -->
-  <div class="bigbox">
-    <div class="consult">
-      <h3 @click="gotoadd" v-if="menuModel.addUsable">{{ menuModel.add }}</h3>
-      <div class="tab">
-        <el-table style="width: 100%;" :data="userList">
-          <el-table-column type="index"></el-table-column>
-          <el-table-column
-            label="真实姓名"
-            prop="a_RealName"
-            width="250"
-          ></el-table-column>
-          <el-table-column
-            label="创建时间"
-            prop="a_CreateTime"
-            width="250"
-          ></el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button
-                @click.native.prevent="editRow(scope.row, false)"
-                type="success"
-                v-if="menuModel.lookUsable"
-                >{{ menuModel.look }}</el-button
-              >
-
-              <el-button
-                @click.native.prevent="editRow(scope.row, true)"
-                type="warning"
-                v-if="menuModel.updateUsable"
-                >{{ menuModel.update }}</el-button
-              >
-              <el-button
-                @click.native.prevent="ResetPwd(scope.row, true)"
-                type="danger"
-                v-if="menuModel.resetUsable"
-                >{{ menuModel.reset }}</el-button
-              >
-              <el-button
-                @click.native.prevent="fenpeiquanxian(scope.row, true)"
-                type="warning"
-                v-if="menuModel.quanxianUsable"
-                >{{ menuModel.quanxian }}</el-button
-              >
-              <el-button
-                @click.native.prevent="Allocation(scope.row)"
-                type="warning"
-                v-if="menuModel.fenpeiUsable"
-                >{{ menuModel.fenpei }}</el-button
-              >
-              <el-button
-                @click.native.prevent="deleteRow(scope.row)"
-                type="danger"
-                v-if="menuModel.deleteUsable"
-                >{{ menuModel.delete }}</el-button
-              >
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[5, 10, 20, 40]"
-          :page-size="pagesize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="totalRecords"
-        ></el-pagination>
-      </div>
-      <div id="test1"></div>
+  <div class="searchPage">
+    <div class="searchBox" v-if="menuModel.addUsable">
+      <el-row class="adminTlt">
+        <el-button type="primary" @click="gotoadd" class="secachBtn">
+          添加管理员
+        </el-button>
+      </el-row>
     </div>
+    <div class="searchData mtop10">
+      <el-table style="width: 100%;" :data="userList">
+        <!-- <el-table-column type="index"></el-table-column> -->
+        <el-table-column
+          label="真实姓名"
+          prop="a_RealName"
+          width="200"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          label="创建时间"
+          prop="a_CreateTime"
+          :formatter="dateFormat"
+          width="300"
+          align="center"
+        ></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="editRow(scope.row, false)"
+              type="success"
+              size="mini"
+              v-if="menuModel.lookUsable"
+              >{{ menuModel.look }}</el-button
+            >
+
+            <el-button
+              @click.native.prevent="editRow(scope.row, true)"
+              type="warning"
+              size="mini"
+              v-if="menuModel.updateUsable"
+              >{{ menuModel.update }}</el-button
+            >
+            <el-button
+              @click.native.prevent="ResetPwd(scope.row, true)"
+              type="primary"
+              size="mini"
+              v-if="menuModel.resetUsable"
+              >{{ menuModel.reset }}</el-button
+            >
+            <el-button
+              @click.native.prevent="fenpeiquanxian(scope.row, true)"
+              type="warning"
+              size="mini"
+              v-if="menuModel.quanxianUsable"
+              >{{ menuModel.quanxian }}</el-button
+            >
+            <el-button
+              @click.native.prevent="Allocation(scope.row)"
+              type="success"
+              size="mini"
+              v-if="menuModel.fenpeiUsable"
+              >{{ menuModel.fenpei }}</el-button
+            >
+            <el-button
+              @click.native.prevent="deleteRow(scope.row)"
+              type="danger"
+              size="mini"
+              v-if="menuModel.deleteUsable"
+              >{{ menuModel.delete }}</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        style="padding-bottom: 15px"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalRecords"
+      ></el-pagination>
+    </div>
+    <div id="test1"></div>
   </div>
 </template>
 
@@ -120,6 +134,13 @@ export default {
     this.handleUserList();
   },
   methods: {
+    // 格式化时间
+    dateFormat(row, column, cellValue, index) {
+      if (cellValue == undefined) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
     setmenuModel(item) {
       let that = this;
       item.forEach(c => {
@@ -242,6 +263,7 @@ export default {
 
 <style scoped>
 @import "../../../static/css/admin.css";
+@import "../../../static/css/common.css";
 .cell {
   text-align: center;
 }

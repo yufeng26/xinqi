@@ -1,112 +1,108 @@
 <template>
-  <div>
-    <!-- 内容主体区域 -->
-    <div class="top">
-      <form class="layui-form" action="">
-        <div class="layui-form-item">
-          <label class="layui-form-label">真实姓名：</label>
-          <div class="layui-input-block">
+  <!-- 内容主体区域-管理员分配用户 -->
+  <div class="searchPage">
+    <div class="searchBox">
+      <el-row class="mtop15">
+        <el-col :span="6">
+          <label class="searchLabel">真实姓名：</label>
+          <div class="searchData">
             <el-input placeholder="请输入姓名" v-model="searchkey"></el-input>
           </div>
-        </div>
-      </form>
-      <div class="selects">
-        <label style="width: 25%;">分组：</label>
-        <div class="selecount">
-          <SelectTree
-            :props="props"
-            :options="optionData"
-            :value="valueId"
-            :clearable="isClearable"
-            :accordion="isAccordion"
-            @getValue="getValue($event)"
-          />
-        </div>
-      </div>
-      <div class="selects">
-        <label style="width: 40%;">性别：</label>
-        <el-select v-model="SexValue" placeholder="请选择">
-          <el-option
-            v-for="item in Sexoptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </div>
-      <div class="selects">
-        <label style="width: 40%;">出生日期：</label>
-        <el-date-picker
-          v-model="riqi"
-          type="daterange"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :default-time="['00:00:00', '23:59:59']"
-        >
-        </el-date-picker>
-      </div>
-      <button
-        type="button"
-        @click="handleUserList"
-        style="background:#006fe5 ;margin-left: 25%;margin-right:2%"
-        class="layui-btn layui-btn-normal"
-      >
-        开始检索
-      </button>
+        </el-col>
+        <el-col :span="6">
+          <label class="searchLabel">分组：</label>
+          <div class="searchData">
+            <SelectTree
+              class="searchSelect"
+              :props="props"
+              :options="optionData"
+              :value="valueId"
+              :clearable="isClearable"
+              :accordion="isAccordion"
+              @getValue="getValue($event)"
+            />
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <label class="searchLabel">性别：</label>
+          <div class="searchData">
+            <el-select v-model="SexValue" placeholder="请选择">
+              <el-option
+                v-for="item in Sexoptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="mtop15">
+        <el-col :span="12">
+          <label class="searchLabel">出生日期：</label>
+          <div class="searchData">
+            <el-date-picker
+              v-model="riqi"
+              type="daterange"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :default-time="['00:00:00', '23:59:59']"
+            >
+            </el-date-picker>
+          </div>
+        </el-col>
+        <el-col :offset="3" :span="3" class="textRight">
+          <el-button type="primary" @click="handleUserList" class="secachBtn">
+            开始检索
+          </el-button>
+        </el-col>
+      </el-row>
     </div>
-    <div class="bigbox">
-      <div class="consult">
-        <div class="tab">
-          <el-table
-            ref="multipleTable"
-            style="width: 100%;"
-            :data="userList"
-            @selection-change="selectionChange"
-          >
-            <!-- <el-table-column v-model="checkAll"  type="selection" :indeterminate="isIndeterminate" @select-all="handleCheckAllChange" >
+    <div class="actionBox">
+      <span style="margin-right: 15px">已选{{ checkUserCount }}人</span>
+      <el-button @click.native.prevent="Save()" type="success">保存</el-button>
+    </div>
+    <div class="searchData">
+      <el-table
+        ref="multipleTable"
+        style="width: 100%;"
+        :data="userList"
+        @selection-change="selectionChange"
+      >
+        <!-- <el-table-column v-model="checkAll"  type="selection" :indeterminate="isIndeterminate" @select-all="handleCheckAllChange" >
 
           </el-table-column> -->
-            <el-table-column v-model="checkAll" type="selection">
-            </el-table-column>
-            <el-table-column label="真实姓名">
-              <template slot-scope="scope">
-                <img v-if="scope.row.IsGroup" src="/static/img/zu.png" />{{
-                  scope.row.RealName
-                }}
-              </template>
-            </el-table-column>
-            <el-table-column label="分组" prop="GroupName"> </el-table-column>
-            <el-table-column label="性别" prop="Sex"> </el-table-column>
-            <el-table-column label="出生年月" prop="Birthday">
-            </el-table-column>
-            <el-table-column label="教育水平" prop="Education">
-            </el-table-column>
-            <el-table-column label="创建时间" prop="CreateTime">
-            </el-table-column>
-          </el-table>
-          <div>
-            <div class="save">
-              <el-button @click.native.prevent="Save()" type="success"
-                >保存</el-button
-              >
-              &nbsp;&nbsp;&nbsp;
-              <label>已选{{ checkUserCount }}人</label>
-            </div>
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[5, 10, 20, 40]"
-              :page-size="pagesize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="totalRecords"
-            >
-            </el-pagination>
-          </div>
-        </div>
-        <div id="test1"></div>
-      </div>
+        <el-table-column v-model="checkAll" type="selection"> </el-table-column>
+        <el-table-column label="真实姓名">
+          <template slot-scope="scope">
+            <img v-if="scope.row.IsGroup" src="/static/img/zu.png" />{{
+              scope.row.RealName
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column label="分组" prop="GroupName"> </el-table-column>
+        <el-table-column label="性别" prop="Sex"> </el-table-column>
+        <el-table-column label="出生年月" prop="Birthday"> </el-table-column>
+        <el-table-column label="教育水平" prop="Education"> </el-table-column>
+        <el-table-column
+          label="创建时间"
+          :formatter="dateFormat"
+          prop="CreateTime"
+        >
+        </el-table-column>
+      </el-table>
+
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalRecords"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -191,6 +187,13 @@ export default {
     this.a_Authorization = this.$route.query.a_Authorization;
   },
   methods: {
+    // 格式化时间
+    dateFormat(row, column, cellValue, index) {
+      if (cellValue == undefined) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
     Save() {
       debugger;
       const selections = this.$refs.multipleTable.store.states.selection;
@@ -408,4 +411,5 @@ export default {
 </style>
 <style scoped>
 @import "../../../static/css/user.css";
+@import "../../../static/css/common.css";
 </style>

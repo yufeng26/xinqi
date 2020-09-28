@@ -1,9 +1,9 @@
 <template>
-  <!-- 内容主体区域 -->
+  <!-- 内容主体区域---权限设置 -->
   <div class="bigbox">
     <div class="consult">
       <p
-        style="background:#0070e5;text-align: center;color:#fff;width:100%;line-height: 60px; font-size: 26px;"
+        style="background:#0070e5;text-align: center;color:#fff;width:100%;line-height: 42px; font-size: 24px;"
       >
         权限设置
       </p>

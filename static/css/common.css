@@ -23,6 +23,11 @@
 .searchPage .searchBox .textRight {
   text-align: right;
 }
+.searchPage .searchBox .adminTlt {
+  text-align: left;
+  margin-top: 15px;
+  padding-left: 15px;
+}
 .secachBtn {
   font-size: 18px;
 }
@@ -40,6 +45,23 @@
   margin: 15px auto;
 }
 /* 此处是公共表单样式 */
+.formPage .pageTille {
+  width: 100%;
+  background-color: #006fe5;
+  color: #ffffff;
+  font-size: 24px;
+  height: 42px;
+  line-height: 42px;
+  text-align: center;
+  font-weight: bold;
+}
+.formPage .notice {
+  color: red;
+  font-size: 14px;
+  margin: 15px 0;
+  padding-left: 20px;
+  text-align: left;
+}
 .formPage .inputBox {
   padding-bottom: 15px;
 }
