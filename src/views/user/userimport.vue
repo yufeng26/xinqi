@@ -1,34 +1,35 @@
 <template>
-  <div>
+  <div class="formPage">
     <!-- 内容主体区域 -->
-    <ul class="tittop">
-      <li style="width: 100%;color: blue;">批量导入</li>
-    </ul>
-    <ul class="mycenters">
-      <li style="display: block;">
-        <p style="width: 90%;color: red;">注意：</p>
-        <p style="width: 90%;color: red;">1.导入信息时请仔细填写表格中的每一项，*为必填项。</p>
-        <p style="width: 90%;color: red;">2.一次性导入的数量不宜过大，对于大数据建议批次导入。</p>
-        <p>
-          导入步骤：
-        </p>
-        <p>
-          <!-- 1、点击<a href="/static/temp/物联网云平台批量创建用户模板.xlsx">这里</a>下载用户信息模板，在Excel表格中录入信息 -->
-          <!-- 1、点击<a href="api/FileOption/Down">这里s</a>下载用户信息模板，在Excel表格中录入信息 -->
-           1、点击<button @click="exportExcel()">这里</button>下载用户信息模板，在Excel表格中录入信息
-           
-        </p>
-        <p style="display: flex;">
-          2、选择导入的文件：
+    <div class="pageTille">
+      批量导入
+    </div>
+    <div class="content">
+      <ul class="noticeArr">
+        <li>注意：</li>
+        <li>1.导入信息时请仔细填写表格中的每一项，*为必填项。</li>
+        <li>2.一次性导入的数量不宜过大，对于大数据建议批次导入。</li>
+      </ul>
+      <ul class="import">
+        <li>导入步骤：</li>
+        <li>1、点击<button @click="exportExcel()">这里</button>下载用户信息模板，在Excel表格中录入信息</li>
+        <li>
+           2、选择导入的文件：
           <span class="files">
 								<span class="count"></span>
 								<span class="wj">选择文件</span>
 								<input name="fileup" @change="update" style="border:0;" type="file" />
 							</span>
-        </p>
-        <p class="resume">
+        </li>
+        <li class="mtop15">
           <button type="button" @click="importuser"  class="layui-btn layui-btn-normal channel">马上导入</button>
           <button type="button" @click="$router.go(-1)" style="background: #9571f9;" class="layui-btn">返回</button>
+        </li>
+      </ul>
+    </div>
+    <ul class="mycenters">
+      <li style="display: block;">
+        <p class="resume">
           <div id="deltwo">
             <div class="deltit">提示</div>
             <div style="display: flex;justify-content: center;align-items: center;">
@@ -286,4 +287,8 @@
 </style>
 <style scoped>
   @import "../../../static/css/pcenter.css";
+  @import "../../../static/css/common.css";
+  .content .import{
+    padding-left:20px;
+  }
 </style>

@@ -55,6 +55,15 @@
   text-align: center;
   font-weight: bold;
 }
+.formPage .content {
+  text-align: left;
+}
+.formPage .content .noticeArr {
+  color: red;
+  font-size: 14px;
+  margin: 15px 0;
+  padding-left: 20px;
+}
 .formPage .notice {
   color: red;
   font-size: 14px;

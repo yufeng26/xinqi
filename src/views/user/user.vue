@@ -1,207 +1,215 @@
 <template>
-  <div>
-    <!-- 内容主体区域 -->
-    <div class="top">
-      <form class="layui-form" action>
-        <div class="layui-form-item">
-          <label class="layui-form-label">真实姓名：</label>
-          <div class="layui-input-block">
-            <el-input placeholder="请输入姓名" v-model="searchkey"></el-input>
+  <!-- 用户管理列表 -->
+  <div class="searchPage">
+    <div class="searchBox">
+      <el-row class="mtop15">
+        <el-col :span="6">
+          <label class="searchLabel">真实姓名：</label>
+          <div class="searchData">
+            <el-input
+              class="searchInput"
+              placeholder="请输入姓名"
+              v-model="searchkey"
+            ></el-input>
           </div>
-        </div>
-      </form>
-      <div class="selects">
-        <label>分组：</label>
-        <div class="selecount">
-          <SelectTree
-            :props="props"
-            :options="optionData"
-            :value="valueId"
-            :clearable="isClearable"
-            :accordion="isAccordion"
-            @getValue="getValue($event)"
-          />
-        </div>
-      </div>
-      <button
-        type="button"
-        @click="handleUserList"
-        style="background:#006fe5 ;margin-left: 50%;"
-        class="layui-btn layui-btn-normal"
-      >
-        开始检索
-      </button>
-    </div>
-    <div class="bigbox">
-      <div class="consult">
-        <div class="grouping" v-if="groupvisible">
-          <h2 style="color: #0070e5;">创建分组</h2>
-          <input
-            type="text"
-            v-model="newgroupid"
-            placeholder="请输入分组名称"
-          />
-
-          <button
-            type="button"
-            style="background:#006fe5;width: 40%;"
-            @click="addgrouphanlde"
-            class="layui-btn layui-btn-normal"
-          >
-            确定
-          </button>
-          <button
-            type="button"
-            style="background:#006fe5 ;width: 40%;"
-            @click="groupvisible = false"
-            class="layui-btn layui-btn-normal returnd"
-          >
-            返回
-          </button>
-        </div>
-        <div class="move" v-show="movingvisible">
-          <h2>移动至</h2>
-          <div class="movercount">
-            <img style="display:block ;" class="xia" src="/static/img/jt.png" />
-            <img
-              style="display: none;"
-              class="shang"
-              src="/static/img/jtup.png"
+        </el-col>
+        <el-col :span="6">
+          <label class="searchLabel">分组：</label>
+          <div class="searchData">
+            <SelectTree
+              class="searchSelect"
+              :props="props"
+              :options="optionData"
+              :value="valueId"
+              :clearable="isClearable"
+              :accordion="isAccordion"
+              @getValue="getValue($event)"
             />
-            全部分组
           </div>
-          <SelectTree
-            style="width: 94%;
-	margin:0 auto 20px;
-	height: 305px;"
-            :props="props2"
-            :options="optionData"
-            :value="valueId2"
-            :clearable="isClearable"
-            :accordion="isAccordion"
-            @getValue="getValue2($event)"
-          />
+        </el-col>
+        <el-col :offset="6" :span="3" class="textRight">
+          <el-button type="primary" @click="handleUserList" class="secachBtn">
+            开始检索
+          </el-button>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="actionBox">
+      <div class="grouping" v-if="groupvisible">
+        <h2 style="color: #0070e5;">创建分组</h2>
+        <input type="text" v-model="newgroupid" placeholder="请输入分组名称" />
 
-          <button
-            type="button"
-            style="background:#258DFF;margin-left:30px;width: 40%;"
-            @click="movehandle"
-            class="layui-btn layui-btn-normal ensure"
-          >
-            确定
-          </button>
-          <button
-            type="button"
-            style="background:#9571F9 ;width: 40%;"
-            @click="movingvisible = false"
-            class="layui-btn layui-btn-normal reve"
-          >
-            返回
-          </button>
-        </div>
-        <div style="display: flex;justify-content: flex-start">
-          <button
-            type="button"
-            style="background:#006fe5 ;"
-            @click="
-              groupvisible = true;
-              userGroupID = '';
-            "
-            class="layui-btn layui-btn-normal cjfz"
-            v-if="menuModel.addfenzuUsable"
-          >
-            {{ menuModel.addfenzu }}
-          </button>
-
-          <button
-            type="button"
-            style="background:#ff433f ;"
-            @click="handlePLDelete"
-            class="layui-btn layui-btn-normal"
-            v-if="menuModel.deleteUsable"
-          >
-            批量删除
-          </button>
-          <button
-            type="button"
-            style="background:#20bb45 ;"
-            @click="$router.push({ name: 'adduser' })"
-            class="layui-btn layui-btn-normal cjuser"
-            v-if="menuModel.adduserUsable"
-          >
-            {{ menuModel.adduser }}
-          </button>
-          <button
-            type="button"
-            style="background:#20bb45 ;"
-            @click="$router.push({ name: 'importuser' })"
-            class="layui-btn layui-btn-normal pldr"
-            v-if="menuModel.daoruUsable"
-          >
-            {{ menuModel.daoru }}
-          </button>
-        </div>
-
-        <div class="tab">
-          <el-table ref="multipleTable" style="width: 100%;" :data="userList">
-            <el-table-column
-              v-model="checkAll"
-              type="selection"
-              :indeterminate="isIndeterminate"
-              @change="handleCheckAllChange"
-            ></el-table-column>
-            <el-table-column label="名称" width="250">
-              <template slot-scope="scope">
-                <img v-if="scope.row.IsGroup" src="/static/img/zu.png" />
-                {{ scope.row.RealName }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="创建时间"
-              prop="CreateTime"
-              width="250"
-            ></el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  type="success"
-                  @click.native.prevent="editRow(scope.row, false)"
-                  v-if="menuModel.chakanUsable"
-                  >{{ menuModel.chakan }}</el-button
-                >
-                <el-button
-                  @click.native.prevent="moveRow(scope.row)"
-                  type="primary"
-                  v-if="!scope.row.IsGroup && menuModel.yidongUsable"
-                  >{{ menuModel.yidong }}</el-button
-                >
-                <el-button
-                  type="warning"
-                  @click.native.prevent="editRow(scope.row, true)"
-                  v-if="menuModel.updateUsable"
-                  >{{ menuModel.update }}</el-button
-                >
-                <el-button
-                  @click.native.prevent="deleteRow(scope.row)"
-                  type="danger"
-                  v-if="menuModel.deleteUsable"
-                  >{{ menuModel.delete }}</el-button
-                >
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[5, 10, 20, 40]"
-            :page-size="pagesize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="totalRecords"
-          ></el-pagination>
-        </div>
-        <div id="test1"></div>
+        <button
+          type="button"
+          style="background:#006fe5;width: 40%;"
+          @click="addgrouphanlde"
+          class="layui-btn layui-btn-normal"
+        >
+          确定
+        </button>
+        <button
+          type="button"
+          style="background:#006fe5 ;width: 40%;"
+          @click="groupvisible = false"
+          class="layui-btn layui-btn-normal returnd"
+        >
+          返回
+        </button>
       </div>
+      <div class="move" v-show="movingvisible">
+        <h2>移动至</h2>
+        <div class="movercount">
+          <img style="display:block ;" class="xia" src="/static/img/jt.png" />
+          <img
+            style="display: none;"
+            class="shang"
+            src="/static/img/jtup.png"
+          />
+          全部分组
+        </div>
+        <SelectTree
+          style="width: 94%;
+          margin:0 auto 20px;
+          height: 305px;"
+          :props="props2"
+          :options="optionData"
+          :value="valueId2"
+          :clearable="isClearable"
+          :accordion="isAccordion"
+          @getValue="getValue2($event)"
+        />
+
+        <button
+          type="button"
+          style="background:#258DFF;margin-left:30px;width: 40%;"
+          @click="movehandle"
+          class="layui-btn layui-btn-normal ensure"
+        >
+          确定
+        </button>
+        <button
+          type="button"
+          style="background:#9571F9 ;width: 40%;"
+          @click="movingvisible = false"
+          class="layui-btn layui-btn-normal reve"
+        >
+          返回
+        </button>
+      </div>
+      <div style="display: flex;justify-content: flex-start">
+        <button
+          type="button"
+          style="background:#006fe5 ;"
+          @click="
+            groupvisible = true;
+            userGroupID = '';
+          "
+          class="layui-btn layui-btn-normal cjfz"
+          v-if="menuModel.addfenzuUsable"
+        >
+          {{ menuModel.addfenzu }}
+        </button>
+
+        <button
+          type="button"
+          style="background:#ff433f ;"
+          @click="handlePLDelete"
+          class="layui-btn layui-btn-normal"
+          v-if="menuModel.deleteUsable"
+        >
+          批量删除
+        </button>
+        <button
+          type="button"
+          style="background:#20bb45 ;"
+          @click="$router.push({ name: 'adduser' })"
+          class="layui-btn layui-btn-normal cjuser"
+          v-if="menuModel.adduserUsable"
+        >
+          {{ menuModel.adduser }}
+        </button>
+        <button
+          type="button"
+          style="background:#20bb45 ;"
+          @click="$router.push({ name: 'importuser' })"
+          class="layui-btn layui-btn-normal pldr"
+          v-if="menuModel.daoruUsable"
+        >
+          {{ menuModel.daoru }}
+        </button>
+        <button
+          type="button"
+          style="background:#006fe5;"
+          @click="moveArr"
+          class="layui-btn layui-btn-normal"
+          v-if="menuModel.yidongUsable"
+        >
+          移动用户
+        </button>
+      </div>
+    </div>
+    <div class="searchData">
+      <el-table ref="multipleTable" style="width: 100%;" :data="userList">
+        <el-table-column
+          v-model="checkAll"
+          type="selection"
+          :indeterminate="isIndeterminate"
+          @change="handleCheckAllChange"
+        ></el-table-column>
+        <el-table-column label="名称" width="250">
+          <template slot-scope="scope">
+            <img v-if="scope.row.IsGroup" src="/static/img/zu.png" />
+            {{ scope.row.RealName }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="创建时间"
+          prop="CreateTime"
+          :formatter="dateFormat"
+          width="250"
+        ></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              type="success"
+              size="mini"
+              @click.native.prevent="editRow(scope.row, false)"
+              v-if="menuModel.chakanUsable"
+              >{{ menuModel.chakan }}</el-button
+            >
+            <el-button
+              @click.native.prevent="moveRow(scope.row)"
+              type="primary"
+              size="mini"
+              v-if="!scope.row.IsGroup && menuModel.yidongUsable"
+              >{{ menuModel.yidong }}</el-button
+            >
+            <el-button
+              type="warning"
+              size="mini"
+              @click.native.prevent="editRow(scope.row, true)"
+              v-if="menuModel.updateUsable"
+              >{{ menuModel.update }}</el-button
+            >
+            <el-button
+              @click.native.prevent="deleteRow(scope.row)"
+              type="danger"
+              size="mini"
+              v-if="menuModel.deleteUsable"
+              >{{ menuModel.delete }}</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalRecords"
+      ></el-pagination>
     </div>
   </div>
 </template>
@@ -283,6 +291,13 @@ export default {
     this.gettreeList();
   },
   methods: {
+    // 格式化时间
+    dateFormat(row, column, cellValue, index) {
+      if (cellValue == undefined) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
     setmenuModel(item) {
       let that = this;
       item.forEach(c => {
@@ -333,9 +348,13 @@ export default {
         }
       });
     },
+    // 多人移动用户
+    moveArr() {
+      console.log("多人移动和单人同一个接口");
+    },
+    // 表单移动用户
     moveRow(row) {
       this.movingvisible = true;
-
       this.userid = row.ID;
     },
     //获取值
@@ -584,4 +603,5 @@ export default {
 </style>
 <style scoped>
 @import "../../../static/css/user.css";
+@import "../../../static/css/common.css";
 </style>

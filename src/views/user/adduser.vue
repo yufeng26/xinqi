@@ -1,39 +1,52 @@
 <template>
-  <div>
-    <ul class="tittop">
-      <li style="width: 100%;color: blue;">创建用户</li>
-    </ul>
-      <ul class="mycenters" style="display: flex;">
-      <li>
-        <p style="width: 90%;color: red;padding-left: 2%;">*为必填信息</p>
-        <p>
-          <label>*用户名：</label>
-          <label class="lab-right" style="width:200px">
-            <el-input v-model="user.u_UserName"></el-input>
-          </label>
-        </p>
-        <p>
-          <label>*密码：</label>
-          <label class="lab-right" style="width:200px">
-            <el-input v-model="user.u_Password"></el-input>
-          </label>
-        </p>
-        <p>
-          <label>*真实姓名：</label>
-          <label class="lab-right" style="width:200px">
-            <el-input v-model="user.u_RealName"></el-input>
-          </label>
-        </p>
-        <p>
-          <label>性 别：</label>
-          <label class="lab-right" style="width:200px">
+  <div class="formPage">
+    <div class="pageTille">
+      创建用户
+    </div>
+    <div class="inputBox">
+      <p class="notice">*为必填信息</p>
+      <el-row class="mtop15">
+        <el-col :span="8">
+          <label class="inputLabel">*用户名：</label>
+          <div class="inputData">
+            <el-input
+              v-model="user.u_UserName"
+              placeholder="请输入用户名"
+            ></el-input>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <label class="inputLabel">*密码：</label>
+          <div class="inputData">
+            <el-input
+              v-model="user.u_Password"
+              placeholder="请输入密码"
+            ></el-input>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="mtop15">
+        <el-col :span="8">
+          <label class="inputLabel">*真实姓名：</label>
+          <div class="inputData">
+            <el-input
+              v-model="user.u_RealName"
+              placeholder="请输入真实姓名"
+            ></el-input>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <label class="inputLabel">性 别：</label>
+          <div class="inputData">
             <el-input v-model="user.u_Sex"></el-input>
-          </label>
-        </p>
-        <p>
-          <label>教育水平：</label>
-          <label class="lab-right" style="width:200px">
-            <el-select v-model="user.u_Education">
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="mtop15">
+        <el-col :span="8">
+          <label class="inputLabel">教育水平：</label>
+          <div class="inputData">
+            <el-select style="width: 100%" v-model="user.u_Education">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -41,12 +54,13 @@
                 :label="item.label"
               ></el-option>
             </el-select>
-          </label>
-        </p>
-        <p>
-          <label>出生年月：</label>
-          <label class="lab-right" style="width:200px">
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <label class="inputLabel">出生年月：</label>
+          <div class="inputData">
             <el-date-picker
+              style="width: 100%"
               v-model="user.u_Birth"
               type="date"
               @change="selectTime"
@@ -54,35 +68,53 @@
               placeholder="选择日期"
               :picker-options="pickerOptions0"
             ></el-date-picker>
-          </label>
-        </p>
-        
-        <p v-for="(filed,idx) in fieldList" :key="idx">
-          <label>{{filed.e_FiledName}}：</label>
-          <label class="lab-right" style="width:200px">
-            <el-input v-model="filed.fieldValue"  v-if="filed.e_Types=='1'"></el-input>
-            <el-select v-model="filed.fieldValue" v-if="filed.e_Types=='2'" style="width: 100%;">
-              <el-option
-                v-for="item in filed.e_OptionInfo"
-                :key="item.index"
-                :value="item.option"
-                 :label="item.option"
-              ></el-option>
-            </el-select>
-          </label>
-        </p>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="mtop15">
+        <el-col :span="24">
+          <p v-for="(filed, idx) in fieldList" :key="idx">
+            <label>{{ filed.e_FiledName }}：</label>
+            <label class="lab-right" style="width:200px">
+              <el-input
+                v-model="filed.fieldValue"
+                v-if="filed.e_Types == '1'"
+              ></el-input>
+              <el-select
+                v-model="filed.fieldValue"
+                v-if="filed.e_Types == '2'"
+                style="width: 100%;"
+              >
+                <el-option
+                  v-for="item in filed.e_OptionInfo"
+                  :key="item.index"
+                  :value="item.option"
+                  :label="item.option"
+                ></el-option>
+              </el-select>
+            </label>
+          </p>
 
-        <p class="resume" style="display:flex;justify-content: flex-start;"></p>
-      </li>
-    </ul>
-    <div style="text-align: center;">
-      <button type="button" @click.stop="adduserhandle" class="layui-btn layui-btn-normal">确定</button>
-      <button
-        type="button"
-        @click="$router.go(-1)"
-        style="background: #9571f9;"
-        class="layui-btn"
-      >返回</button>
+          <p
+            class="resume"
+            style="display:flex;justify-content: flex-start;"
+          ></p>
+        </el-col>
+      </el-row>
+      <el-row class="mtop15">
+        <div class="btnGroup">
+          <el-button
+            type="primary"
+            @click.stop="adduserhandle"
+            class="InputBtn"
+          >
+            确定
+          </el-button>
+          <el-button type="success" @click="$router.go(-1)" class="InputBtn">
+            返回
+          </el-button>
+        </div>
+      </el-row>
     </div>
   </div>
 </template>
@@ -91,7 +123,7 @@ export default {
   name: "adduser",
   data() {
     return {
-       fieldList: [],
+      fieldList: [],
       extendList: [],
       user: {
         ID: "",
@@ -111,27 +143,27 @@ export default {
         u_Email: "",
         u_AdminID: "",
         u_Authorization: "",
-         u_Extend: "",
+        u_Extend: ""
       },
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
-        },
+        }
       },
       options: [
         {
           value: 0,
-          label: "小学",
+          label: "小学"
         },
         {
           value: 1,
-          label: "中学",
+          label: "中学"
         },
         {
           value: 2,
-          label: "大学及以上",
-        },
-      ],
+          label: "大学及以上"
+        }
+      ]
     };
   },
   methods: {
@@ -175,13 +207,13 @@ export default {
         this.$message.warning("请选择出生年月!");
         return;
       }
-      let u_Extend=[];
-      this.fieldList.forEach(item=>{
-         u_Extend.push({
-           fieldID:item.id,
-           fieldValue:item.fieldValue
-         })
-      })
+      let u_Extend = [];
+      this.fieldList.forEach(item => {
+        u_Extend.push({
+          fieldID: item.id,
+          fieldValue: item.fieldValue
+        });
+      });
       let param = new URLSearchParams();
       param.append("u_UserName", this.user.u_UserName);
       param.append("u_Password", this.user.u_Password);
@@ -191,8 +223,8 @@ export default {
       param.append("u_Birth", this.user.u_Birth);
       param.append("u_AdminID", this.user.u_AdminID);
       param.append("u_Authorization", this.user.u_Authorization);
-      param.append("u_Extend",JSON.stringify(u_Extend))
-      this.$UserAPI.AddUser(param, function (data) {
+      param.append("u_Extend", JSON.stringify(u_Extend));
+      this.$UserAPI.AddUser(param, function(data) {
         if (data.Code == 1) {
           v.$set(v.user, "u_UserName", "");
 
@@ -205,18 +237,18 @@ export default {
           v.$set(v.user, "u_Education", "");
 
           v.$set(v.user, "u_Birth", "");
-           v.fieldList.forEach(item=>{
-           item.fieldValue=""
-          })
+          v.fieldList.forEach(item => {
+            item.fieldValue = "";
+          });
           v.$message.success("创建成功!");
         } else {
           v.$message.error("创建失败!" + data.Msg);
         }
       });
-    },
+    }
   },
   mounted() {
-    let v=this;
+    let v = this;
     this.user.u_AdminID = this.$store.state.userinfo.ID;
     this.user.u_GroupID = this.$route.query.GroupID;
     const a_Authorization = this.$store.state.userinfo.a_Authorization;
@@ -228,32 +260,25 @@ export default {
       this.user.u_Authorization = a_Authorization + "," + this.user.u_AdminID;
     }
     let param = new URLSearchParams();
-    this.$SystemAPI.getSystem(param, function (data) {
-          if (data.Code == 1) {
-            data.Result.forEach((item) => {
-               let fieldValue=""
-              v.fieldList.push({
-                   id: item.ID,
-                   e_FiledName: item.e_FiledName,
-                   e_Types: item.e_Types,
-                   e_OptionInfo: JSON.parse(item.e_OptionInfo),
-                   fieldValue:fieldValue
-                 });
-            });
-          }
+    this.$SystemAPI.getSystem(param, function(data) {
+      if (data.Code == 1) {
+        data.Result.forEach(item => {
+          let fieldValue = "";
+          v.fieldList.push({
+            id: item.ID,
+            e_FiledName: item.e_FiledName,
+            e_Types: item.e_Types,
+            e_OptionInfo: JSON.parse(item.e_OptionInfo),
+            fieldValue: fieldValue
+          });
         });
-  },
+      }
+    });
+  }
 };
 </script>
 
 <style scoped>
 @import "../../../static/css/pcenter.css";
-/deep/ .el-input__inner,
-.el-input {
-  width: 100%;
-  height: 56px;
-}
-.lab-right {
-  width: 300px;
-}
+@import "../../../static/css/common.css";
 </style>
