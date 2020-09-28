@@ -1,97 +1,92 @@
 <template>
-  <div>
+  <div class="formPage">
     <!-- 内容主体区域 -->
     <ul class="tittop">
-    <li style="width: 100%;color:blue;">个人资料</li>
+      <li style="width: 100%; color:blue;">个人资料</li>
     </ul>
-    <ul class="mycenters"  style="display: flex;">
-      <li>
-        <p style="width: 90%;color: red;padding-left: 2%;">*为必填信息</p>
-        <p>
-          <label>*用户名：</label>
-          <label class="lab-right" style="width:200px">
-          <el-input v-model="admininfo.a_UserName"></el-input>
-          </label>
-        </p>
-        <p>
-          <label>*真实姓名：</label>
-           <label class="lab-right" style="width:200px">
-          <el-input v-model="admininfo.a_RealName"></el-input>
-           </label>
-        </p>
-        <p>
-          <label>性 别：</label>
-            <label class="lab-right" style="width:200px">
-          <el-input v-model="admininfo.a_Sex"></el-input>
-            </label>
-        </p>
-        <p>
-          <label>出生年月：</label>
-            <label class="lab-right" style="width:200px">
-          <el-date-picker
-            v-model="admininfo.a_Birthday"
-            type="date"
-            @change="selectTime"
-            value-format="yyyy-MM-dd"
-            placeholder="选择日期"
-            :picker-options="pickerOptions0">
+    <div class="inputBox">
+      <el-row class="mtop15">
+        <el-col :span="8">
+          <label class="inputLabel">*用户名：</label>
+          <div class="inputData">
+            <el-input
+              v-model="admininfo.a_UserName"
+              placeholder="请输入用户名"
+            ></el-input>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <label class="inputLabel">*真实姓名：</label>
+          <div class="inputData">
+            <el-input
+              v-model="admininfo.a_RealName"
+              placeholder="请输入真实姓名"
+            ></el-input>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="mtop15">
+        <el-col :span="8">
+          <label class="inputLabel">性 别：</label>
+          <div class="inputData">
+            <el-input v-model="admininfo.a_Sex"></el-input>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <label class="inputLabel">出生年月：</label>
+          <div class="inputData">
+            <el-date-picker
+              v-model="admininfo.a_Birthday"
+              type="date"
+              @change="selectTime"
+              value-format="yyyy-MM-dd"
+              placeholder="选择日期"
+              :picker-options="pickerOptions0"
+              style="width:100%"
+            >
             </el-date-picker>
-            </label>
-        </p>
-        <p>
-          <label>电 话：</label>
-           <label class="lab-right" style="width:200px">
-          <el-input v-model="admininfo.a_Telphone"></el-input>
-           </label>
-        </p>
-        <p>
-          <label>邮 箱：</label>
-           <label class="lab-right" style="width:200px">
-          <el-input v-model="admininfo.a_Email"></el-input>
-           </label>
-        </p>
-        
-          <!-- <p v-for="(filed,idx) in fieldList" :key="idx">
-          <label>{{filed.e_FiledName}}：</label>
-          <label class="lab-right" style="width:200px">
-            <el-input v-model="filed.fieldValue"  v-if="filed.e_Types=='1'"></el-input>
-            <el-select v-model="filed.fieldValue" v-if="filed.e_Types=='2'" style="width: 100%;">
-              <el-option
-                v-for="item in filed.e_OptionInfo"
-                :key="item.index"
-                :value="item.option"
-                 :label="item.option"
-              ></el-option>
-            </el-select>
-          </label>
-        </p> -->
-        
-        <p>
-           <label>个人简介：</label>
-           <label class="lab-right" style="width:200px">
-          <el-input
-            v-model="admininfo.a_Produce"
-            type="textarea"
-            rows="4"
-          ></el-input>
-           </label>
-        </p>
-         <p class="resume" style="display:flex;justify-content: flex-start;"></p>
-      </li>
-    </ul>
-    <div style="text-align: center;">
-             <button
-            @click="addadminhandle"
-            v-if="btnvisible"
-            type="button"
-            class="layui-btn layui-btn-normal"
-          >确定</button>
-          <button
-            type="button"
-            @click="$router.go(-1)"
-            style="background: #9571f9;"
-            class="layui-btn"
-          >返回</button>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="mtop15">
+        <el-col :span="8">
+          <label class="inputLabel">电 话：</label>
+          <div class="inputData">
+            <el-input v-model="admininfo.a_Telphone"></el-input>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <label class="inputLabel">邮 箱：</label>
+          <div class="inputData">
+            <el-input v-model="admininfo.a_Email"></el-input>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="mtop15">
+        <el-col :span="16">
+          <label class="inputLabel">个人简介：</label>
+          <div class="inputData">
+            <el-input
+              placeholder="请输入内容"
+              v-model="admininfo.a_Produce"
+              type="textarea"
+              rows="4"
+              maxlength="300"
+              show-word-limit
+            ></el-input>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="mtop15">
+        <div class="btnGroup">
+          <el-button type="primary" @click="addadminhandle" class="InputBtn">
+            确定
+          </el-button>
+          <el-button type="success" @click="router.go(-1)" class="InputBtn">
+            返回
+          </el-button>
+        </div>
+      </el-row>
     </div>
   </div>
 </template>
@@ -101,8 +96,8 @@ export default {
   name: "adminlook",
   data() {
     return {
-       fieldList: [],
-       extendList: [],
+      fieldList: [],
+      extendList: [],
       admininfo: {
         ID: "",
         a_UserName: "",
@@ -115,14 +110,14 @@ export default {
         a_Produce: "",
         a_CreateTime: null,
         a_RoleID: "",
-        a_Extend: "",
+        a_Extend: ""
       },
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
-        },
+        }
       },
-      btnvisible: false,
+      btnvisible: false
     };
   },
   mounted() {
@@ -139,10 +134,10 @@ export default {
     },
     getAdminDetail() {
       let v = this;
-      let x=this;
+      let x = this;
       let param = new URLSearchParams();
       param.append("UserID", this.admininfo.ID);
-      this.$AdminAPI.ShowAdmin(param, function (data) {
+      this.$AdminAPI.ShowAdmin(param, function(data) {
         if (data.Code == 1) {
           v.admininfo = data.Result;
         }
@@ -229,26 +224,18 @@ export default {
       // param.append('a_Produce',this.admininfo.a_Produce)
       // param.append('a_CreateTime',this.admininfo.a_CreateTime)
       // param.append('a_RoleID',this.admininfo.a_RoleID)
-      this.$AdminAPI.AddAdmin(this.admininfo, function (data) {
+      this.$AdminAPI.AddAdmin(this.admininfo, function(data) {
         if (data.Code == 1) {
           v.$message.success("修改成功!");
         } else {
           v.$message.error("修改失败!" + data.Msg);
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
 @import "../../../static/css/pcenter.css";
-/deep/ .el-input__inner,
-.el-input {
-  width: 100%;
-  height: 56px;
-}
-.lab-right {
-  width: 300px;
-}
 </style>

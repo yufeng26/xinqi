@@ -39,3 +39,35 @@
 .searchPage .searchData .el-pagination {
   margin: 15px auto;
 }
+/* 此处是公共表单样式 */
+.formPage .inputBox {
+  padding-bottom: 15px;
+}
+.formPage .inputBox .el-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.formPage .inputBox .btnGroup {
+  text-align: left;
+  padding-left: 100px;
+}
+.formPage .inputBox .inputLabel {
+  width: 80px;
+  display: inline-block;
+  text-align: right;
+}
+.formPage .inputBox .inputData {
+  width: calc(100% - 100px) !important;
+  display: inline-block;
+  text-align: left;
+}
+.formPage .inputBox .inputSelect {
+  width: 100%;
+}
+.formPage .inputBox .textRight {
+  text-align: right;
+}
+.InputBtn {
+  font-size: 18px;
+}

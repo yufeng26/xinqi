@@ -1,8 +1,8 @@
 import Index from "@/views/index/index";
 import Admin from "@/views/admin/admin";
-import AddAdmin from "@/views/admin/addadmin";
-import EditAdmin from "@/views/admin/adminlook";
-import AdminCenter from "@/views/admin/admincenter";
+import AddAdmin from "@/views/admin/addadmin"; // 添加管理员
+import EditAdmin from "@/views/admin/adminlook"; // 编辑个人中心
+import AdminCenter from "@/views/admin/admincenter"; // 个人中心
 import AllocationUser from "@/views/admin/AllocationUser";
 import Group from "@/views/user/group";
 import User from "@/views/user/user";
