@@ -183,6 +183,7 @@ export default {
     let lilist = document.getElementsByClassName("layui-nav-item");
     lilist[3].className = "layui-nav-item";
     let childNodes = lilist[8];
+    childNodes.className = "layui-nav-item layui-nav-itemed";
     let dl = childNodes.childNodes[2];
     dl.children[0].className = "layui-this";
   }

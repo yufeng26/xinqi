@@ -169,9 +169,9 @@ export default {
     });
     this.handleUserList();
     this.gettreeList();
-    // let lilist=document.getElementsByClassName("layui-nav-item");
-    // lilist[3].className='layui-nav-item'
-    // lilist[6].className='layui-nav-item layui-this'
+    let lilist = document.getElementsByClassName("layui-nav-item");
+    lilist[3].className = "layui-nav-item";
+    lilist[6].className = "layui-nav-item layui-this";
   },
   methods: {
     setmenuModel(item) {

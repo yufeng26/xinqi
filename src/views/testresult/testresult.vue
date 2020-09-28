@@ -368,9 +368,9 @@ export default {
     this.gettreeList();
     this.handleUserList();
     this.getTopicList();
-    // let lilist=document.getElementsByClassName("layui-nav-item");
-    // lilist[3].className='layui-nav-item'
-    // lilist[5].className='layui-nav-item layui-this'
+    let lilist = document.getElementsByClassName("layui-nav-item");
+    lilist[3].className = "layui-nav-item";
+    lilist[5].className = "layui-nav-item layui-this";
   },
   methods: {
     // 格式化时间

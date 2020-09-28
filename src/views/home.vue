@@ -114,16 +114,15 @@
               <dd v-if="zhiribiao">
                 <a @click="goto('/duty')" href="javascript:;">值日表</a>
               </dd>
-              <dd>
-                <a @click="goto('/admincenter')" href="javascript:;">
-                  <img class="nosele" src="/static/img/个人中心默认.png" />
-                  <img class="select" src="/static/img/个人中心选中.png" />
-                  个人中心</a
-                >
-              </dd>
             </dl>
           </li>
-
+          <li class="layui-nav-item">
+            <a @click="goto('/admincenter')" href="javascript:;">
+              <img class="nosele" src="/static/img/个人中心默认.png" />
+              <img class="select" src="/static/img/个人中心选中.png" />
+              个人中心
+            </a>
+          </li>
           <!-- <li class="layui-nav-item layui-nav-itemed">
             <a class href="javascript:;">
               <img class="nosele" src="/static/img/系统设置默认.png" />
@@ -170,7 +169,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 export default {
   name: "home",
   data() {
@@ -191,11 +189,6 @@ export default {
   },
   created() {},
   mounted() {
-    const $menuList = $(this.$refs["menu-list"]);
-    console.log(this.$route.path);
-    if (this.$route.path === "/testresult") {
-      this.pickTheMenu($menuList, 2, null);
-    }
     if (this.$route.path == "/") {
       this.$router.push({ path: "/index" });
       window.location.reload();
@@ -260,27 +253,6 @@ export default {
       localStorage.removeItem("IsCheck");
       this.$router.push("/login");
       this.$message.success("退出成功");
-    },
-    pickTheMenu($menuList, par, son) {
-      $menuList.find("li").each(function(i, obj) {
-        $(obj).removeClass("layui-nav-itemed");
-        $(obj)
-          .find("dl dd")
-          .each(function(k, inner) {
-            $(inner).removeClass("layui-this");
-          });
-      });
-      $menuList
-        .find("li")
-        .eq(par)
-        .addClass("layui-nav-itemed");
-      if (son === null) return;
-      $menuList
-        .find("li")
-        .eq(par)
-        .find("dl dd")
-        .eq(son)
-        .addClass("layui-this");
     }
   }
 };
