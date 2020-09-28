@@ -34,7 +34,7 @@
               <img class="select" src="/static/img/首页选中.png" />首页
             </a>
           </li>
-          <li class="layui-nav-item" v-if="zhanghuguanli">
+          <li class="layui-nav-item" v-show="zhanghuguanli">
             <a class href="javascript:;">
               <img class="nosele" src="/static/img/账户管理默认.png" />
               <img class="select" src="/static/img/账户管理选中.png" />账户管理
@@ -49,7 +49,7 @@
             </dl>
           </li>
 
-          <li class="layui-nav-item" v-if="tousheceshiguanli">
+          <li class="layui-nav-item" v-show="tousheceshiguanli">
             <a @click="goto('/testresult')" href="javascript:;">
               <img class="nosele" src="/static/img/测评管理默认.png" />
               <img
@@ -58,13 +58,13 @@
               />投射测验管理
             </a>
           </li>
-          <li class="layui-nav-item" v-if="xunlianguanli">
+          <li class="layui-nav-item" v-show="xunlianguanli">
             <a @click="goto('/planscheme')" href="javascript:;">
               <img class="nosele" src="/static/img/训练管理默认.png" />
               <img class="select" src="/static/img/训练管理选中.png" />训练管理
             </a>
           </li>
-          <li class="layui-nav-item" v-if="shebeiguanli">
+          <li class="layui-nav-item" v-show="shebeiguanli">
             <a class href="javascript:;">
               <img class="nosele" src="/static/img/设备管理默认.png" />
               <img class="select" src="/static/img/设备管理选中.png" />设备管理
@@ -102,7 +102,8 @@
               </dd>
             </dl>
           </li>
-          <li class="layui-nav-item" v-if="zixunguanli">
+
+          <li class="layui-nav-item" v-show="zixunguanli">
             <a class href="javascript:;">
               <img class="nosele" src="/static/img/咨询管理默认.png" />
               <img class="select" src="/static/img/咨询管理选中.png" />咨询管理
@@ -116,7 +117,8 @@
               </dd>
             </dl>
           </li>
-          <li class="layui-nav-item" v-if="gerenzhongxin">
+
+          <li class="layui-nav-item" v-show="gerenzhongxin">
             <a @click="goto('/admincenter')" href="javascript:;">
               <img class="nosele" src="/static/img/个人中心默认.png" />
               <img class="select" src="/static/img/个人中心选中.png" />
@@ -137,7 +139,7 @@
               </dd>
             </dl>
           </li> -->
-          <li class="layui-nav-item" v-if="xitongshezhi">
+          <li class="layui-nav-item" v-show="xitongshezhi">
             <a class href="javascript:;">
               <img class="nosele" src="/static/img/系统设置默认.png" />
               <img class="select" src="/static/img/系统设置选中.png" />系统设置
@@ -329,24 +331,6 @@ export default {
         if (!that.shujubeifen && !that.kuozhanziduan) {
           that.xitongshezhi = false;
         }
-
-        // that.menus.forEach(c => {
-        //   if (c.ID == 57 && c.Usable) {
-        //     that.zixunyuyue = true;
-        //   }
-        //   if (c.ID == 58 && c.Usable) {
-        //     that.zhiribiao = true;
-        //   }
-        //   if (c.ID == 60 && c.Usable) {
-        //     that.shujubeifen = true;
-        //   }
-        //   if (c.ID == 61 && c.Usable) {
-        //     that.kuozhanziduan = true;
-        //   }
-        // });
-        // if (!that.shujubeifen && !that.kuozhanziduan) {
-        //   that.xitongshezhi = false;
-        // }
       }
     });
   },
