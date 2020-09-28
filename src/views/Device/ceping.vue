@@ -1,147 +1,190 @@
 <template>
-  <div>
-    <div class="top">
-      <form class="layui-form" action>
-        <div class="layui-form-item">
-          <label class="layui-form-label">真实姓名：</label>
-          <div class="layui-input-block">
-            <el-input placeholder="请输入姓名" v-model="searchkey"></el-input>
+  <div class="searchPage">
+    <div class="searchBox">
+      <el-row class="mtop15">
+        <el-col :span="6">
+          <label class="searchLabel">真实姓名：</label>
+          <div class="searchData">
+            <el-input
+              class="searchInput"
+              placeholder="请输入姓名"
+              v-model="searchkey"
+            ></el-input>
           </div>
-        </div>
-      </form>
-      <div class="selects">
-        <label>分组：</label>
-        <div class="selecount">
-          <SelectTree
-            :props="props"
-            :options="optionData"
-            :value="valueId"
-            :clearable="isClearable"
-            :accordion="isAccordion"
-            @getValue="getValue($event)"
-          />
-        </div>
-      </div>
-      <div class="selects">
-        <label style="width: 24%;">量表名称：</label>
-        <div class="selecount">
-          <el-select :clearable="true" v-model="topicID" placeholder="请选择">
-            <el-option
-              v-for="item in topic"
-              :key="item.ID"
-              :label="item.tp_TopicName"
-              :value="item.ID"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-    </div>
-      <div class="top top_bottom">
-        <div class="selects">
-          <label style="width: 14%;">专业</label>
-          <div class="selecount">
-            <el-select :clearable="true" v-model="zhuanyeId" placeholder="请选择">
-              <el-option v-for="item in zhuanye" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
+        </el-col>
+        <el-col :span="6">
+          <label class="searchLabel">分组：</label>
+          <div class="searchData">
+            <SelectTree
+              :props="props"
+              :options="optionData"
+              :value="valueId"
+              :clearable="isClearable"
+              :accordion="isAccordion"
+              @getValue="getValue($event)"
+            />
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <label class="searchLabel">量表名称：</label>
+          <div class="searchData">
+            <el-select :clearable="true" v-model="topicID" placeholder="请选择">
+              <el-option
+                v-for="item in topic"
+                :key="item.ID"
+                :label="item.tp_TopicName"
+                :value="item.ID"
+              ></el-option>
             </el-select>
           </div>
-        </div>
-        <div class="selects">
-          <label style="width: 14%;">性别</label>
-          <div class="selecount">
-            <el-select :clearable="true" v-model="xingbieID" placeholder="请选择">
-              <el-option v-for="item in xingbie" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="selects">
-          <label style="width: 20%">出生年月</label>
-          <div class="selecount">
-            <!-- <el-date-picker
-             style="height: 56px;width: 100%;margin-left: 15px;"
-            v-model="Birthday"
-            type="date"
-            @change="selectTime"
-            value-format="yyyy-MM-dd"
-            placeholder="选择日期"
-            :picker-options="pickerOptions0"
+        </el-col>
+        <el-col :span="6">
+          <label class="searchLabel">专业：</label>
+          <div class="searchData">
+            <el-select
+              :clearable="true"
+              v-model="zhuanyeId"
+              placeholder="请选择"
             >
-            </el-date-picker>-->
+              <el-option
+                v-for="item in zhuanye"
+                :key="item.ID"
+                :label="item.Name"
+                :value="item.ID"
+              ></el-option>
+            </el-select>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="mtop15">
+        <el-col :span="6">
+          <label class="searchLabel">性别：</label>
+          <div class="searchData">
+            <el-select
+              :clearable="true"
+              v-model="xingbieID"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in xingbie"
+                :key="item.ID"
+                :label="item.Name"
+                :value="item.ID"
+              ></el-option>
+            </el-select>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <label class="searchLabel">出生年月：</label>
+          <div class="searchData">
             <el-date-picker
               unlink-panels
-              style="width:120%;"
+              style="width: 360px"
               v-model="datelist"
               @input="dateChange"
               type="daterange"
               range-separator="至"
               start-placeholder="开始时间"
               end-placeholder="截止日期"
-            >clearable</el-date-picker>
+            >
+              clearable
+            </el-date-picker>
           </div>
-        </div>
+        </el-col>
+        <el-col :span="3" class="textRight">
+          <el-button type="primary" @click="handleUserList" class="secachBtn">
+            开始检索
+          </el-button>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="actionBox">
+      <el-button type="primary" @click="tuantibaogao" class="secachBtn">
+        团体报告
+      </el-button>
+      <el-button
+        style="background: #01c8e7;"
+        type="primary"
+        @click="PLExportRow"
+        v-if="menuModel.exportUsable"
+        class="secachBtn"
+      >
+        批量导出
+      </el-button>
+      <el-button
+        type="danger"
+        v-if="menuModel.deleteUsable"
+        @click="handlePLDelete"
+        class="secachBtn"
+      >
+        批量删除
+      </el-button>
+    </div>
+    <div class="searchData">
+      <el-table
+        style="width: 100%;"
+        :data="userList"
+        ref="multipleTable"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column
+          v-model="checkAll"
+          type="selection"
+          :indeterminate="isIndeterminate"
+          @change="handleCheckAllChange"
+        ></el-table-column>
+        <el-table-column
+          label="量表名称"
+          prop="TopicName"
+          width="250px"
+        ></el-table-column>
+        <el-table-column
+          label="真实姓名"
+          prop="UserName"
+          width="250px"
+        ></el-table-column>
 
-        <button
-          @click="handleUserList"
-          type="button"
-          style="background:#006fe5 ;margin-left:10%;"
-          class="layui-btn layui-btn-normal"
-        >开始检索</button>
-      </div>
-    <div class="bigbox">
-      <div class="consult">
-        <!-- <button
-          type="button"
-          style="background:#01c8e7 ;"
-          @click="tuantibaogao"
-          class="layui-btn layui-btn-normal"
-        >团体报告</button> -->
-        <button
-          type="button"
-          style="background:#01c8e7 ;"
-          @click="PLExportRow"
-          class="layui-btn layui-btn-normal"  v-if="menuModel.exportUsable"
-        >批量导出</button>
-        <button
-          type="button"
-          style="background:#ff433f ;"
-          @click="handlePLDelete"
-          class="layui-btn layui-btn-normal"  v-if="menuModel.deleteUsable"
-        >批量删除</button>
-        <div class="tab">
-          <el-table
-            style="width: 100%;"
-            :data="userList"
-            ref="multipleTable"
-            @selection-change="handleSelectionChange"
-          >
-            <el-table-column
-              v-model="checkAll"
-              type="selection"
-              :indeterminate="isIndeterminate"
-              @change="handleCheckAllChange"
-            ></el-table-column>
-            <el-table-column label="量表名称" prop="TopicName" width="250px"></el-table-column>
-            <el-table-column label="真实姓名" prop="UserName" width="250px"></el-table-column>
-
-            <el-table-column label="创建时间" prop="CreateTime" width="250px"></el-table-column>
-            <el-table-column label="操作" >
-              <template slot-scope="scope">
-                <el-button @click.native.prevent="editRow(scope.row)" type="success" v-if="menuModel.lookUsable">{{menuModel.look}}</el-button>
-                <el-button @click.native.prevent="ExportRow(scope.row)" type="primary" v-if="menuModel.exportUsable">{{menuModel.export}}</el-button>
-                <el-button @click.native.prevent="deleteRow(scope.row)" type="danger" v-if="menuModel.deleteUsable">{{menuModel.delete}}</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[5, 10, 20, 40]"
-            :page-size="pagesize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="totalRecords"
-          ></el-pagination>
-        </div>
-      </div>
+        <el-table-column
+          label="创建时间"
+          :formatter="dateFormat"
+          prop="CreateTime"
+          width="250px"
+        ></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="editRow(scope.row)"
+              type="success"
+              size="mini"
+              v-if="menuModel.lookUsable"
+              >{{ menuModel.look }}</el-button
+            >
+            <el-button
+              @click.native.prevent="ExportRow(scope.row)"
+              type="primary"
+              size="mini"
+              v-if="menuModel.exportUsable"
+              >{{ menuModel.export }}</el-button
+            >
+            <el-button
+              @click.native.prevent="deleteRow(scope.row)"
+              type="danger"
+              size="mini"
+              v-if="menuModel.deleteUsable"
+              >{{ menuModel.delete }}</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalRecords"
+      ></el-pagination>
     </div>
   </div>
 </template>
@@ -152,14 +195,14 @@ export default {
   name: "ceping",
   data() {
     return {
-       menuModel: {
-             look: "",
-             lookUsable: false,
-             export: "",
-             exportUsable: false,
-             delete:"",
-             deleteUsable:false
-            },
+      menuModel: {
+        look: "",
+        lookUsable: false,
+        export: "",
+        exportUsable: false,
+        delete: "",
+        deleteUsable: false
+      },
       dialogVisible: false,
       checkAll: false,
       isIndeterminate: false,
@@ -185,17 +228,23 @@ export default {
       // 选项列表（必选）
       list: [],
       topic: [],
-       datelist:[],
+      datelist: [],
       AdminID: "",
-           zhuanyeId:"",
-            zhuanye:[{ID:1,Name:'应用心理学'},{ID:2,Name:'运动训练'},{ID:3,Name:'运动康复'},{ID:4,Name:'汉语言文学'},{ID:5,Name:'新闻学体育新闻'}],
-            xingbieID:"",
-            xingbie:[{ID:1,Name:'男'},{ID:0,Name:'女'}],
-             pickerOptions0: {
-              disabledDate(time) {
-                return time.getTime() > Date.now() - 8.64e6
-              }
-            }
+      zhuanyeId: "",
+      zhuanye: [
+        { ID: 1, Name: "应用心理学" },
+        { ID: 2, Name: "运动训练" },
+        { ID: 3, Name: "运动康复" },
+        { ID: 4, Name: "汉语言文学" },
+        { ID: 5, Name: "新闻学体育新闻" }
+      ],
+      xingbieID: "",
+      xingbie: [{ ID: 1, Name: "男" }, { ID: 0, Name: "女" }],
+      pickerOptions0: {
+        disabledDate(time) {
+          return time.getTime() > Date.now() - 8.64e6;
+        }
+      }
     };
   },
   components: {
@@ -203,48 +252,52 @@ export default {
   },
   mounted() {
     this.AdminID = this.$store.state.userinfo.ID;
-      this.viewPath = this.$route.path;
-            let that = this;
-           let param = new URLSearchParams();
-           param.append("adminID", this.AdminID);
-           param.append("ViewPath", this.viewPath);
-          this.$SystemAPI.CheckAuthority(param, function (data) {
-         if (data.Code == 1) {
-             that.setmenuModel(data.Result);
-            }
-          });
+    this.viewPath = this.$route.path;
+    let that = this;
+    let param = new URLSearchParams();
+    param.append("adminID", this.AdminID);
+    param.append("ViewPath", this.viewPath);
+    this.$SystemAPI.CheckAuthority(param, function(data) {
+      if (data.Code == 1) {
+        that.setmenuModel(data.Result);
+      }
+    });
     this.handleUserList();
     this.gettreeList();
     this.getTopicList();
   },
   methods: {
-     setmenuModel(item) {
-             let that = this;
-             item.forEach(c=>{
-              if(c.ID==38){
-                   that.menuModel.look=c.MenuName
-                   that.menuModel.lookUsable=c.Usable
-              }
-             else if(c.ID==39){
-                   that.menuModel.export=c.MenuName
-                   that.menuModel.exportUsable=c.Usable
-              }
-               else if(c.ID==40){
-                   that.menuModel.delete=c.MenuName
-                   that.menuModel.deleteUsable=c.Usable
-              }
-            })
-         },
-     dateChange(e){
-        this.$nextTick(() => {
-          this.datelist = [];
-            if(e){
-            this.datelist.push(e[0])
-           this.datelist.push(e[1])
-          }
-         
-        });
-      },
+    // 格式化时间
+    dateFormat(row, column, cellValue, index) {
+      if (cellValue == undefined) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
+    setmenuModel(item) {
+      let that = this;
+      item.forEach(c => {
+        if (c.ID == 38) {
+          that.menuModel.look = c.MenuName;
+          that.menuModel.lookUsable = c.Usable;
+        } else if (c.ID == 39) {
+          that.menuModel.export = c.MenuName;
+          that.menuModel.exportUsable = c.Usable;
+        } else if (c.ID == 40) {
+          that.menuModel.delete = c.MenuName;
+          that.menuModel.deleteUsable = c.Usable;
+        }
+      });
+    },
+    dateChange(e) {
+      this.$nextTick(() => {
+        this.datelist = [];
+        if (e) {
+          this.datelist.push(e[0]);
+          this.datelist.push(e[1]);
+        }
+      });
+    },
     //单选
     handleSelectionChange(val) {
       let vlength = val.length;
@@ -420,8 +473,5 @@ export default {
 
 <style scoped>
 @import "../../../static/css/evaluation.css";
-.tab {
-  margin-left: 0.625rem;
-}
-
+@import "../../../static/css/common.css";
 </style>

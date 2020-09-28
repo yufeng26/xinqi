@@ -1,72 +1,75 @@
 <template>
-  <div>
-    <div class="top">
-      <form class="layui-form" action="">
-        <div class="layui-form-item">
-          <label class="layui-form-label">真实姓名：</label>
-          <div class="layui-input-block">
-            <el-input placeholder="请输入姓名" v-model="searchkey"></el-input>
+  <div class="searchPage">
+    <div class="searchBox">
+      <el-row class="mtop15">
+        <el-col :span="6">
+          <label class="searchLabel">真实姓名：</label>
+          <div class="searchData">
+            <el-input
+              class="searchInput"
+              placeholder="请输入姓名"
+              v-model="searchkey"
+            ></el-input>
           </div>
-        </div>
-      </form>
-      <button
-        type="button"
-        @click="handleUserList"
-        style="background:#006fe5 ;margin-left: 70%;"
-        class="layui-btn layui-btn-normal"
-      >
-        开始检索
-      </button>
+        </el-col>
+        <el-col :offset="12" :span="3" class="textRight">
+          <el-button type="primary" @click="handleUserList" class="secachBtn">
+            开始检索
+          </el-button>
+        </el-col>
+      </el-row>
     </div>
-    <div class="bigbox">
-      <div class="consult">
-        <button
-          type="button"
-          style="background:#ff433f ;"
-          class="layui-btn layui-btn-normal"
+    <div class="actionBox">
+      <el-button type="danger" @click="handlePLDelete" class="secachBtn">
+        批量删除
+      </el-button>
+    </div>
+    <div class="searchData">
+      <el-table ref="multipleTable" style="width: 100%;" :data="userList">
+        <el-table-column
+          v-model="checkAll"
+          type="selection"
+          :indeterminate="isIndeterminate"
+          @change="handleCheckAllChange"
         >
-          批量删除
-        </button>
-        <div class="tab">
-          <el-table ref="multipleTable" style="width: 100%;" :data="userList">
-            <el-table-column
-              v-model="checkAll"
-              type="selection"
-              :indeterminate="isIndeterminate"
-              @change="handleCheckAllChange"
+        </el-table-column>
+
+        <el-table-column label="真实姓名" prop="UserName"> </el-table-column>
+        <el-table-column label="咨询状态" prop="IsConfirm"> </el-table-column>
+        <el-table-column
+          label="创建时间"
+          :formatter="dateFormat"
+          prop="CreateTime"
+        >
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              type="success"
+              size="mini"
+              @click.native.prevent="lookRow(scope.row)"
+              >查看</el-button
             >
-            </el-table-column>
 
-            <el-table-column label="真实姓名" prop="UserName">
-            </el-table-column>
-            <el-table-column label="咨询状态" prop="IsConfirm">
-            </el-table-column>
-            <el-table-column label="创建时间" prop="CreateTime">
-            </el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <el-button type="success">查看</el-button>
-
-                <el-button
-                  @click.native.prevent="deleteRow(scope.row)"
-                  type="danger"
-                  >删除</el-button
-                >
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[5, 10, 20, 40]"
-            :page-size="pagesize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="totalRecords"
-          >
-          </el-pagination>
-        </div>
-      </div>
+            <el-button
+              @click.native.prevent="deleteRow(scope.row)"
+              type="danger"
+              size="mini"
+              >删除</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalRecords"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -87,6 +90,13 @@ export default {
     };
   },
   methods: {
+    // 格式化时间
+    dateFormat(row, column, cellValue, index) {
+      if (cellValue == undefined) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
     handleSizeChange(size) {
       this.pagesize = size;
       console.log(this.pagesize); //每页下拉显示数据
@@ -146,6 +156,10 @@ export default {
         })
         .catch(() => {});
     },
+    // 查看
+    lookRow(row) {
+      console.log(row);
+    },
     //单个删除
     deleteRow(row) {
       let v = this;
@@ -175,7 +189,6 @@ export default {
     lilist[3].className = "layui-nav-item";
     let childNodes = lilist[8];
     let dl = childNodes.childNodes[2];
-    debugger;
     dl.children[0].className = "layui-this";
   }
 };
@@ -183,4 +196,5 @@ export default {
 
 <style scoped>
 @import "../../../static/css/consult.css";
+@import "../../../static/css/common.css";
 </style>

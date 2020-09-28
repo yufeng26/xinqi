@@ -133,7 +133,12 @@
         </el-table-column>
         <el-table-column label="真实姓名" prop="UserName"> </el-table-column>
         <el-table-column label="总分" prop="Score"> </el-table-column>
-        <el-table-column label="创建时间" prop="CreateTime"> </el-table-column>
+        <el-table-column
+          label="创建时间"
+          :formatter="dateFormat"
+          prop="CreateTime"
+        >
+        </el-table-column>
         <el-table-column label="操作" width="350px">
           <template slot-scope="scope">
             <el-button
@@ -368,6 +373,13 @@ export default {
     // lilist[5].className='layui-nav-item layui-this'
   },
   methods: {
+    // 格式化时间
+    dateFormat(row, column, cellValue, index) {
+      if (cellValue == undefined) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
     setmenuModel(item) {
       let that = this;
       item.forEach(c => {
@@ -534,6 +546,7 @@ export default {
 
 <style scoped>
 @import "../../../static/css/appraisal.css";
+@import "../../../static/css/common.css";
 /* /deep/ .tab {
   margin-left: 0.625rem;
 } */

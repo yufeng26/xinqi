@@ -1,104 +1,115 @@
 <template>
-  <div>
-    <div class="top">
-      <form class="layui-form" action="">
-        <div class="layui-form-item">
-          <label class="layui-form-label">真实姓名：</label>
-          <div class="layui-input-block">
-            <el-input placeholder="请输入姓名" v-model="searchkey"></el-input>
+  <div class="searchPage">
+    <div class="searchBox">
+      <el-row class="mtop15">
+        <el-col :span="6">
+          <label class="searchLabel">真实姓名：</label>
+          <div class="searchData">
+            <el-input
+              class="searchInput"
+              placeholder="请输入姓名"
+              v-model="searchkey"
+            ></el-input>
           </div>
-        </div>
-      </form>
-      <div class="selects">
-        <label>分组：</label>
-        <div class="selecount">
-          <SelectTree
-            :props="props"
-            :options="optionData"
-            :value="valueId"
-            :clearable="isClearable"
-            :accordion="isAccordion"
-            @getValue="getValue($event)"
-          />
-        </div>
-      </div>
-      <button
-        type="button"
-        style="background: #006fe5; margin-left: 50%"
-        class="layui-btn layui-btn-normal"
-      >
-        开始检索
-      </button>
+        </el-col>
+        <el-col :span="6">
+          <label class="searchLabel">分组：</label>
+          <div class="searchData">
+            <SelectTree
+              class="searchSelect"
+              :props="props"
+              :options="optionData"
+              :value="valueId"
+              :clearable="isClearable"
+              :accordion="isAccordion"
+              @getValue="getValue($event)"
+            />
+          </div>
+        </el-col>
+        <el-col :span="3" class="textRight">
+          <el-button type="primary" @click="handleUserList" class="secachBtn">
+            开始检索
+          </el-button>
+        </el-col>
+      </el-row>
     </div>
-    <div class="bigbox">
-      <div class="consult">
-        <button
-          type="button"
-          style="background: #01c8e7"
-          class="layui-btn layui-btn-normal"
-          v-if="menuModel.exportUsable"
+    <div class="actionBox">
+      <el-button
+        style="background: #01c8e7;"
+        type="primary"
+        v-if="menuModel.exportUsable"
+        class="secachBtn"
+      >
+        批量导出
+      </el-button>
+      <el-button
+        type="danger"
+        v-if="menuModel.deleteUsable"
+        @click="handlePLDelete"
+        class="secachBtn"
+      >
+        批量删除
+      </el-button>
+    </div>
+    <div class="searchData">
+      <el-table style="width: 100%" :data="userList">
+        <el-table-column
+          v-model="checkAll"
+          type="selection"
+          :indeterminate="isIndeterminate"
+          @change="handleCheckAllChange"
         >
-          批量导出
-        </button>
-        <button
-          type="button"
-          style="background: #ff433f"
-          class="layui-btn layui-btn-normal"
-          v-if="menuModel.deleteUsable"
+        </el-table-column>
+
+        <el-table-column label="真实姓名" prop="UserName" width="200px">
+        </el-table-column>
+        <el-table-column label="训练进度" prop="progress" width="200px">
+        </el-table-column>
+        <el-table-column label="训练状态" prop="palanstate" width="200px">
+        </el-table-column>
+        <el-table-column
+          label="创建时间"
+          :formatter="dateFormat"
+          prop="CreateTime"
+          width="200px"
         >
-          批量删除
-        </button>
-        <div class="tab">
-          <el-table style="width: 100%" :data="userList">
-            <el-table-column
-              v-model="checkAll"
-              type="selection"
-              :indeterminate="isIndeterminate"
-              @change="handleCheckAllChange"
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              type="success"
+              size="mini"
+              @click.native.prevent="editRow(scope.row)"
+              v-if="menuModel.lookUsable"
+              >{{ menuModel.look }}</el-button
             >
-            </el-table-column>
 
-            <el-table-column label="真实姓名" prop="UserName" width="200px">
-            </el-table-column>
-            <el-table-column label="训练进度" prop="progress" width="200px">
-            </el-table-column>
-            <el-table-column label="训练状态" prop="palanstate" width="200px">
-            </el-table-column>
-            <el-table-column label="创建时间" prop="CreateTime" width="200px">
-            </el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  type="success"
-                  @click.native.prevent="editRow(scope.row)"
-                  v-if="menuModel.lookUsable"
-                  >{{ menuModel.look }}</el-button
-                >
-
-                <el-button type="warning" v-if="menuModel.exportUsable">{{
-                  menuModel.export
-                }}</el-button>
-                <el-button
-                  @click.native.prevent="deleteRow(scope.row)"
-                  type="danger"
-                  v-if="menuModel.deleteUsable"
-                  >{{ menuModel.delete }}</el-button
-                >
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[5, 10, 20, 40]"
-            :page-size="pagesize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="totalRecords"
-          >
-          </el-pagination>
-        </div>
-      </div>
+            <el-button
+              type="warning"
+              size="mini"
+              v-if="menuModel.exportUsable"
+              >{{ menuModel.export }}</el-button
+            >
+            <el-button
+              @click.native.prevent="deleteRow(scope.row)"
+              type="danger"
+              size="mini"
+              v-if="menuModel.deleteUsable"
+              >{{ menuModel.delete }}</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalRecords"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -125,7 +136,7 @@ export default {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       //用户组数组
@@ -137,12 +148,12 @@ export default {
         export: "",
         exportUsable: false,
         delete: "",
-        deleteUsable: false,
-      },
+        deleteUsable: false
+      }
     };
   },
   components: {
-    SelectTree,
+    SelectTree
   },
   mounted() {
     this.AdminID = this.$store.state.userinfo.ID;
@@ -151,7 +162,7 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", this.viewPath);
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
@@ -165,7 +176,7 @@ export default {
   methods: {
     setmenuModel(item) {
       let that = this;
-      item.forEach((c) => {
+      item.forEach(c => {
         if (c.ID == 29) {
           that.menuModel.look = c.MenuName;
           that.menuModel.lookUsable = c.Usable;
@@ -188,7 +199,7 @@ export default {
       let v = this;
 
       let param = new URLSearchParams();
-      this.$UserAPI.getUserGroupList(param, function (data) {
+      this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;
         }
@@ -215,15 +226,14 @@ export default {
       param.append("deviceID", this.deviceid);
       param.append("pageNum", this.currentPage);
       param.append("pageSize", this.pagesize);
-      this.userList = this.$PlanSchemeAPI.getPlanSchemePageList(
-        param,
-        function (data) {
-          if (data.Code == 1) {
-            v.userList = data.Result.Data;
-            v.totalRecords = data.Result.totalRecords;
-          }
+      this.userList = this.$PlanSchemeAPI.getPlanSchemePageList(param, function(
+        data
+      ) {
+        if (data.Code == 1) {
+          v.userList = data.Result.Data;
+          v.totalRecords = data.Result.totalRecords;
         }
-      );
+      });
     },
     //批量删除
     handlePLDelete() {
@@ -232,11 +242,11 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function (value, index, array) {
+          selectrows.forEach(function(value, index, array) {
             newarr += value.ID + ",";
           });
           if (newarr) {
@@ -244,7 +254,7 @@ export default {
           }
           var params = new URLSearchParams();
           params.append("ID", newarr);
-          this.$PlanSchemeAPI.PLdelResult(params, function (data) {
+          this.$PlanSchemeAPI.PLdelResult(params, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -259,13 +269,13 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("ID", row.ID);
 
-          this.$PlanSchemeAPI.delResult(param, function (data) {
+          this.$PlanSchemeAPI.delResult(param, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -277,26 +287,32 @@ export default {
     editRow(row) {
       this.$router.push({ name: "planreport", query: { ID: row.ID } });
     },
+    // 格式化时间
+    dateFormat(row, column, cellValue, index) {
+      if (cellValue == undefined) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    }
   },
   computed: {
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
-      return cloneData.filter((father) => {
+      return cloneData.filter(father => {
         // 循环所有项，并添加children属性
-        let branchArr = cloneData.filter(
-          (child) => father.id == child.parentId
-        ); // 返回每一项的子级数组
+        let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
         branchArr.length > 0 ? (father.children = branchArr) : ""; //给父级添加一个children属性，并赋值
         return father.parentId == 0; //返回第一层
       });
-    } /* 转树形数据 */,
-  },
+    } /* 转树形数据 */
+  }
 };
 </script>
 
 <style scoped>
 @import "../../../static/css/evaluation.css";
-/deep/ .tab {
+@import "../../../static/css/common.css";
+/* /deep/ .tab {
   margin-left: 0.625rem;
-}
+} */
 </style>
