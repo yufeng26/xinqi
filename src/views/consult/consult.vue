@@ -36,12 +36,7 @@
 
         <el-table-column label="真实姓名" prop="UserName"> </el-table-column>
         <el-table-column label="咨询状态" prop="IsConfirm"> </el-table-column>
-        <el-table-column
-          label="创建时间"
-          :formatter="dateFormat"
-          prop="CreateTime"
-        >
-        </el-table-column>
+        <el-table-column label="创建时间" prop="CreateTime"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
