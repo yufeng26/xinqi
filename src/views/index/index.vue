@@ -22,7 +22,7 @@
                 <tr v-for="item in ReportList">
                   <td class="left">{{ item.UserName }}</td>
                   <td>{{ item.Score }}分</td>
-                  <td>{{ item.CreateTime | convertDate }}</td>
+                  <td>{{ dateFormat(item.CreateTime) }}</td>
                 </tr>
               </tbody>
             </table>
@@ -58,7 +58,7 @@
                   <td class="left">{{ item.UserName }}</td>
                   <td>{{ item.TopicName }}</td>
                   <td>{{ item.progress }}</td>
-                  <td>{{ item.CreateTime | convertDate }}</td>
+                  <td>{{ dateFormat(item.CreateTime) }}</td>
                 </tr>
               </tbody>
             </table>
@@ -127,7 +127,7 @@
                 <tr v-for="item in ConsultationLsit">
                   <td class="left">{{ item.UserName }}</td>
                   <td>{{ item.Consulater }}</td>
-                  <td>{{ item.CreateTime }}</td>
+                  <td>{{ dateFormat(item.CreateTime) }}</td>
                 </tr>
               </tbody>
             </table>
@@ -176,6 +176,12 @@ export default {
   },
   watch: {},
   methods: {
+    dateFormat(cellValue) {
+      if (cellValue == undefined) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
     goto(path) {
       this.$router.push({ path: path });
     },

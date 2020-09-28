@@ -242,7 +242,7 @@
                   </select>
                   <label>分</label></div>
               </div>
-              <div><span>可接待人数：</span><input v-model="duty2am.count"class="nums" type="number" name="" value="" /><label>人</label></div>
+              <div><span>可接待人数：</span><input v-model="duty2am.count" class="nums" type="number" name="" value="" /><label>人</label></div>
             </div>
             <div class="guardmid">
               <p><input type="checkbox" name="" value="" v-model="duty2pm.IsDuty" checked /><label>下午</label></p>
