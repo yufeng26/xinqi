@@ -231,6 +231,8 @@ export default {
 .formPage .tittop li {
   font-size: 20px;
   cursor: pointer;
+  height: 40px;
+  line-height: 40px;
 }
 .blue {
   background: #006fe5;
