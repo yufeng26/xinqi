@@ -34,22 +34,22 @@
               <img class="select" src="/static/img/首页选中.png" />首页
             </a>
           </li>
-          <li class="layui-nav-item">
+          <li class="layui-nav-item" v-if="zhanghuguanli">
             <a class href="javascript:;">
               <img class="nosele" src="/static/img/账户管理默认.png" />
               <img class="select" src="/static/img/账户管理选中.png" />账户管理
             </a>
             <dl class="layui-nav-child">
-              <dd>
+              <dd v-show="guanliyuanguanli">
                 <a @click="goto('/admin')" href="javascript:;">管理员管理</a>
               </dd>
-              <dd>
+              <dd v-show="yonghuxinxiguanli">
                 <a @click="goto('/user')" href="javascript:;">用户信息管理</a>
               </dd>
             </dl>
           </li>
 
-          <li class="layui-nav-item">
+          <li class="layui-nav-item" v-if="tousheceshiguanli">
             <a @click="goto('/testresult')" href="javascript:;">
               <img class="nosele" src="/static/img/测评管理默认.png" />
               <img
@@ -58,51 +58,51 @@
               />投射测验管理
             </a>
           </li>
-          <li class="layui-nav-item">
+          <li class="layui-nav-item" v-if="xunlianguanli">
             <a @click="goto('/planscheme')" href="javascript:;">
               <img class="nosele" src="/static/img/训练管理默认.png" />
               <img class="select" src="/static/img/训练管理选中.png" />训练管理
             </a>
           </li>
-          <li class="layui-nav-item">
+          <li class="layui-nav-item" v-if="shebeiguanli">
             <a class href="javascript:;">
               <img class="nosele" src="/static/img/设备管理默认.png" />
               <img class="select" src="/static/img/设备管理选中.png" />设备管理
             </a>
             <dl class="layui-nav-child">
-              <dd>
+              <dd v-show="weijiganyu">
                 <a @click="goto('/deviceceping')" href="javascript:;"
                   >危机干预</a
                 >
               </dd>
-              <dd>
+              <dd v-show="shenxinfankui">
                 <a @click="goto('/devicebaisirui')" href="javascript:;"
                   >身心反馈</a
                 >
               </dd>
-              <dd>
+              <dd v-show="tuantishenxinfankui">
                 <a @click="goto('/devicejida')" href="javascript:;"
                   >团体身心反馈</a
                 >
               </dd>
-              <dd>
+              <dd v-show="nahan">
                 <a @click="goto('/devicenahan')" href="javascript:;"
                   >呐喊(iii)</a
                 >
               </dd>
-              <dd>
+              <dd v-show="yongbao">
                 <a @click="goto('/deviceyongbao')" href="javascript:;"
                   >拥抱(iii)</a
                 >
               </dd>
-              <dd>
+              <dd v-show="zixinxin">
                 <a @click="goto('/devicezixinxin')" href="javascript:;"
                   >自信心</a
                 >
               </dd>
             </dl>
           </li>
-          <li class="layui-nav-item">
+          <li class="layui-nav-item" v-if="zixunguanli">
             <a class href="javascript:;">
               <img class="nosele" src="/static/img/咨询管理默认.png" />
               <img class="select" src="/static/img/咨询管理选中.png" />咨询管理
@@ -111,12 +111,12 @@
               <dd v-show="zixunyuyue">
                 <a @click="goto('/consult')" href="javascript:;">咨询预约</a>
               </dd>
-              <dd v-if="zhiribiao">
+              <dd v-show="zhiribiao">
                 <a @click="goto('/duty')" href="javascript:;">值日表</a>
               </dd>
             </dl>
           </li>
-          <li class="layui-nav-item">
+          <li class="layui-nav-item" v-if="gerenzhongxin">
             <a @click="goto('/admincenter')" href="javascript:;">
               <img class="nosele" src="/static/img/个人中心默认.png" />
               <img class="select" src="/static/img/个人中心选中.png" />
@@ -137,16 +137,16 @@
               </dd>
             </dl>
           </li> -->
-          <li class="layui-nav-item">
-            <a class href="javascript:;" v-if="xitongshezhi">
+          <li class="layui-nav-item" v-if="xitongshezhi">
+            <a class href="javascript:;">
               <img class="nosele" src="/static/img/系统设置默认.png" />
               <img class="select" src="/static/img/系统设置选中.png" />系统设置
             </a>
             <dl class="layui-nav-child">
-              <dd v-if="shujubeifen">
+              <dd v-show="shujubeifen">
                 <a href="javascript:;" @click="goto('/backup')">数据备份</a>
               </dd>
-              <dd v-if="kuozhanziduan">
+              <dd v-show="kuozhanziduan">
                 <a href="javascript:;" @click="goto('/extendfiled')"
                   >扩展字段</a
                 >
@@ -180,11 +180,25 @@ export default {
       viewPath: "",
       menus: [],
       systemSet: [],
+      zhanghuguanli: true,
+      guanliyuanguanli: false,
+      yonghuxinxiguanli: false,
+      tousheceshiguanli: false,
+      xunlianguanli: false,
+      shebeiguanli: true,
+      weijiganyu: false,
+      shenxinfankui: false,
+      tuantishenxinfankui: false,
+      nahan: false,
+      yongbao: false,
+      zixinxin: false,
+      zixunguanli: true,
+      zixunyuyue: false,
+      zhiribiao: false,
+      gerenzhongxin: true,
       xitongshezhi: true,
       shujubeifen: false,
-      kuozhanziduan: false,
-      zixunyuyue: false,
-      zhiribiao: false
+      kuozhanziduan: false
     };
   },
   created() {},
@@ -202,24 +216,137 @@ export default {
     param.append("ViewPath", "");
     this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
-        that.menus = data.Result;
-        that.menus.forEach(c => {
-          if (c.ID == 57 && c.Usable) {
-            that.zixunyuyue = true;
-          }
-          if (c.ID == 58 && c.Usable) {
-            that.zhiribiao = true;
-          }
-          if (c.ID == 60 && c.Usable) {
-            that.shujubeifen = true;
-          }
-          if (c.ID == 61 && c.Usable) {
-            that.kuozhanziduan = true;
-          }
+        that.menus = data.Result.filter(item => item.Usable);
+        const authorityArray = that.menus.map(item => {
+          return item.ID;
         });
+        if (
+          authorityArray.includes(9) ||
+          authorityArray.includes(10) ||
+          authorityArray.includes(11) ||
+          authorityArray.includes(12) ||
+          authorityArray.includes(13) ||
+          authorityArray.includes(14) ||
+          authorityArray.includes(15)
+        ) {
+          that.guanliyuanguanli = true;
+        }
+        if (
+          authorityArray.includes(16) ||
+          authorityArray.includes(17) ||
+          authorityArray.includes(18) ||
+          authorityArray.includes(19) ||
+          authorityArray.includes(20) ||
+          authorityArray.includes(21) ||
+          authorityArray.includes(22)
+        ) {
+          that.yonghuxinxiguanli = true;
+        }
+        if (!that.guanliyuanguanli && !that.yonghuxinxiguanli) {
+          that.zhanghuguanli = false;
+        }
+        if (
+          authorityArray.includes(24) ||
+          authorityArray.includes(25) ||
+          authorityArray.includes(26)
+        ) {
+          that.tousheceshiguanli = true;
+        }
+        if (
+          authorityArray.includes(29) ||
+          authorityArray.includes(30) ||
+          authorityArray.includes(31)
+        ) {
+          that.xunlianguanli = true;
+        }
+        if (
+          authorityArray.includes(38) ||
+          authorityArray.includes(39) ||
+          authorityArray.includes(40)
+        ) {
+          that.weijiganyu = true;
+        }
+        if (
+          authorityArray.includes(41) ||
+          authorityArray.includes(42) ||
+          authorityArray.includes(43)
+        ) {
+          that.shenxinfankui = true;
+        }
+        if (
+          authorityArray.includes(44) ||
+          authorityArray.includes(45) ||
+          authorityArray.includes(46)
+        ) {
+          that.tuantishenxinfankui = true;
+        }
+        if (
+          authorityArray.includes(47) ||
+          authorityArray.includes(48) ||
+          authorityArray.includes(49)
+        ) {
+          that.nahan = true;
+        }
+        if (
+          authorityArray.includes(50) ||
+          authorityArray.includes(51) ||
+          authorityArray.includes(52)
+        ) {
+          that.yongbao = true;
+        }
+        if (
+          authorityArray.includes(53) ||
+          authorityArray.includes(54) ||
+          authorityArray.includes(55)
+        ) {
+          that.zixinxin = true;
+        }
+        if (
+          !that.weijiganyu &&
+          !that.shenxinfankui &&
+          !that.tuantishenxinfankui &&
+          !that.nahan &&
+          !that.yongbao &&
+          !that.zixinxin
+        ) {
+          that.shebeiguanli = false;
+        }
+        if (authorityArray.includes(57)) {
+          that.zixunyuyue = true;
+        }
+        if (authorityArray.includes(58)) {
+          that.zhiribiao = true;
+        }
+        if (!that.zixunyuyue && !that.zhiribiao) {
+          that.zixunguanli = false;
+        }
+        if (authorityArray.includes(60)) {
+          that.shujubeifen = true;
+        }
+        if (authorityArray.includes(61)) {
+          that.kuozhanziduan = true;
+        }
         if (!that.shujubeifen && !that.kuozhanziduan) {
           that.xitongshezhi = false;
         }
+
+        // that.menus.forEach(c => {
+        //   if (c.ID == 57 && c.Usable) {
+        //     that.zixunyuyue = true;
+        //   }
+        //   if (c.ID == 58 && c.Usable) {
+        //     that.zhiribiao = true;
+        //   }
+        //   if (c.ID == 60 && c.Usable) {
+        //     that.shujubeifen = true;
+        //   }
+        //   if (c.ID == 61 && c.Usable) {
+        //     that.kuozhanziduan = true;
+        //   }
+        // });
+        // if (!that.shujubeifen && !that.kuozhanziduan) {
+        //   that.xitongshezhi = false;
+        // }
       }
     });
   },
