@@ -36,12 +36,12 @@
     </div>
     <div class="actionBox">
       <div class="grouping" v-if="groupvisible">
-        <h2 style="color: #0070e5;">创建分组</h2>
+        <h2 style="color: #0070e5">创建分组</h2>
         <input type="text" v-model="newgroupid" placeholder="请输入分组名称" />
 
         <button
           type="button"
-          style="background:#006fe5;width: 40%;"
+          style="background: #006fe5; width: 40%"
           @click="addgrouphanlde"
           class="layui-btn layui-btn-normal"
         >
@@ -49,7 +49,7 @@
         </button>
         <button
           type="button"
-          style="background:#006fe5 ;width: 40%;"
+          style="background: #006fe5; width: 40%"
           @click="groupvisible = false"
           class="layui-btn layui-btn-normal returnd"
         >
@@ -59,18 +59,12 @@
       <div class="move" v-show="movingvisible">
         <h2>移动至</h2>
         <div class="movercount">
-          <img style="display:block ;" class="xia" src="/static/img/jt.png" />
-          <img
-            style="display: none;"
-            class="shang"
-            src="/static/img/jtup.png"
-          />
+          <img style="display: block" class="xia" src="/static/img/jt.png" />
+          <img style="display: none" class="shang" src="/static/img/jtup.png" />
           全部分组
         </div>
         <SelectTree
-          style="width: 94%;
-          margin:0 auto 20px;
-          height: 305px;"
+          style="width: 94%; margin: 0 auto 20px; height: 305px"
           :props="props2"
           :options="optionData"
           :value="valueId2"
@@ -81,7 +75,7 @@
 
         <button
           type="button"
-          style="background:#258DFF;margin-left:30px;width: 40%;"
+          style="background: #258dff; margin-left: 30px; width: 40%"
           @click="movehandle"
           class="layui-btn layui-btn-normal ensure"
         >
@@ -89,17 +83,17 @@
         </button>
         <button
           type="button"
-          style="background:#9571F9 ;width: 40%;"
+          style="background: #9571f9; width: 40%"
           @click="movingvisible = false"
           class="layui-btn layui-btn-normal reve"
         >
           返回
         </button>
       </div>
-      <div style="display: flex;justify-content: flex-start">
+      <div style="display: flex; justify-content: flex-start">
         <button
           type="button"
-          style="background:#006fe5 ;"
+          style="background: #006fe5"
           @click="
             groupvisible = true;
             userGroupID = '';
@@ -112,7 +106,7 @@
 
         <button
           type="button"
-          style="background:#ff433f ;"
+          style="background: #ff433f"
           @click="handlePLDelete"
           class="layui-btn layui-btn-normal"
           v-if="menuModel.deleteUsable"
@@ -121,7 +115,7 @@
         </button>
         <button
           type="button"
-          style="background:#20bb45 ;"
+          style="background: #20bb45"
           @click="$router.push({ name: 'adduser' })"
           class="layui-btn layui-btn-normal cjuser"
           v-if="menuModel.adduserUsable"
@@ -130,7 +124,7 @@
         </button>
         <button
           type="button"
-          style="background:#20bb45 ;"
+          style="background: #20bb45"
           @click="$router.push({ name: 'importuser' })"
           class="layui-btn layui-btn-normal pldr"
           v-if="menuModel.daoruUsable"
@@ -139,8 +133,8 @@
         </button>
         <button
           type="button"
-          style="background:#006fe5;"
-          @click="moveArr"
+          style="background: #006fe5"
+          @click="moveArrs"
           class="layui-btn layui-btn-normal"
           v-if="menuModel.yidongUsable"
         >
@@ -149,7 +143,7 @@
       </div>
     </div>
     <div class="searchData">
-      <el-table ref="multipleTable" style="width: 100%;" :data="userList">
+      <el-table ref="multipleTable" style="width: 100%" :data="userList">
         <el-table-column
           v-model="checkAll"
           type="selection"
@@ -238,14 +232,14 @@ export default {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children"
+        children: "children",
         // disabled:true
       },
       props2: {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children"
+        children: "children",
         // disabled:true
       },
       list: [],
@@ -269,8 +263,8 @@ export default {
         yidong: "",
         yidongUsable: false,
         delete: "",
-        deleteUsable: false
-      }
+        deleteUsable: false,
+      },
     };
   },
   components: { SelectTree },
@@ -282,7 +276,7 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", this.viewPath);
-    this.$SystemAPI.CheckAuthority(param, function(data) {
+    this.$SystemAPI.CheckAuthority(param, function (data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
@@ -300,7 +294,7 @@ export default {
     },
     setmenuModel(item) {
       let that = this;
-      item.forEach(c => {
+      item.forEach((c) => {
         if (c.ID == 16) {
           that.menuModel.addfenzu = c.MenuName;
           that.menuModel.addfenzuUsable = c.Usable;
@@ -341,7 +335,7 @@ export default {
       param.append("groupid", this.valueId);
       param.append("pageNum", this.currentPage);
       param.append("pageSize", this.pagesize);
-      this.userList = this.$UserAPI.getUserPageList(param, function(data) {
+      this.userList = this.$UserAPI.getUserPageList(param, function (data) {
         if (data.Code == 1) {
           v.userList = data.Result.Data;
           v.totalRecords = data.Result.totalRecords;
@@ -349,8 +343,17 @@ export default {
       });
     },
     // 多人移动用户
-    moveArr() {
-      console.log("多人移动和单人同一个接口");
+    moveArrs() {
+      var selectrows = this.$refs.multipleTable.selection;
+      let newarr = "";
+      selectrows.forEach(function (value, index, array) {
+        newarr += value.ID + ",";
+      });
+      if (newarr) {
+        newarr = newarr.substring(0, newarr.lastIndexOf(","));
+      }
+      this.movingvisible = true;
+      this.userid = newarr;
     },
     // 表单移动用户
     moveRow(row) {
@@ -375,7 +378,7 @@ export default {
 
       let param = new URLSearchParams();
       param.append("adminID", this.AdminID);
-      this.$UserAPI.getUserGroupList(param, function(data) {
+      this.$UserAPI.getUserGroupList(param, function (data) {
         if (data.Code == 1) {
           v.list = data.Result;
           v.list2 = data.Result2;
@@ -389,11 +392,11 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function(value, index, array) {
+          selectrows.forEach(function (value, index, array) {
             newarr += value.ID + ",";
           });
           if (newarr) {
@@ -401,7 +404,7 @@ export default {
           }
           var params = new URLSearchParams();
           params.append("ID", newarr);
-          this.$UserAPI.PlDeleteUser(params, function(data) {
+          this.$UserAPI.PlDeleteUser(params, function (data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -416,20 +419,20 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("ID", row.ID);
           if (row.IsGroup) {
-            this.$UserAPI.PlDeleteUser(param, function(data) {
+            this.$UserAPI.PlDeleteUser(param, function (data) {
               if (data.Code == 1) {
                 v.$message.success("删除成功!");
                 v.handleUserList();
               }
             });
           } else {
-            this.$UserAPI.DeleteUser(param, function(data) {
+            this.$UserAPI.DeleteUser(param, function (data) {
               if (data.Code == 1) {
                 v.$message.success("删除成功!");
                 v.handleUserList();
@@ -443,10 +446,10 @@ export default {
     movehandle() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("ID", this.userid);
-      param.append("u_GroupID", this.valueId2);
-
-      this.$UserAPI.MoveGroup(param, function(data) {
+      param.append("UserID", this.userid);
+      param.append("GroupID", this.valueId2);
+      console.log(param.toString());
+      this.$UserAPI.MoveGroup(param, function (data) {
         if (data.Code == 1) {
           v.$message.success("移动成功!");
           v.movingvisible = false;
@@ -462,7 +465,7 @@ export default {
       param.append("ug_AdminID", this.AdminID);
       param.append("ug_ParentID", "0");
       param.append("ID", this.userGroupID);
-      this.$UserAPI.AddGroup(param, function(data) {
+      this.$UserAPI.AddGroup(param, function (data) {
         if (data.Code == 1) {
           v.$message.success(data.Msg);
           v.groupvisible = false;
@@ -477,7 +480,7 @@ export default {
       } else {
         this.$router.push({
           name: "edituser",
-          query: { ID: row.ID, issave: issave }
+          query: { ID: row.ID, issave: issave },
         });
       }
       this.groupvisible = true;
@@ -486,20 +489,22 @@ export default {
     },
     editUserGroupRow(row, issave) {
       this.$router.push({ name: "group", query: { GroupID: row.ID } });
-    }
+    },
   },
   computed: {
     /* 转树形数据 */
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
-      return cloneData.filter(father => {
+      return cloneData.filter((father) => {
         // 循环所有项，并添加children属性
-        let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
+        let branchArr = cloneData.filter(
+          (child) => father.id == child.parentId
+        ); // 返回每一项的子级数组
         branchArr.length > 0 ? (father.children = branchArr) : ""; //给父级添加一个children属性，并赋值
         return father.parentId == 0; //返回第一层
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style type="text/css">

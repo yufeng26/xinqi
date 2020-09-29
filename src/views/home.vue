@@ -28,7 +28,7 @@
           lay-filter="test"
           lay-shrink="all"
         >
-          <li class="layui-nav-item">
+          <li class="layui-nav-item" data-route="index">
             <a @click="goto('/index')" class="menu" href="javascript:;">
               <img class="nosele" src="/static/img/首页默认.png" />
               <img class="select" src="/static/img/首页选中.png" />首页
@@ -40,10 +40,10 @@
               <img class="select" src="/static/img/账户管理选中.png" />账户管理
             </a>
             <dl class="layui-nav-child">
-              <dd v-show="guanliyuanguanli">
+              <dd v-show="guanliyuanguanli" data-route="admin">
                 <a @click="goto('/admin')" href="javascript:;">管理员管理</a>
               </dd>
-              <dd v-show="yonghuxinxiguanli">
+              <dd v-show="yonghuxinxiguanli" data-route="user">
                 <a @click="goto('/user')" href="javascript:;">用户信息管理</a>
               </dd>
             </dl>
@@ -171,12 +171,13 @@
 </template>
 
 <script>
+import $ from "jquery";
 export default {
   name: "home",
   data() {
     return {
       userinfo: {
-        a_RealName: ""
+        a_RealName: "",
       },
       adminID: "",
       viewPath: "",
@@ -200,7 +201,7 @@ export default {
       gerenzhongxin: true,
       xitongshezhi: true,
       shujubeifen: false,
-      kuozhanziduan: false
+      kuozhanziduan: false,
     };
   },
   created() {},
@@ -209,17 +210,16 @@ export default {
       this.$router.push({ path: "/index" });
       window.location.reload();
     }
-
     this.userinfo.a_RealName = this.$store.state.userinfo.a_RealName;
     this.adminID = this.$store.state.userinfo.ID;
     let that = this;
     let param = new URLSearchParams();
     param.append("adminID", this.adminID);
     param.append("ViewPath", "");
-    this.$SystemAPI.CheckAuthority(param, function(data) {
+    this.$SystemAPI.CheckAuthority(param, function (data) {
       if (data.Code == 1) {
-        that.menus = data.Result.filter(item => item.Usable);
-        const authorityArray = that.menus.map(item => {
+        that.menus = data.Result.filter((item) => item.Usable);
+        const authorityArray = that.menus.map((item) => {
           return item.ID;
         });
         if (
@@ -334,6 +334,24 @@ export default {
       }
     });
   },
+  updated() {
+    // console.log(this.$route.path);
+    // const $menuList = $(this.$refs["menu-list"]);
+    // $menuList.find("li").each(function (i, obj) {
+    //   $(obj).removeClass("layui-nav-itemed");
+    //   $(obj).removeClass("layui-this");
+    //   $(obj)
+    //     .find("dl dd")
+    //     .each(function (k, inner) {
+    //       $(inner).removeClass("layui-this");
+    //     });
+    // });
+    // if (this.$route.path === "/admin") {
+    //   const dataRoute = $("[data-route='admin']");
+    //   dataRoute.parents("li").addClass("layui-nav-item layui-nav-itemed");
+    //   dataRoute.addClass("layui-this");
+    // }
+  },
   activated() {
     this.userinfo.a_RealName = this.$store.state.userinfo.a_RealName;
     var swiper = new Swiper(".swiper-container", {
@@ -344,12 +362,12 @@ export default {
       loopFillGroupWithBlank: true,
       pagination: {
         el: ".swiper-pagination",
-        clickable: true
+        clickable: true,
       },
       navigation: {
         nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      }
+        prevEl: ".swiper-button-prev",
+      },
     });
   },
   methods: {
@@ -364,8 +382,8 @@ export default {
       localStorage.removeItem("IsCheck");
       this.$router.push("/login");
       this.$message.success("退出成功");
-    }
-  }
+    },
+  },
 };
 </script>
 
