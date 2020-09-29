@@ -1,8 +1,8 @@
 <template>
   <div class="extendfiled">
-    <div class="top">
-      <div class="top-left">扩展字段管理</div>
-      <div class="top-right" @click="addRow">添加+</div>
+    <div class="top">扩展字段管理</div>
+    <div class="btnBox">
+      <span @click="addRow" type="primary">添加</span>
     </div>
     <div class="main">
       <div class="neirong" v-for="(filed, index) in filedsList" :key="index">
@@ -53,7 +53,7 @@
               ></el-input>
               <i
                 @click="remove(filed, options, indexs)"
-                style="margin-left: 5px; color:red"
+                style="margin-left: 5px; color: red"
                 class="el-icon-remove-outline"
                 v-if="filed.isSave"
               ></i>
@@ -67,40 +67,37 @@
               >添加选项</el-button
             >
           </div>
-          <el-button
-            class="btn"
-            type="primary"
-            size="small"
-            @click="Save(filed)"
-            v-if="filed.isSave"
-            >保存</el-button
-          >
-          <el-button
-            class="btn"
-            style="background: red"
-            type="primary"
-            size="small"
-            @click="cancle(filed, index)"
-            v-if="filed.isSave"
-            >取消</el-button
-          >
-          <div class="main-right">
+          <div class="row">
             <el-button
-              class="xiugai"
               type="primary"
               size="small"
-              @click="update(filed)"
-              v-if="!filed.isSave"
-              >修改</el-button
+              @click="Save(filed)"
+              v-if="filed.isSave"
+              >保存</el-button
             >
             <el-button
-              class="shanchu"
-              type="info"
+              type="danger"
               size="small"
+              @click="cancle(filed, index)"
+              v-if="filed.isSave"
+              >取消</el-button
+            >
+          </div>
+          <div class="main-right">
+            <el-button
+              type="primary"
+              size="medium"
+              @click="update(filed)"
+              v-if="!filed.isSave"
+              >修改
+            </el-button>
+            <el-button
+              type="danger"
+              size="medium"
               @click="deleted(filed, index)"
               v-if="!filed.isSave"
-              >删除</el-button
-            >
+              >删除
+            </el-button>
           </div>
         </div>
       </div>
@@ -113,23 +110,23 @@ export default {
   name: "extendfiled",
   data() {
     return {
-      filedsList: []
+      filedsList: [],
     };
   },
   created() {},
   mounted() {
     var v = this;
     let param = new URLSearchParams();
-    this.$SystemAPI.getSystem(param, function(data) {
+    this.$SystemAPI.getSystem(param, function (data) {
       if (data.Code == 1) {
         //  v.filedsList= data.Result
-        data.Result.forEach(item => {
+        data.Result.forEach((item) => {
           v.filedsList.push({
             isSave: false,
             id: item.ID,
             e_FiledName: item.e_FiledName,
             e_Types: item.e_Types,
-            e_OptionInfo: JSON.parse(item.e_OptionInfo)
+            e_OptionInfo: JSON.parse(item.e_OptionInfo),
           });
         });
       }
@@ -138,7 +135,7 @@ export default {
   methods: {
     addInput(filed) {
       let iscontinue = true;
-      filed.e_OptionInfo.forEach(item => {
+      filed.e_OptionInfo.forEach((item) => {
         if (item.option.replace(/^\s\s*/, "").replace(/\s\s*$/, "") === "") {
           iscontinue = false;
         }
@@ -157,7 +154,7 @@ export default {
         id: "",
         e_FiledName: "",
         e_Types: "1",
-        e_OptionInfo: []
+        e_OptionInfo: [],
       });
     },
     Save(filed) {
@@ -177,7 +174,7 @@ export default {
       param.append("e_FiledName", filed.e_FiledName);
       param.append("e_Types", filed.e_Types);
       param.append("e_OptionInfo", optioninfo);
-      this.$SystemAPI.addSystem(param, function(data) {
+      this.$SystemAPI.addSystem(param, function (data) {
         if (data.Code == 1) {
           filed.id = data.Result.ID;
           filed.isSave = false;
@@ -217,7 +214,7 @@ export default {
         }
         let param = new URLSearchParams();
         param.append("id", item.id);
-        this.$SystemAPI.deleteSystem(param, function(data) {
+        this.$SystemAPI.deleteSystem(param, function (data) {
           if (data.Code == 1) {
             v.$message.success("删除成功!");
           } else {
@@ -225,21 +222,12 @@ export default {
           }
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
-* {
-  padding: 0;
-  margin: 0;
-}
-.caozuo {
-  /* height: 30px;
-  position: relative;
-  right: -40%; */
-}
 .hh {
   margin-top: 5px;
   border: rgb(0, 255, 42) solid 1px;
@@ -247,16 +235,13 @@ export default {
 .neirong {
   height: 100%;
   width: 100%;
-  /* position: relative; */
-  /* border:red solid 1px; */
-  /* overflow: auto; */
 }
 .row {
   margin-bottom: 10px;
 }
 .main-left {
   text-align: left;
-  padding: 5px;
+  padding: 10px 15px;
   position: relative;
   width: 80%;
   left: 0px;
@@ -273,20 +258,28 @@ export default {
   text-align: left;
   transform: translate(0, 0%);
 }
-.main-right button {
-  border-radius: 10px;
-}
 .extendfiled .top {
-  position: relative;
   background-color: rgb(0, 119, 255);
   height: 40px;
   line-height: 40px;
   font-size: 18px;
-}
-.extendfiled .top-left {
-  position: absolute;
-  left: 10px;
   color: #ffffff;
+  font-weight: bold;
+}
+.extendfiled .btnBox {
+  text-align: left;
+  margin: 20px 0 0 10px;
+}
+.extendfiled .btnBox span {
+  width: 200px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  display: inline-block;
+  color: #ffffff;
+  background-color: rgb(0, 119, 255);
+  font-size: 24px;
+  cursor: pointer;
 }
 .extendfiled .top-right {
   cursor: pointer;
@@ -306,26 +299,14 @@ export default {
 }
 .radivList {
   width: 100%;
-  /* left: 20px; */
+  margin-bottom: 10px;
   text-align: left;
 }
 .main {
   padding: 10px;
 }
 .btn {
-  margin-top: 5px;
-  display: inline-block;
-  margin-left: 0;
-  height: 25px;
-  width: 70px;
-  text-align: center;
-  line-height: 20px;
-}
-.main-right button {
-  width: 80px;
-  height: 30px;
-  font-size: 18px;
-  margin-right: 15px;
+  margin-top: 10px;
 }
 @import "../../../static/css/extend.css";
 </style>
