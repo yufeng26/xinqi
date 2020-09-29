@@ -52,10 +52,7 @@
           <li class="layui-nav-item" v-show="tousheceshiguanli">
             <a @click="goto('/testresult')" href="javascript:;">
               <img class="nosele" src="/static/img/测评管理默认.png" />
-              <img
-                class="select"
-                src="/static/img/测评管理选中.png"
-              />投射测验管理
+              <img class="select" src="/static/img/测评管理选中.png" />测评管理
             </a>
           </li>
           <li class="layui-nav-item" v-show="xunlianguanli">
@@ -72,18 +69,16 @@
             <dl class="layui-nav-child">
               <dd v-show="weijiganyu">
                 <a @click="goto('/deviceceping')" href="javascript:;"
-                  >危机干预</a
+                  >测评软件</a
                 >
               </dd>
               <dd v-show="shenxinfankui">
                 <a @click="goto('/devicebaisirui')" href="javascript:;"
-                  >身心反馈</a
+                  >百思锐</a
                 >
               </dd>
               <dd v-show="tuantishenxinfankui">
-                <a @click="goto('/devicejida')" href="javascript:;"
-                  >团体身心反馈</a
-                >
+                <a @click="goto('/devicejida')" href="javascript:;">击打</a>
               </dd>
               <dd v-show="nahan">
                 <a @click="goto('/devicenahan')" href="javascript:;"
