@@ -52,10 +52,7 @@
           <li class="layui-nav-item" v-show="tousheceshiguanli">
             <a @click="goto('/testresult')" href="javascript:;">
               <img class="nosele" src="/static/img/测评管理默认.png" />
-              <img
-                class="select"
-                src="/static/img/测评管理选中.png"
-              />投射测验管理
+              <img class="select" src="/static/img/测评管理选中.png" />测评管理
             </a>
           </li>
           <li class="layui-nav-item" v-show="xunlianguanli">
@@ -72,18 +69,16 @@
             <dl class="layui-nav-child">
               <dd v-show="weijiganyu">
                 <a @click="goto('/deviceceping')" href="javascript:;"
-                  >危机干预</a
+                  >测评软件</a
                 >
               </dd>
               <dd v-show="shenxinfankui">
                 <a @click="goto('/devicebaisirui')" href="javascript:;"
-                  >身心反馈</a
+                  >百思锐</a
                 >
               </dd>
               <dd v-show="tuantishenxinfankui">
-                <a @click="goto('/devicejida')" href="javascript:;"
-                  >团体身心反馈</a
-                >
+                <a @click="goto('/devicejida')" href="javascript:;">击打</a>
               </dd>
               <dd v-show="nahan">
                 <a @click="goto('/devicenahan')" href="javascript:;"
@@ -176,7 +171,7 @@ export default {
   data() {
     return {
       userinfo: {
-        a_RealName: ""
+        a_RealName: "",
       },
       adminID: "",
       viewPath: "",
@@ -200,7 +195,7 @@ export default {
       gerenzhongxin: true,
       xitongshezhi: true,
       shujubeifen: false,
-      kuozhanziduan: false
+      kuozhanziduan: false,
     };
   },
   created() {},
@@ -216,10 +211,10 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.adminID);
     param.append("ViewPath", "");
-    this.$SystemAPI.CheckAuthority(param, function(data) {
+    this.$SystemAPI.CheckAuthority(param, function (data) {
       if (data.Code == 1) {
-        that.menus = data.Result.filter(item => item.Usable);
-        const authorityArray = that.menus.map(item => {
+        that.menus = data.Result.filter((item) => item.Usable);
+        const authorityArray = that.menus.map((item) => {
           return item.ID;
         });
         if (
@@ -344,12 +339,12 @@ export default {
       loopFillGroupWithBlank: true,
       pagination: {
         el: ".swiper-pagination",
-        clickable: true
+        clickable: true,
       },
       navigation: {
         nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      }
+        prevEl: ".swiper-button-prev",
+      },
     });
   },
   methods: {
@@ -364,8 +359,8 @@ export default {
       localStorage.removeItem("IsCheck");
       this.$router.push("/login");
       this.$message.success("退出成功");
-    }
-  }
+    },
+  },
 };
 </script>
 
