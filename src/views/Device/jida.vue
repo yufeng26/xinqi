@@ -82,7 +82,11 @@
           @change="handleCheckAllChange"
         >
         </el-table-column>
-        <el-table-column label="压力评级" prop="TopicName" width="200px">
+        <el-table-column
+          label="压力评级"
+          prop="ConfidenceScoreLevel"
+          width="200px"
+        >
         </el-table-column>
 
         <el-table-column label="真实姓名" prop="UserName" width="200px">
@@ -252,13 +256,14 @@ export default {
     handleUserList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("AdminID", this.AdminID);
-      param.append("searchkey", this.searchkey);
-      param.append("groupID", this.valueId);
-      param.append("TopicID", this.topicID);
-      param.append("deviceID", this.deviceID);
-      param.append("pageNum", this.currentPage);
-      param.append("pageSize", this.pagesize);
+      // param.append("AdminID", this.AdminID);
+      param.append("searchkey", this.searchkey); //用户名
+      param.append("groupId", this.valueId); //分组
+      param.append("classify", this.topicID); //项目名称\主题名称
+      // param.append("deviceID", this.deviceID);
+      param.append("pageIndex", this.currentPage); //页码
+      param.append("pageSize", this.pagesize); //每页数量
+      param.append("reportType", 1); //1:击打、2:呐喊、3:拥抱、4:自信心
 
       this.userList = this.$TestResultAPI.getTestResultPageList(param, function(
         data
@@ -285,13 +290,14 @@ export default {
         .then(() => {
           let newarr = "";
           selectrows.forEach(function(value, index, array) {
-            newarr += value.ID + ",";
+            newarr += value.Id + ",";
           });
           if (newarr) {
             newarr = newarr.substring(0, newarr.lastIndexOf(","));
           }
+          console.log(newarr);
           var params = new URLSearchParams();
-          params.append("ID", newarr);
+          params.append("Id", newarr);
           this.$TestResultAPI.PLdelResult(params, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
@@ -332,7 +338,7 @@ export default {
       })
         .then(() => {
           let param = new URLSearchParams();
-          param.append("ID", row.ID);
+          param.append("Id", row.Id);
 
           this.$TestResultAPI.delResult(param, function(data) {
             if (data.Code == 1) {
@@ -345,7 +351,7 @@ export default {
     },
     //查看
     editRow(row) {
-      this.$router.push({ name: "xunlianreport", query: { ID: row.ID } });
+      this.$router.push({ name: "xunlianreport", query: { ID: row.Id } });
     },
     //导出
     exportDevice(row) {
