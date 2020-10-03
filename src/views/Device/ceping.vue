@@ -26,14 +26,18 @@
           </div>
         </el-col>
         <el-col :span="6">
-          <label class="searchLabel">量表名称：</label>
+          <label class="searchLabel">项目名称：</label>
           <div class="searchData">
-            <el-select :clearable="true" v-model="topicID" placeholder="请选择">
+            <el-select
+              :clearable="true"
+              v-model="topicName"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in topic"
                 :key="item.ID"
                 :label="item.tp_TopicName"
-                :value="item.ID"
+                :value="item.tp_TopicName"
               ></el-option>
             </el-select>
           </div>
@@ -134,13 +138,13 @@
           @change="handleCheckAllChange"
         ></el-table-column>
         <el-table-column
-          label="量表名称"
-          prop="TopicName"
+          label="项目名称"
+          prop="TitleName"
           width="250px"
         ></el-table-column>
         <el-table-column
           label="真实姓名"
-          prop="UserName"
+          prop="RealName"
           width="250px"
         ></el-table-column>
 
@@ -209,7 +213,7 @@ export default {
       multipleSelection: [],
       searchkey: "",
       clearable: { type: Boolean, default: true },
-      topicID: "",
+      topicName: "",
       deviceID: "5abb6bdbba4a11e99a4f00cfe04d1a01",
       currentPage: 1, //初始页
       pagesize: 10, //    每页的数据
@@ -227,7 +231,7 @@ export default {
       },
       // 选项列表（必选）
       list: [],
-      topic: [],
+      topic: [], // 项目列表
       datelist: [],
       AdminID: "",
       zhuanyeId: "",
@@ -324,16 +328,16 @@ export default {
       this.currentPage = currentPage;
       this.handleUserList();
     },
-    //分页
+    //表格分页
     handleUserList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("AdminID", this.AdminID);
-      param.append("searchkey", this.searchkey);
-      param.append("groupID", this.valueId);
-      param.append("TopicID", this.topicID);
-      param.append("deviceID", this.deviceID);
-      param.append("pageNum", this.currentPage);
+      // param.append("AdminID", this.AdminID);
+      param.append("userName", this.searchkey);
+      param.append("groupId", this.valueId);
+      param.append("titleName", this.topicName);
+      param.append("reportType", 1); // 1 表示测评软件 2 表示测评管理
+      param.append("pageIndex", this.currentPage);
       param.append("pageSize", this.pagesize);
 
       this.userList = this.$TestResultAPI.getTestResultPageList(
@@ -389,7 +393,7 @@ export default {
         }
       });
     },
-    //获取主题下拉框
+    //获取主题项目下拉框
     getTopicList() {
       let v = this;
       let param = new URLSearchParams();
@@ -422,8 +426,7 @@ export default {
     },
     //查看
     editRow(row) {
-      this.$router.push({ name: "cepingreport", query: { ID: row.ID } });
-      //  this.$router.push({name:'details',query:{ID:row.ID}})
+      this.$router.push({ name: "cepingreport", query: { ID: row.Id } });
     },
     tuantibaogao() {
       this.$router.push({ name: "tuanbaogao" });
