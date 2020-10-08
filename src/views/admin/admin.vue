@@ -84,6 +84,22 @@
       ></el-pagination>
     </div>
     <div id="test1"></div>
+    <el-dialog
+      title="提示"
+      :visible.sync="centerDialogVisible"
+      :modal="false"
+      custom-class="password"
+      width="20%"
+      center
+    >
+      <p>密码已成功重置为：</p>
+      <p>123456</p>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="centerDialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -98,6 +114,7 @@ export default {
       totalRecords: 0,
       AdminID: "",
       a_Authorization: "",
+      centerDialogVisible: false,
       menus: [],
       menuModel: {
         add: "",
@@ -235,7 +252,8 @@ export default {
 
           this.$AccountAPI.ResetPWD(param, function(data) {
             if (data.Code == 1) {
-              v.$message.success(data.Msg);
+              // v.$message.success(data.Msg);
+              v.centerDialogVisible = true;
               v.handleUserList();
             }
           });
