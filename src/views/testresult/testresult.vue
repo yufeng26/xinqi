@@ -77,8 +77,7 @@
           @change="handleCheckAllChange"
         >
         </el-table-column>
-        <el-table-column label="中学生投射测验" prop="TopicName">
-        </el-table-column>
+        <el-table-column label="项目名称" prop="TopicName"> </el-table-column>
         <el-table-column label="真实姓名" prop="UserName"> </el-table-column>
         <el-table-column label="总分" prop="Score"> </el-table-column>
         <el-table-column
