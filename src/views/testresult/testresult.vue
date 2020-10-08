@@ -39,70 +39,18 @@
             </el-select>
           </div>
         </el-col>
-        <el-col :span="6">
-          <label class="searchLabel">专业：</label>
-          <div class="searchData">
-            <el-select
-              :clearable="true"
-              v-model="zhuanyeId"
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in zhuanye"
-                :key="item.ID"
-                :label="item.Name"
-                :value="item.ID"
-              ></el-option>
-            </el-select>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row class="mtop15">
-        <el-col :span="6">
-          <label class="searchLabel">性别：</label>
-          <div class="searchData">
-            <el-select
-              :clearable="true"
-              v-model="xingbieID"
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in xingbie"
-                :key="item.ID"
-                :label="item.Name"
-                :value="item.ID"
-              ></el-option>
-            </el-select>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <label class="searchLabel">出生年月：</label>
-          <div class="searchData">
-            <el-date-picker
-              unlink-panels
-              style="width: 360px"
-              v-model="datelist"
-              @input="dateChange"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始时间"
-              end-placeholder="截止日期"
-            >
-              clearable
-            </el-date-picker>
-          </div>
-        </el-col>
         <el-col :span="3" class="textRight">
           <el-button type="primary" @click="handleUserList" class="secachBtn">
             开始检索
           </el-button>
         </el-col>
       </el-row>
+      <el-row class="mtop15"> </el-row>
     </div>
     <div class="actionBox">
-      <el-button type="primary" @click="tuantibaogao" class="secachBtn">
+      <!-- <el-button type="primary" @click="tuantibaogao" class="secachBtn">
         团体报告
-      </el-button>
+      </el-button> -->
       <el-button
         style="background: #01c8e7;"
         type="primary"
@@ -428,14 +376,10 @@ export default {
       let param = new URLSearchParams();
       let startDate = this.$moment(this.datelist[0]).format("YYYY-MM-DD") || "";
       let endDate = this.$moment(this.datelist[1]).format("YYYY-MM-DD") || "";
-      param.append("searchkey", this.searchkey);
-      param.append("groupID", this.valueId);
-      param.append("TopicID", this.topicID);
-      param.append("deviceID", this.deviceid);
-      param.append("AdminID", this.AdminID);
-      param.append("startDate", startDate);
-      param.append("endDate", endDate);
-      param.append("pageNum", this.currentPage);
+      param.append("userName", this.searchkey);
+      param.append("groupId", this.valueId);
+      param.append("titleName", this.topicID);
+      param.append("pageIndex", this.currentPage);
       param.append("pageSize", this.pagesize);
       this.userList = this.$TestResultAPI.getTestResultPageList(param, function(
         data
