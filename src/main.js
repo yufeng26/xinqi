@@ -6,6 +6,11 @@ import Router from "vue-router";
 import moment from "moment";
 import "babel-polyfill";
 import "url-search-params-polyfill";
+import Echarts from "echarts";
+
+// 全局方法挂载
+Vue.prototype.echarts = Echarts;
+Vue.use(Echarts);
 // Vue.filter("convertDate", function(value) {
 //   return Moment(value).format("YYYY/MM/DD HH:mm:ss");
 // });
@@ -43,8 +48,8 @@ import "element-ui/lib/theme-chalk/index.css";
 //公共样式
 import utils from "./api/utils.js";
 Vue.prototype.$utils = utils;
-import echarts from "echarts";
-Vue.prototype.$echarts = echarts;
+// import echarts from "echarts";
+// Vue.prototype.$echarts = echarts;
 //引入接口
 import UserAPI from "./api/UserAPI.js";
 Vue.prototype.$UserAPI = UserAPI;

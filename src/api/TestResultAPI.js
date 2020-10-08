@@ -7,7 +7,7 @@ let baseurl = "http://yun.bnuxq.com:9613/api";
 // };
 // 测评管理新接口
 const getTestResultPageList = (params, success) => {
-  return ajax(baseurl + "/ReportOption/GetReportResultList", params, success);
+  return ajax(baseurl + "/reportOption/GetCepingList", params, success);
 };
 const getTopicList = (params, success) => {
   return ajax(baseurl + "/TestManager/GetTopciByDeviceID", params, success);
