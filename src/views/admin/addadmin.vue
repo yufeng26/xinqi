@@ -38,7 +38,16 @@
         <el-col :span="8">
           <label class="inputLabel">性 别：</label>
           <div class="inputData">
-            <el-input v-model="admininfo.a_Sex"></el-input>
+            <!-- <el-input v-model="admininfo.a_Sex"></el-input> -->
+            <el-select v-model="admininfo.a_Sex" placeholder="请选择">
+              <el-option
+                v-for="item in optionsSex"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
           </div>
         </el-col>
       </el-row>
@@ -109,6 +118,16 @@ export default {
     return {
       fieldList: [],
       extendList: [],
+      optionsSex: [
+        {
+          value: "男",
+          label: "男"
+        },
+        {
+          value: "女",
+          label: "女"
+        }
+      ],
       admininfo: {
         ID: "",
         a_UserName: "",
