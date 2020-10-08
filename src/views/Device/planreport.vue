@@ -1,10 +1,10 @@
 <template>
   <div class="bigbox">
     <div class="report">
-      <h3 style="color: #555;background: #fff;">基本信息</h3>
+      <h3 style="color: #555; background: #fff">基本信息</h3>
       <div
         class="tab"
-        style="color: rgb(85, 85, 85); background: rgb(255, 255, 255);"
+        style="color: rgb(85, 85, 85); background: rgb(255, 255, 255)"
       >
         <table class="tabs">
           <tr>
@@ -42,14 +42,14 @@
       <h3>评估结果</h3>
       <div
         class="tab"
-        style="color: rgb(85, 85, 85); background: rgb(255, 255, 255);"
+        style="color: rgb(85, 85, 85); background: rgb(255, 255, 255)"
       >
         <table class="tabd">
           <img :src="testresult.ReportImg" />
         </table>
       </div>
     </div>
-    <div class="supervision" style="color: #555;background: #fff;">
+    <div class="supervision" style="color: #555; background: #fff">
       <h3>评估结果分析</h3>
       <div class="yyjl">
         <div class="zxmess">
@@ -69,11 +69,11 @@
       </div>
     </div>
 
-    <div style="display: flex;justify-content: center;margin-top: 80px;">
+    <div style="display: flex; justify-content: center; margin-top: 80px">
       <button
         type="button"
         @click="exportDevice(testresult.ID)"
-        style="background: #01c8e7;"
+        style="background: #01c8e7"
         class="layui-btn layui-btn-lg"
       >
         导出
@@ -104,8 +104,8 @@ export default {
         Suggestion: "",
         Result: "",
         Comment,
-        ReportImg: ""
-      }
+        ReportImg: "",
+      },
     };
   },
   methods: {
@@ -113,11 +113,10 @@ export default {
       let v = this;
       let params = new URLSearchParams();
       params.append("Id", this.testresult.ID);
-      this.$TestResultAPI.getResultDetail(params, function(data) {
+      this.$TestResultAPI.getResultDetail(params, function (data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           v.testresult.planschemelist = combineYd(v.testresult.planschemelist);
-
           console.log(v.testresult.planschemelist);
         }
       });
@@ -146,13 +145,13 @@ export default {
     exportDevice(row) {
       console.log(row);
       this.$PlanSchemeAPI.ReportResult(row);
-    }
+    },
   },
   mounted() {
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
   },
-  computed: {}
+  computed: {},
 };
 </script>
 
