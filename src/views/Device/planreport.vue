@@ -113,7 +113,8 @@ export default {
       let v = this;
       let params = new URLSearchParams();
       params.append("Id", this.testresult.ID);
-      this.$TestResultAPI.getResultDetail(params, function (data) {
+      // 百思锐详情
+      this.$ReportOptionAPI.GetBaisiruiReport(params, function (data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           v.testresult.planschemelist = combineYd(v.testresult.planschemelist);

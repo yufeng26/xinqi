@@ -18,6 +18,7 @@ import Planscheme from "@/views/planscheme/planscheme";
 import PlanReport from "@/views/planscheme/planschemereport";
 import Ceping from "@/views/Device/ceping";
 import CepingReport from "@/views/Device/cepingreport";
+import NahanReport from "@/views/Device/nahanreport";
 import XunlianReport from "@/views/Device/planreport";
 import Baisirui from "@/views/Device/baisirui";
 import Jida from "@/views/Device/jida";
@@ -193,6 +194,14 @@ export default [
         path: "/deviceceping",
         name: "deviceceping",
         component: Ceping,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: "/nahanreport",
+        name: "nahanreport",
+        component: NahanReport,
         meta: {
           requireAuth: true
         }

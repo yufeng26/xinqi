@@ -346,7 +346,7 @@ export default {
     },
     //查看
     editRow(row) {
-      this.$router.push({ name: "xunlianreport", query: { ID: row.Id } });
+      this.$router.push({ name: "nahanreport", query: { ID: row.Id } });
     },
     //导出
     exportDevice(row) {
