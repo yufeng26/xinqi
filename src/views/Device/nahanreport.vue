@@ -123,7 +123,7 @@ export default {
       let v = this;
       let params = new URLSearchParams();
       params.append("id", this.testresult.ID);
-      this.$TestResultAPI.getResultDetail(params, function (data) {
+      this.$TestResultAPI.getReportResult(params, function (data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           console.log(v.testresult);

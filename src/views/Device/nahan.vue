@@ -260,15 +260,14 @@ export default {
       param.append("pageSize", this.pagesize); //每页数量
       param.append("reportType", 2); //1:击打、2:呐喊、3:拥抱、4:自信心
 
-      this.userList = this.$TestResultAPI.getTestResultPageList(
-        param,
-        function (data) {
-          if (data.Code == 1) {
-            v.userList = data.Result.Data;
-            v.totalRecords = data.Result.totalRecords;
-          }
+      this.userList = this.$TestResultAPI.getReportResultList(param, function (
+        data
+      ) {
+        if (data.Code == 1) {
+          v.userList = data.Result.Data;
+          v.totalRecords = data.Result.totalRecords;
         }
-      );
+      });
     },
     // 取值
     getValue(value) {
