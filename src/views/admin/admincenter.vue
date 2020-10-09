@@ -50,7 +50,7 @@
               value-format="yyyy-MM-dd"
               placeholder="选择日期"
               :picker-options="pickerOptions0"
-              style="width:100%"
+              style="width: 100%"
             >
             </el-date-picker>
           </div>
@@ -141,19 +141,19 @@ export default {
         a_Email: "",
         a_Produce: "",
         a_CreateTime: null,
-        a_RoleID: "00df5597ba4e11e99a4f00cfe04d1a01"
+        a_RoleID: "00df5597ba4e11e99a4f00cfe04d1a01",
       },
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
-        }
+        },
       },
       navlist: [{ text: "个人资料" }, { text: "修改密码" }],
-      changeRed: 0
+      changeRed: 0,
     };
   },
   methods: {
-    reds: function(index) {
+    reds: function (index) {
       this.changeRed = index;
     },
     selectTime(val) {
@@ -164,7 +164,7 @@ export default {
       let v = this;
       let param = new URLSearchParams();
       param.append("UserID", this.admininfo.ID);
-      this.$AdminAPI.ShowAdmin(param, function(data) {
+      this.$AdminAPI.ShowAdmin(param, function (data) {
         if (data.Code == 1) {
           v.admininfo = data.Result;
         }
@@ -211,7 +211,7 @@ export default {
       param.append("a_Produce", this.admininfo.a_Produce);
       param.append("a_CreateTime", this.admininfo.a_CreateTime);
       param.append("a_RoleID", this.admininfo.a_RoleID);
-      this.$AdminAPI.AddAdmin(param, function(data) {
+      this.$AdminAPI.AddAdmin(param, function (data) {
         if (data.Code == 1) {
           v.$message.success("修改成功!");
         } else {
@@ -220,9 +220,9 @@ export default {
       });
     },
     //修改
-    uppass() {}
+    uppass() {},
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 <style scoped>

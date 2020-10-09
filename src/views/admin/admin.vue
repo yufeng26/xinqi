@@ -9,7 +9,7 @@
       </el-row>
     </div>
     <div class="searchData mtop10">
-      <el-table style="width: 100%;" :data="userList">
+      <el-table style="width: 100%" :data="userList">
         <!-- <el-table-column type="index"></el-table-column> -->
         <el-table-column
           label="真实姓名"
@@ -130,8 +130,8 @@ export default {
         fenpei: "",
         fenpeiUsable: false,
         delete: "",
-        deleteUsable: false
-      }
+        deleteUsable: false,
+      },
     };
   },
   created() {},
@@ -143,7 +143,7 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", this.viewPath);
-    this.$SystemAPI.CheckAuthority(param, function(data) {
+    this.$SystemAPI.CheckAuthority(param, function (data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
@@ -160,7 +160,7 @@ export default {
     },
     setmenuModel(item) {
       let that = this;
-      item.forEach(c => {
+      item.forEach((c) => {
         if (c.ID == 9) {
           that.menuModel.add = c.MenuName;
           that.menuModel.addUsable = c.Usable;
@@ -203,7 +203,7 @@ export default {
       param.append("pageNum", this.currentPage);
       param.append("pageSize", this.pagesize);
       param.append("AdminID", this.AdminID);
-      this.userList = this.$AdminAPI.getAdminList(param, function(data) {
+      this.userList = this.$AdminAPI.getAdminList(param, function (data) {
         if (data.Code == 1) {
           v.userList = data.Result.Data;
           v.totalRecords = data.Result.totalRecords;
@@ -216,13 +216,13 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("ID", row.ID);
 
-          this.$AdminAPI.DeleteUser(param, function(data) {
+          this.$AdminAPI.DeleteUser(param, function (data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -235,7 +235,7 @@ export default {
     editRow(row, issave) {
       this.$router.push({
         name: "editadmin",
-        query: { ID: row.ID, issave: issave }
+        query: { ID: row.ID, issave: issave },
       });
     },
     //重置密码
@@ -244,13 +244,13 @@ export default {
       this.$confirm("确认要重置密码吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("ID", row.ID);
 
-          this.$AccountAPI.ResetPWD(param, function(data) {
+          this.$AccountAPI.ResetPWD(param, function (data) {
             if (data.Code == 1) {
               // v.$message.success(data.Msg);
               v.centerDialogVisible = true;
@@ -266,16 +266,16 @@ export default {
       //先跳转到用户列表 然后进行分配
       this.$router.push({
         name: "AllocationUser",
-        query: { ID: row.ID, a_Authorization: row.a_Authorization }
+        query: { ID: row.ID, a_Authorization: row.a_Authorization },
       });
     },
     fenpeiquanxian(row) {
       this.$router.push({
         name: "allocation",
-        query: { ID: row.ID, a_Authorization: row.a_Authorization }
+        query: { ID: row.ID, a_Authorization: row.a_Authorization },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
