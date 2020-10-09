@@ -90,9 +90,37 @@
     </div>
     <div class="info_progress">
       <el-row>
-        <el-col :span="4">3123434</el-col>
-        <el-col :span="20">656765</el-col>
+        <el-col :span="2">
+          <strong>训练进度:</strong>
+        </el-col>
+        <el-col :span="16">
+          <el-progress :percentage="50" color="#ed4c45"></el-progress>
+        </el-col>
+        <el-col :span="2">
+          <strong>（已完成）</strong>
+        </el-col>
       </el-row>
+    </div>
+    <div class="info_table">
+      <el-table
+        :data="tableData"
+        border
+        style="width: 100%"
+        :header-cell-style="{ background: '#ccc', color: '#333' }"
+      >
+        <el-table-column align="center" prop="xiangmu" label="训练项目">
+        </el-table-column>
+        <el-table-column align="center" prop="shebei" label="训练设备">
+        </el-table-column>
+        <el-table-column align="center" prop="tuijianliang" label="推荐训练量">
+        </el-table-column>
+        <el-table-column align="center" prop="yixunlian" label="已训练">
+        </el-table-column>
+        <el-table-column align="center" prop="xiaoguo" label="训练效果">
+        </el-table-column>
+        <el-table-column align="center" prop="shijian" label="训练时间">
+        </el-table-column>
+      </el-table>
     </div>
   </div>
 </template>
@@ -105,6 +133,16 @@ export default {
     return {
       completedSteps: 78,
       totalSteps: 100,
+      tableData: [
+        {
+          xiangmu: "工作学习压力",
+          shebei: "智能呐喊宣泄系统",
+          tuijianliang: 2,
+          yixunlian: 2,
+          xiaoguo: "这次宣泄不是很成功，加油！",
+          shijian: "2019/07/19 10:40"
+        }
+      ],
       testresult: {
         ID: "",
         UserName: "",
@@ -114,8 +152,8 @@ export default {
         Sex: "",
         Birthday: "",
         ReportTime: "",
-        ReportHour: "",
-      },
+        ReportHour: ""
+      }
     };
   },
   methods: {
@@ -123,7 +161,7 @@ export default {
       let v = this;
       let params = new URLSearchParams();
       params.append("id", this.testresult.ID);
-      this.$TestResultAPI.getReportResult(params, function (data) {
+      this.$TestResultAPI.getReportResult(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           console.log(v.testresult);
@@ -141,7 +179,7 @@ export default {
       document.body.appendChild(elt);
       elt.click();
       document.body.removeChild(elt);
-    },
+    }
   },
   mounted() {
     // 获取路由参数，回去详情数据
@@ -150,8 +188,8 @@ export default {
   },
   computed: {},
   components: {
-    RadialProgressBar,
-  },
+    RadialProgressBar
+  }
 };
 </script>
 
@@ -216,5 +254,14 @@ export default {
   margin-bottom: 5px;
   font-size: 12px;
   color: #fff;
+}
+.info_progress {
+  margin: 20px auto;
+}
+.info_progress strong {
+  font-size: 20px;
+}
+.info_progress .el-progress--line {
+  margin-top: 8px;
 }
 </style>
