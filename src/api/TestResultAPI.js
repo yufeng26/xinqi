@@ -5,6 +5,14 @@ let baseurl = "http://yun.bnuxq.com:9613/api";
 // const getTestResultPageList = (params, success) => {
 //   return ajax(baseurl + "/TestManager/GetTestResultPageList", params, success);
 // };
+//击打、呐喊、拥抱、自信息列表信息
+const getReportResultList = (params, success) => {
+  return ajax(baseurl + "/ReportOption/GetReportResultList", params, success);
+};
+//击打、呐喊、拥抱、自信息详情信息
+const getReportResult = (params, success) => {
+  return ajax(baseurl + "/ReportOption/GetReportResult", params, success);
+};
 // 测评管理新接口
 const getTestResultPageList = (params, success) => {
   return ajax(baseurl + "/reportOption/GetCepingList", params, success);
@@ -21,10 +29,10 @@ const getResultDetail = (params, success) => {
   return ajax(baseurl + "/reportOption/GetTestReport", params, success);
 };
 const delResult = (params, success) => {
-  return ajax(baseurl + "/ReportOption/DelReport", params, success);
+  return ajax(baseurl + "/ReportOption/DelTestReport", params, success);
 };
 const PLdelResult = (params, success) => {
-  return ajax(baseurl + "/ReportOption/DelReport", params, success);
+  return ajax(baseurl + "/ReportOption/DelTestReport", params, success);
 };
 const ReportResult = params => {
   return (location.href = baseurl + "/TestManager/ReportWord/" + params);
@@ -34,6 +42,8 @@ const PLReportResult = params => {
     baseurl + "/TestManager/ReportWordBatch/" + encodeURIComponent(params));
 };
 export default {
+  getReportResultList,
+  getReportResult,
   getTestResultPageList,
   getTopicList,
   delResult,

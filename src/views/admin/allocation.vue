@@ -11,7 +11,20 @@
         <li v-for="(yiji, index) of menus" :key="index">
           <P class="yiji">{{ yiji.MenuName }}</P>
           <div v-for="erji in yiji.erji" :key="erji.ID">
-            <p class="lined">
+            <p
+              :class="{
+                lined:
+                  erji.ID !== 23 &&
+                  erji.ID !== 27 &&
+                  erji.ID !== 56 &&
+                  erji.ID !== 59,
+                mtop20:
+                  erji.ID === 23 ||
+                  erji.ID === 27 ||
+                  erji.ID === 56 ||
+                  erji.ID === 59
+              }"
+            >
               <span></span>
               {{ erji.MenuName }}
             </p>

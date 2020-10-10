@@ -1,8 +1,6 @@
 <template>
   <div class="formPage">
-    <div class="pageTille">
-      创建管理员
-    </div>
+    <div class="pageTille">创建管理员</div>
     <div class="inputBox">
       <p class="notice">*为必填信息</p>
       <el-row class="mtop15">
@@ -38,7 +36,16 @@
         <el-col :span="8">
           <label class="inputLabel">性 别：</label>
           <div class="inputData">
-            <el-input v-model="admininfo.a_Sex"></el-input>
+            <!-- <el-input v-model="admininfo.a_Sex"></el-input> -->
+            <el-select v-model="admininfo.a_Sex" placeholder="请选择">
+              <el-option
+                v-for="item in optionsSex"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
           </div>
         </el-col>
       </el-row>
@@ -53,7 +60,7 @@
               value-format="yyyy-MM-dd"
               placeholder="选择日期"
               :picker-options="pickerOptions0"
-              style="width:100%"
+              style="width: 100%"
             >
             </el-date-picker>
           </div>
@@ -109,6 +116,16 @@ export default {
     return {
       fieldList: [],
       extendList: [],
+      optionsSex: [
+        {
+          value: "男",
+          label: "男",
+        },
+        {
+          value: "女",
+          label: "女",
+        },
+      ],
       admininfo: {
         ID: "",
         a_UserName: "",
@@ -123,13 +140,13 @@ export default {
         a_RoleID: "", //此处的角色id是当前登录用户的下一级的角色，但是目前还没有根数据库进行关联，这里要注意
         a_AdminID: "",
         a_Authorization: "",
-        a_Extend: ""
+        a_Extend: "",
       },
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
-        }
-      }
+        },
+      },
     };
   },
   mounted() {
@@ -176,7 +193,9 @@ export default {
         return;
       }
       if (!this.$utils.checkUsername(this.admininfo.a_UserName)) {
-        this.$message.warning("用户名格式不正确!");
+        this.$message.warning(
+          "用户名格式不正确！需要以字母开头5到20位字母、数字或下划线组成"
+        );
         return;
       }
       if (!this.admininfo.a_Password) {
@@ -222,7 +241,7 @@ export default {
       param.append("a_AdminID", this.admininfo.a_AdminID);
       param.append("a_Authorization", this.admininfo.a_Authorization);
       // param.append('a_Extend',this.admininfo.a_Extend)
-      this.$AdminAPI.AddAdmin(param, function(data) {
+      this.$AdminAPI.AddAdmin(param, function (data) {
         if (data.Code == 1) {
           v.$set(v.admininfo, "ID", "");
           v.$set(v.admininfo, "a_UserName", "");
@@ -238,12 +257,13 @@ export default {
           //   item.fieldValue=""
           // })
           v.$message.success("添加成功!");
+          v.$router.go(-1);
         } else {
           v.$message.error("添加失败!" + data.Msg);
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,9 +1,7 @@
 <template>
   <div class="formPage">
     <!-- 内容主体区域 -->
-    <div class="pageTille">
-      个人资料
-    </div>
+    <div class="pageTille">个人资料</div>
     <div class="inputBox">
       <el-row class="mtop15">
         <el-col :span="8">
@@ -12,6 +10,8 @@
             <el-input
               v-model="admininfo.a_UserName"
               placeholder="请输入用户名"
+              :disabled="!btnvisible"
+              btnvisible
             ></el-input>
           </div>
         </el-col>
@@ -21,6 +21,7 @@
             <el-input
               v-model="admininfo.a_RealName"
               placeholder="请输入真实姓名"
+              :disabled="!btnvisible"
             ></el-input>
           </div>
         </el-col>
@@ -29,7 +30,23 @@
         <el-col :span="8">
           <label class="inputLabel">性 别：</label>
           <div class="inputData">
-            <el-input v-model="admininfo.a_Sex"></el-input>
+            <!-- <el-input v-model="admininfo.a_Sex"></el-input> -->
+            <el-select
+              :disabled="!btnvisible"
+              v-model="admininfo.a_Sex"
+              :style="{
+                width: '100%',
+              }"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in optionsSex"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
           </div>
         </el-col>
         <el-col :span="8">
@@ -37,12 +54,13 @@
           <div class="inputData">
             <el-date-picker
               v-model="admininfo.a_Birthday"
+              :disabled="!btnvisible"
               type="date"
               @change="selectTime"
               value-format="yyyy-MM-dd"
               placeholder="选择日期"
               :picker-options="pickerOptions0"
-              style="width:100%"
+              style="width: 100%"
             >
             </el-date-picker>
           </div>
@@ -52,13 +70,19 @@
         <el-col :span="8">
           <label class="inputLabel">电 话：</label>
           <div class="inputData">
-            <el-input v-model="admininfo.a_Telphone"></el-input>
+            <el-input
+              :disabled="!btnvisible"
+              v-model="admininfo.a_Telphone"
+            ></el-input>
           </div>
         </el-col>
         <el-col :span="8">
           <label class="inputLabel">邮 箱：</label>
           <div class="inputData">
-            <el-input v-model="admininfo.a_Email"></el-input>
+            <el-input
+              :disabled="!btnvisible"
+              v-model="admininfo.a_Email"
+            ></el-input>
           </div>
         </el-col>
       </el-row>
@@ -68,6 +92,7 @@
           <div class="inputData">
             <el-input
               placeholder="请输入内容"
+              :disabled="!btnvisible"
               v-model="admininfo.a_Produce"
               type="textarea"
               rows="4"
@@ -79,7 +104,12 @@
       </el-row>
       <el-row class="mtop15">
         <div class="btnGroup">
-          <el-button type="primary" @click="addadminhandle" class="InputBtn">
+          <el-button
+            v-if="btnvisible"
+            type="primary"
+            @click="addadminhandle"
+            class="InputBtn"
+          >
             确定
           </el-button>
           <el-button type="success" @click="goback" class="InputBtn">
@@ -98,6 +128,16 @@ export default {
     return {
       fieldList: [],
       extendList: [],
+      optionsSex: [
+        {
+          value: "男",
+          label: "男",
+        },
+        {
+          value: "女",
+          label: "女",
+        },
+      ],
       admininfo: {
         ID: "",
         a_UserName: "",
@@ -110,14 +150,14 @@ export default {
         a_Produce: "",
         a_CreateTime: null,
         a_RoleID: "",
-        a_Extend: ""
+        a_Extend: "",
       },
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
-        }
+        },
       },
-      btnvisible: false
+      btnvisible: false,
     };
   },
   mounted() {
@@ -140,7 +180,7 @@ export default {
       let x = this;
       let param = new URLSearchParams();
       param.append("UserID", this.admininfo.ID);
-      this.$AdminAPI.ShowAdmin(param, function(data) {
+      this.$AdminAPI.ShowAdmin(param, function (data) {
         if (data.Code == 1) {
           v.admininfo = data.Result;
         }
@@ -227,15 +267,16 @@ export default {
       // param.append('a_Produce',this.admininfo.a_Produce)
       // param.append('a_CreateTime',this.admininfo.a_CreateTime)
       // param.append('a_RoleID',this.admininfo.a_RoleID)
-      this.$AdminAPI.AddAdmin(this.admininfo, function(data) {
+      this.$AdminAPI.AddAdmin(this.admininfo, function (data) {
         if (data.Code == 1) {
           v.$message.success("修改成功!");
+          v.$router.go(-1);
         } else {
           v.$message.error("修改失败!" + data.Msg);
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

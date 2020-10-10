@@ -413,7 +413,7 @@ export default {
       })
         .then(() => {
           let param = new URLSearchParams();
-          param.append("ID", row.ID);
+          param.append("Id", row.Id);
 
           this.$TestResultAPI.delResult(param, function (data) {
             if (data.Code == 1) {
@@ -450,7 +450,7 @@ export default {
       var selectrows = this.$refs.multipleTable.selection;
       let newarr = "";
       selectrows.forEach(function (value, index, array) {
-        newarr += value.ID + ",";
+        newarr += value.Id + ",";
       });
       if (newarr) {
         newarr = newarr.substring(0, newarr.lastIndexOf(","));

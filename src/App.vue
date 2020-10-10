@@ -37,4 +37,12 @@ export default {
 .mbottom20 {
   margin-bottom: 20px;
 }
+.password .el-dialog__header {
+  background-color: #409eff;
+}
+.password .el-dialog__body p {
+  text-align: center;
+  font-weight: bold;
+  text-align: 26px;
+}
 </style>
