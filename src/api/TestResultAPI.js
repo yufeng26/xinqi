@@ -34,6 +34,7 @@ const getNameList = (params, success) => {
 const getResultDetail = (params, success) => {
   return ajax(baseurl + "/reportOption/GetTestReport", params, success);
 };
+
 const delResult = (params, success) => {
   return ajax(baseurl + "/ReportOption/DelTestReport", params, success);
 };

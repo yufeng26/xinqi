@@ -35,7 +35,7 @@
     </div>
     <div class="actionBox">
       <el-button
-        style="background: #01c8e7;"
+        style="background: #01c8e7"
         type="primary"
         v-if="menuModel.exportUsable"
         class="secachBtn"
@@ -63,9 +63,9 @@
 
         <el-table-column label="真实姓名" prop="UserName" width="200px">
         </el-table-column>
-        <el-table-column label="训练进度" prop="progress" width="200px">
+        <el-table-column label="训练进度" prop="Progress" width="200px">
         </el-table-column>
-        <el-table-column label="训练状态" prop="palanstate" width="200px">
+        <el-table-column label="训练状态" prop="StatusView" width="200px">
         </el-table-column>
         <el-table-column
           label="创建时间"
@@ -136,7 +136,7 @@ export default {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children"
+        children: "children",
         // disabled:true
       },
       //用户组数组
@@ -148,12 +148,12 @@ export default {
         export: "",
         exportUsable: false,
         delete: "",
-        deleteUsable: false
-      }
+        deleteUsable: false,
+      },
     };
   },
   components: {
-    SelectTree
+    SelectTree,
   },
   mounted() {
     this.AdminID = this.$store.state.userinfo.ID;
@@ -162,7 +162,7 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", this.viewPath);
-    this.$SystemAPI.CheckAuthority(param, function(data) {
+    this.$SystemAPI.CheckAuthority(param, function (data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
@@ -176,7 +176,7 @@ export default {
   methods: {
     setmenuModel(item) {
       let that = this;
-      item.forEach(c => {
+      item.forEach((c) => {
         if (c.ID == 29) {
           that.menuModel.look = c.MenuName;
           that.menuModel.lookUsable = c.Usable;
@@ -199,7 +199,7 @@ export default {
       let v = this;
 
       let param = new URLSearchParams();
-      this.$UserAPI.getUserGroupList(param, function(data) {
+      this.$UserAPI.getUserGroupList(param, function (data) {
         if (data.Code == 1) {
           v.list = data.Result;
         }
@@ -226,9 +226,7 @@ export default {
       param.append("deviceID", this.deviceid);
       param.append("pageNum", this.currentPage);
       param.append("pageSize", this.pagesize);
-      this.userList = this.$PlanSchemeAPI.getPlanSchemePageList(param, function(
-        data
-      ) {
+      this.userList = this.$PlanSchemeAPI.getTrainList(param, function (data) {
         if (data.Code == 1) {
           v.userList = data.Result.Data;
           v.totalRecords = data.Result.totalRecords;
@@ -242,19 +240,19 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function(value, index, array) {
-            newarr += value.ID + ",";
+          selectrows.forEach(function (value, index, array) {
+            newarr += value.Id + ",";
           });
           if (newarr) {
             newarr = newarr.substring(0, newarr.lastIndexOf(","));
           }
           var params = new URLSearchParams();
-          params.append("ID", newarr);
-          this.$PlanSchemeAPI.PLdelResult(params, function(data) {
+          params.append("id", newarr);
+          this.$PlanSchemeAPI.PLdelResult(params, function (data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -269,13 +267,13 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           let param = new URLSearchParams();
-          param.append("ID", row.ID);
+          param.append("id", row.Id);
 
-          this.$PlanSchemeAPI.delResult(param, function(data) {
+          this.$PlanSchemeAPI.delResult(param, function (data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -285,7 +283,7 @@ export default {
         .catch(() => {});
     },
     editRow(row) {
-      this.$router.push({ name: "planreport", query: { ID: row.ID } });
+      this.$router.push({ name: "planreport", query: { ID: row.Id } });
     },
     // 格式化时间
     dateFormat(row, column, cellValue, index) {
@@ -293,19 +291,21 @@ export default {
         return "";
       }
       return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
-    }
+    },
   },
   computed: {
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
-      return cloneData.filter(father => {
+      return cloneData.filter((father) => {
         // 循环所有项，并添加children属性
-        let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
+        let branchArr = cloneData.filter(
+          (child) => father.id == child.parentId
+        ); // 返回每一项的子级数组
         branchArr.length > 0 ? (father.children = branchArr) : ""; //给父级添加一个children属性，并赋值
         return father.parentId == 0; //返回第一层
       });
-    } /* 转树形数据 */
-  }
+    } /* 转树形数据 */,
+  },
 };
 </script>
 
