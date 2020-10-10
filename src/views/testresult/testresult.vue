@@ -472,7 +472,7 @@ export default {
     },
     //查看
     editRow(row) {
-      this.$router.push({ name: "testreport", query: { ID: row.ID } });
+      this.$router.push({ name: "testreport", query: { ID: row.Id } });
     },
     //团体报告
     tuantibaogao() {
