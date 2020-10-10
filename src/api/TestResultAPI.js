@@ -20,6 +20,12 @@ const getTestResultPageList = (params, success) => {
 const getTopicList = (params, success) => {
   return ajax(baseurl + "/TestManager/GetTopciByDeviceID", params, success);
 };
+// 新增获取各种模块，搜索下拉列表名称
+// rtype = 1.测评管理名称 2.测评软件名称 3.百思锐名称 4.呐喊宣泄主题 5.拥抱主题 6，自信心 7.击打
+const getNameList = (params, success) => {
+  return ajax(baseurl + "/ReportOption/GetConditionList", params, success);
+};
+
 // 老的获取测评报告详情接口
 // const getResultDetail=(params,success)=>{
 //   return ajax(baseurl+'/TestManager/GetTestResult',params,success);
@@ -52,4 +58,5 @@ export default {
   getResultDetail,
   ReportResult,
   PLReportResult,
+  getNameList
 };
