@@ -1,128 +1,64 @@
 <template>
-  <div class="bigbox" id="hh">
-    <div class="report">
-      <h3 style="color: #555;background: #fff;">基本信息</h3>
-      <div class="tab" style="color: #555;background: #fff;">
-        <table class="tabs">
-          <tr>
-            <td>
-              用户名：
-              <span>{{testresult.UserName}}</span>
-            </td>
-            <td>
-              分组：
-              <span>{{testresult.GroupName}}</span>
-            </td>
-            <td>
-              真实姓名：
-              <span>{{testresult.RealName}}</span>
-            </td>
-            <td>
-              当前受教水平：
-              <span>{{testresult.Education}}</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              性别：
-              <span>{{testresult.Sex}}</span>
-            </td>
-            <td>
-              出生年月：
-              <span>{{testresult.Birthday}}</span>
-            </td>
-            <td>
-              测试时间：
-              <span>{{testresult.ReportTime}}</span>
-            </td>
-            <td>
-              测试时长：
-              <span>{{testresult.ReportHour}}</span>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="facility">
-      <h3>评估结果</h3>
-      <div class="tab" style="color: #555;background: #fff;">
-        <table class="tabd">
-          <tr v-for="(item,index) in testresult.disimions" :key="item.ID">
-            <td v-if="index==0" rowspan="2">
-              <span class="zftop">总分：</span>
-              <span class="grade">
-                <span>{{testresult.Score}}</span>
-                <span>{{testresult.Grade}}</span>
-              </span>
-            </td>
-            <td v-for="items in item" :key="items.ID">
-              <span>{{items.dm_DimisionName}}</span>
-              <p style="color: #666;">
-                {{items.dm_Score}}分
-                <span style="background: #666;">{{items.dm_Grade}}</span>
-              </p>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="supervision" style="color: #555;background: #fff;">
-      <h3>评估结果分析</h3>
-      <div class="yyjl">
-        <div class="zxmess">
-          <h1>总分：{{testresult.Grade}}</h1>
-          <p>{{testresult.Comment}}</p>
-        </div>
-      </div>
-      <div class="yyjl">
-        <div class="zxmess" v-for="items in testresult.disimionslist" :key="items.ID">
-          <h1>{{items.dm_DimisionName}}：{{items.dm_Grade}}</h1>
-          <p>{{items.dm_Analysis}}</p>
-        </div>
-      </div>
-    </div>
-    <div class="supervision" style="color: #555;background: #fff;">
-      <h3>指导建议</h3>
-      <div class="yyjl">
-        <div class="zxmess" v-for="items in testresult.disimionslist" :key="items.ID">
-          <h1>{{items.dm_DimisionName}}：</h1>
-          <p>{{items.dm_Suggestion}}</p>
-        </div>
-      </div>
-    </div>
+  <!-- 测试管理报告详情 -->
+  <div class="detailPage">
+    <div class="tlt">{{ testresult.ReportName }}</div>
+    <div class="info">
+      <h2>基本信息</h2>
+      <table class="baseTable" border="1">
+        <tr>
+          <td>
+            用户名：<span>{{ testresult.UserName }}</span>
+          </td>
+          <td>
+            分组：<span>{{ testresult.GroupName }}</span>
+          </td>
+          <td>
+            真实姓名：<span>{{ testresult.RealName }}</span>
+          </td>
+          <td>
+            当前受教水平：<span>{{ testresult.EducationTitle }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            性别：<span>{{ testresult.Sex }}</span>
+          </td>
+          <td>
+            出生年月：<span>{{ testresult.BirthDate }}</span>
+          </td>
+          <td>
+            测试时间：<span>{{ testresult.CreateTime }}</span>
+          </td>
+          <td>
+            测试时长：<span>{{ testresult.ReportHour }}</span>
+          </td>
+        </tr>
+      </table>
 
-    <div class="report">
-      <h3>推荐训练方案</h3>
-      <div class="tab" style="color: #555;background: #fff;">
-        <table class="tabs training">
-          <tr>
-            <th>训练设备</th>
-            <th>训练项目</th>
-            <th>推荐训练量</th>
-          </tr>
-          <tr v-for="item in testresult.planschemelist" :key="item.ID">
-            <td>{{item.ps_DeviceName}}</td>
-            <td>{{item.ps_TopicName}}</td>
-            <td>{{item.ps_SuggestTimes}}次</td>
-          </tr>
-        </table>
-      </div>
+      <h3>
+        量表名称：<span>{{ testresult.DeviceName }}</span>
+      </h3>
     </div>
-    <div style="display: flex;justify-content: center;margin-top: 80px;">
-      <button
-        type="button"
-        style="background: #01c8e7;"
-        class="layui-btn layui-btn-lg"
-        @click="clickGeneratePicture"
-      >导出</button>
+    <div class="tlt">评估结果</div>
+    <div class="info">
+      <table border="1" class="resultTable">
+        <tr>
+          <td>
+            测试总分：<span>{{ testresult.Score }}</span>
+          </td>
+          <td>
+            测试结果：<span>{{ testresult.Result }}</span>
+          </td>
+        </tr>
+      </table>
     </div>
+    <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
   </div>
 </template>
 
 <script>
-import html2canvas from "../../../node_modules/html2canvas";
 export default {
-  name: "testreport",
+  name: "testttreport",
   data() {
     return {
       testresult: {
@@ -141,7 +77,8 @@ export default {
         disimions: [],
         Suggestion: "",
         planschemelist: "",
-        Comment
+        BrokenLine1: [],
+        BrokenLine2: []
       }
     };
   },
@@ -149,7 +86,7 @@ export default {
     getdetail() {
       let v = this;
       let params = new URLSearchParams();
-      params.append("testResultID", this.testresult.ID);
+      params.append("id", this.testresult.ID);
       this.$TestResultAPI.getResultDetail(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
@@ -157,41 +94,175 @@ export default {
         }
       });
     },
-    // 生成图片
-    clickGeneratePicture() {
-      var scrollHeight = document.querySelector("#hh").scrollHeight - 100;
-      html2canvas(document.querySelector("#hh"), { height: scrollHeight }).then(
-        canvas => {
-          // 转成图片，生成图片地址
-          // this.imgUrl = canvas.toDataURL("image/png",0.5);
-          this.imgUrl = canvas.toBlob(
-            function(blob) {
-              const eleLink = document.createElement("a");
-              eleLink.download = "中学生投射测验团体报告.png";
-              eleLink.style.display = "none";
-              // 字符内容转变成blob地址
-              eleLink.href = URL.createObjectURL(blob);
-              // 触发点击
-              document.body.appendChild(eleLink);
-              eleLink.click();
-              // 然后移除
-              document.body.removeChild(eleLink);
-            },"image/png",1);
-        }
-      );
+    // 初始化图表
+    initChart() {
+      var dom = document.getElementById("fiveEcharts");
+      var myChart = this.echarts.init(dom);
+      // 此处数据为假数据，应该取接口返回数据，带接口OK了，在调试
+      let chartData = [
+        20313,
+        19813,
+        22188,
+        19063,
+        19938,
+        19938,
+        18500,
+        18000,
+        22188,
+        19688,
+        20625,
+        19438,
+        18813,
+        19188,
+        19000,
+        19938,
+        19188,
+        19438,
+        22000,
+        33813,
+        39063,
+        32625,
+        26000,
+        24063,
+        24438,
+        27000,
+        28250,
+        24688,
+        27125,
+        26563,
+        25313,
+        25000,
+        26500,
+        26375,
+        25063,
+        24438,
+        24000,
+        24938,
+        24063,
+        25938,
+        24813,
+        22688,
+        21938,
+        22438,
+        20563,
+        22000,
+        19500,
+        19750,
+        19750,
+        23813,
+        24000,
+        23250,
+        24063,
+        24438,
+        24688,
+        23938,
+        24063,
+        24688,
+        23438,
+        25813,
+        25875,
+        25938,
+        24688,
+        24500,
+        25688,
+        22750,
+        26188,
+        25938,
+        25313,
+        24063,
+        25438,
+        24500,
+        24563,
+        26313,
+        17875,
+        19875,
+        20813,
+        20750,
+        18313,
+        18563,
+        18688,
+        19313,
+        18688,
+        18063,
+        19063,
+        19750,
+        19813,
+        19813,
+        20563,
+        20563,
+        21063,
+        19938,
+        20000,
+        17500,
+        19438,
+        18188
+      ];
+      // 用数据函数循环x轴坐标
+      let xData = chartData.map((item, index) => index + 1);
+      console.log(xData);
+      // 绘制图表
+      myChart.setOption({
+        color: ["#3cc5a3", "#ffc000", "#5cdbf2"],
+        title: {
+          text: "测试数据",
+          textStyle: {
+            left: "center",
+            fontSize: 14
+          },
+          fontSize: 12,
+          left: "center",
+          top: 15
+        },
+        tooltip: {
+          show: true,
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow",
+            shadowStyle: "rgba(150,150,150,0.3)"
+          }
+        },
+        grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
+        xAxis: {
+          type: "category",
+          data: xData
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            data: chartData,
+            type: "line"
+          }
+        ]
+      });
+    },
+    //导出报告
+    ExportRow() {
+      // this.$TestResultAPI.ReportResult(this.testresult.ID);
+      let url = "../../../static/img/scl90ck.rar";
+      const elt = document.createElement("a");
+      elt.setAttribute("href", url);
+      elt.setAttribute("download", "scl-90查看图片.rar");
+      elt.style.display = "none";
+      document.body.appendChild(elt);
+      elt.click();
+      document.body.removeChild(elt);
     }
   },
   mounted() {
+    // 获取路由参数，回去详情数据
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
+    this.initChart();
   },
   computed: {}
 };
 </script>
 
 <style scoped>
-@import "../../../static/css/appraisallook.css";
-#hh {
-  position: absolute;
+@import "../../../static/css/common.css";
+.img1 {
+  width: 100%;
 }
 </style>

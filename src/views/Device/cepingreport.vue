@@ -1,5 +1,5 @@
 <template>
-  <!-- 软件测试报告详情 -->
+  <!-- 测试软件报告详情 -->
   <div class="detailPage">
     <div class="tlt">{{ testresult.ReportName }}</div>
     <div class="info">
