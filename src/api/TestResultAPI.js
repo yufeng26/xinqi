@@ -18,7 +18,7 @@ const getTopicList = (params, success) => {
 // }
 // 新的获取测评报告详情接口地址（张强提供2020-09-29）
 const getResultDetail = (params, success) => {
-  return ajax(baseurl + "/ReportOption/GetReportResult", params, success);
+  return ajax(baseurl + "/reportOption/GetTestReport", params, success);
 };
 const delResult = (params, success) => {
   return ajax(baseurl + "/ReportOption/DelReport", params, success);
