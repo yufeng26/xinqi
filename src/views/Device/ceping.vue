@@ -1,4 +1,5 @@
 <template>
+  <!-- 测评软件模块 -->
   <div class="searchPage">
     <div class="searchBox">
       <el-row class="mtop15">
@@ -36,8 +37,8 @@
               <el-option
                 v-for="item in topic"
                 :key="item.ID"
-                :label="item.tp_TopicName"
-                :value="item.tp_TopicName"
+                :label="item.Name"
+                :value="item.Name"
               ></el-option>
             </el-select>
           </div>
@@ -103,9 +104,9 @@
       </el-row> -->
     </div>
     <div class="actionBox">
-      <el-button type="primary" @click="tuantibaogao" class="secachBtn">
+      <!-- <el-button type="primary" @click="tuantibaogao" class="secachBtn">
         团体报告
-      </el-button>
+      </el-button> -->
       <el-button
         style="background: #01c8e7"
         type="primary"
@@ -205,7 +206,7 @@ export default {
         export: "",
         exportUsable: false,
         delete: "",
-        deleteUsable: false,
+        deleteUsable: false
       },
       dialogVisible: false,
       checkAll: false,
@@ -226,12 +227,12 @@ export default {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       // 选项列表（必选）
       list: [],
-      topic: [], // 项目列表
+      topic: [], // 项目名称列表
       datelist: [],
       AdminID: "",
       zhuanyeId: "",
@@ -240,22 +241,19 @@ export default {
         { ID: 2, Name: "运动训练" },
         { ID: 3, Name: "运动康复" },
         { ID: 4, Name: "汉语言文学" },
-        { ID: 5, Name: "新闻学体育新闻" },
+        { ID: 5, Name: "新闻学体育新闻" }
       ],
       xingbieID: "",
-      xingbie: [
-        { ID: 1, Name: "男" },
-        { ID: 0, Name: "女" },
-      ],
+      xingbie: [{ ID: 1, Name: "男" }, { ID: 0, Name: "女" }],
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
-        },
-      },
+        }
+      }
     };
   },
   components: {
-    SelectTree,
+    SelectTree
   },
   mounted() {
     this.AdminID = this.$store.state.userinfo.ID;
@@ -264,14 +262,14 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", this.viewPath);
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
     });
     this.handleUserList();
     this.gettreeList();
-    this.getTopicList();
+    this.getNameList();
   },
   methods: {
     // 格式化时间
@@ -283,7 +281,7 @@ export default {
     },
     setmenuModel(item) {
       let that = this;
-      item.forEach((c) => {
+      item.forEach(c => {
         if (c.ID == 38) {
           that.menuModel.look = c.MenuName;
           that.menuModel.lookUsable = c.Usable;
@@ -340,15 +338,14 @@ export default {
       param.append("pageIndex", this.currentPage);
       param.append("pageSize", this.pagesize);
 
-      this.userList = this.$TestResultAPI.getTestResultPageList(
-        param,
-        function (data) {
-          if (data.Code == 1) {
-            v.userList = data.Result.Data;
-            v.totalRecords = data.Result.totalRecords;
-          }
+      this.userList = this.$TestResultAPI.getTestResultPageList(param, function(
+        data
+      ) {
+        if (data.Code == 1) {
+          v.userList = data.Result.Data;
+          v.totalRecords = data.Result.totalRecords;
         }
-      );
+      });
     },
     // 取值
     getValue(value) {
@@ -361,11 +358,11 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function (value, index, array) {
+          selectrows.forEach(function(value, index, array) {
             newarr += value.ID + ",";
           });
           if (newarr) {
@@ -373,7 +370,7 @@ export default {
           }
           var params = new URLSearchParams();
           params.append("ID", newarr);
-          this.$TestResultAPI.PLdelResult(params, function (data) {
+          this.$TestResultAPI.PLdelResult(params, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -387,18 +384,19 @@ export default {
       let v = this;
 
       let param = new URLSearchParams();
-      this.$UserAPI.getUserGroupList(param, function (data) {
+      this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;
         }
       });
     },
-    //获取主题项目下拉框
-    getTopicList() {
+    // 获取项目名称下拉框(rtype: string)
+    // rtype 1.测评管理名称 2.测评软件名称 3.百思锐名称 4.呐喊宣泄主题 5.拥抱主题 6，自信心
+    getNameList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("deviceID", this.deviceID);
-      this.$TestResultAPI.getTopicList(param, function (data) {
+      param.append("rtype", "2");
+      this.$TestResultAPI.getNameList(param, function(data) {
         if (data.Code == 1) {
           v.topic = data.Result;
         }
@@ -409,13 +407,13 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("Id", row.Id);
 
-          this.$TestResultAPI.delResult(param, function (data) {
+          this.$TestResultAPI.delResult(param, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -449,7 +447,7 @@ export default {
       let v = this;
       var selectrows = this.$refs.multipleTable.selection;
       let newarr = "";
-      selectrows.forEach(function (value, index, array) {
+      selectrows.forEach(function(value, index, array) {
         newarr += value.Id + ",";
       });
       if (newarr) {
@@ -461,22 +459,20 @@ export default {
       }
 
       this.$TestResultAPI.PLReportResult(newarr);
-    },
+    }
   },
   computed: {
     /* 转树形数据 */
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
-      return cloneData.filter((father) => {
+      return cloneData.filter(father => {
         // 循环所有项，并添加children属性
-        let branchArr = cloneData.filter(
-          (child) => father.id == child.parentId
-        ); // 返回每一项的子级数组
+        let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
         branchArr.length > 0 ? (father.children = branchArr) : ""; //给父级添加一个children属性，并赋值
         return father.parentId == 0; //返回第一层
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

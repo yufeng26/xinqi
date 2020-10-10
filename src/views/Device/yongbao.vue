@@ -1,4 +1,5 @@
 <template>
+  <!-- 拥抱模块 -->
   <div class="searchPage">
     <div class="searchBox">
       <el-row class="mtop15">
@@ -29,12 +30,16 @@
         <el-col :span="6">
           <label class="searchLabel">拥抱主题：</label>
           <div class="searchData">
-            <el-select :clearable="true" v-model="topicID" placeholder="请选择">
+            <el-select
+              :clearable="true"
+              v-model="topicName"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in topic"
                 :key="item.ID"
-                :label="item.tp_TopicName"
-                :value="item.ID"
+                :label="item.Name"
+                :value="item.Name"
               ></el-option>
             </el-select>
           </div>
@@ -148,7 +153,7 @@ export default {
       multipleSelection: [],
       searchkey: "",
       clearable: { type: Boolean, default: true },
-      topicID: "",
+      topicName: "",
       deviceID: "c7f2ff87ba4a11e99a4f00cfe04d1a01",
       currentPage: 1, //初始页
       pagesize: 10, //    每页的数据
@@ -166,7 +171,7 @@ export default {
       },
       // 选项列表（必选）
       list: [],
-      topic: [],
+      topic: [], // 名称下拉表
       AdminID: "",
       menuModel: {
         look: "",
@@ -195,7 +200,7 @@ export default {
     });
     this.handleUserList();
     this.gettreeList();
-    this.getTopicList();
+    this.getNameList();
   },
   methods: {
     // 格式化时间
@@ -252,9 +257,9 @@ export default {
       let v = this;
       let param = new URLSearchParams();
       // param.append("AdminID", this.AdminID);
-      param.append("searchkey", this.searchkey); //用户名
+      param.append("userName", this.searchkey); //用户名
       param.append("groupId", this.valueId); //分组
-      param.append("classify", this.topicID); //项目名称\主题名称
+      param.append("classify", this.topicName); //项目名称\主题名称
       // param.append("deviceID", this.deviceID);
       param.append("pageIndex", this.currentPage); //页码
       param.append("pageSize", this.pagesize); //每页数量
@@ -313,11 +318,11 @@ export default {
       });
     },
     //获取主题下拉框
-    getTopicList() {
+    getNameList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("deviceID", this.deviceID);
-      this.$TestResultAPI.getTopicList(param, function(data) {
+      param.append("rtype", "5");
+      this.$TestResultAPI.getNameList(param, function(data) {
         if (data.Code == 1) {
           v.topic = data.Result;
         }

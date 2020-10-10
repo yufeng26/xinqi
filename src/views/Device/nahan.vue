@@ -1,4 +1,5 @@
 <template>
+  <!-- 呐喊模块 -->
   <div class="searchPage">
     <div class="searchBox">
       <el-row class="mtop15">
@@ -29,12 +30,16 @@
         <el-col :span="6">
           <label class="searchLabel">宣泄主题：</label>
           <div class="searchData">
-            <el-select :clearable="true" v-model="topicID" placeholder="请选择">
+            <el-select
+              :clearable="true"
+              v-model="topicName"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in topic"
                 :key="item.ID"
-                :label="item.tp_TopicName"
-                :value="item.ID"
+                :label="item.Name"
+                :value="item.Name"
               ></el-option>
             </el-select>
           </div>
@@ -148,7 +153,7 @@ export default {
       multipleSelection: [],
       searchkey: "",
       clearable: { type: Boolean, default: true },
-      topicID: "",
+      topicName: "", // 搜索名称
       deviceID: "bedacf8cba4a11e99a4f00cfe04d1a01",
       currentPage: 1, //初始页
       pagesize: 10, //    每页的数据
@@ -161,12 +166,12 @@ export default {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       // 选项列表（必选）
       list: [],
-      topic: [],
+      topic: [], // 名称下拉框
       AdminID: "",
       menuModel: {
         look: "",
@@ -174,12 +179,12 @@ export default {
         export: "",
         exportUsable: false,
         delete: "",
-        deleteUsable: false,
-      },
+        deleteUsable: false
+      }
     };
   },
   components: {
-    SelectTree,
+    SelectTree
   },
   mounted() {
     this.AdminID = this.$store.state.userinfo.ID;
@@ -188,14 +193,14 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", this.viewPath);
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
     });
     this.handleUserList();
     this.gettreeList();
-    this.getTopicList();
+    this.getNameList();
   },
   methods: {
     // 格式化时间
@@ -211,7 +216,7 @@ export default {
     },
     setmenuModel(item) {
       let that = this;
-      item.forEach((c) => {
+      item.forEach(c => {
         if (c.ID == 47) {
           that.menuModel.look = c.MenuName;
           that.menuModel.lookUsable = c.Usable;
@@ -252,15 +257,15 @@ export default {
       let v = this;
       let param = new URLSearchParams();
       // param.append("AdminID", this.AdminID);
-      param.append("searchkey", this.searchkey); //用户名
+      param.append("userName", this.searchkey); //用户名
       param.append("groupId", this.valueId); //分组
-      param.append("classify", this.topicID); //项目名称\主题名称
+      param.append("classify", this.topicName); //项目名称\主题名称
       // param.append("deviceID", this.deviceID);
       param.append("pageIndex", this.currentPage); //页码
       param.append("pageSize", this.pagesize); //每页数量
       param.append("reportType", 2); //1:击打、2:呐喊、3:拥抱、4:自信心
 
-      this.userList = this.$TestResultAPI.getReportResultList(param, function (
+      this.userList = this.$TestResultAPI.getReportResultList(param, function(
         data
       ) {
         if (data.Code == 1) {
@@ -280,11 +285,11 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function (value, index, array) {
+          selectrows.forEach(function(value, index, array) {
             newarr += value.Id + ",";
           });
           if (newarr) {
@@ -292,7 +297,7 @@ export default {
           }
           var params = new URLSearchParams();
           params.append("Id", newarr);
-          this.$TestResultAPI.PLdelResult(params, function (data) {
+          this.$TestResultAPI.PLdelResult(params, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -306,18 +311,18 @@ export default {
       let v = this;
 
       let param = new URLSearchParams();
-      this.$UserAPI.getUserGroupList(param, function (data) {
+      this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;
         }
       });
     },
     //获取主题下拉框
-    getTopicList() {
+    getNameList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("deviceID", this.deviceID);
-      this.$TestResultAPI.getTopicList(param, function (data) {
+      param.append("rtype", "4");
+      this.$TestResultAPI.getNameList(param, function(data) {
         if (data.Code == 1) {
           v.topic = data.Result;
         }
@@ -328,13 +333,13 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("Id", row.Id);
 
-          this.$TestResultAPI.delResult(param, function (data) {
+          this.$TestResultAPI.delResult(param, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -350,22 +355,20 @@ export default {
     //导出
     exportDevice(row) {
       this.$PlanSchemeAPI.ReportResult(row.ID);
-    },
+    }
   },
   computed: {
     /* 转树形数据 */
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
-      return cloneData.filter((father) => {
+      return cloneData.filter(father => {
         // 循环所有项，并添加children属性
-        let branchArr = cloneData.filter(
-          (child) => father.id == child.parentId
-        ); // 返回每一项的子级数组
+        let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
         branchArr.length > 0 ? (father.children = branchArr) : ""; //给父级添加一个children属性，并赋值
         return father.parentId == 0; //返回第一层
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -1,4 +1,5 @@
 <template>
+  <!-- 测评管理模块 -->
   <div class="searchPage">
     <div class="searchBox">
       <el-row class="mtop15">
@@ -29,12 +30,16 @@
         <el-col :span="6">
           <label class="searchLabel">项目名称：</label>
           <div class="searchData">
-            <el-select :clearable="true" v-model="topicID" placeholder="请选择">
+            <el-select
+              :clearable="true"
+              v-model="topicName"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in topic"
                 :key="item.ID"
-                :label="item.tp_TopicName"
-                :value="item.ID"
+                :label="item.Name"
+                :value="item.Name"
               ></el-option>
             </el-select>
           </div>
@@ -77,7 +82,7 @@
           @change="handleCheckAllChange"
         >
         </el-table-column>
-        <el-table-column label="项目名称" prop="TopicName"> </el-table-column>
+        <el-table-column label="项目名称" prop="TitleName"> </el-table-column>
         <el-table-column label="真实姓名" prop="UserName"> </el-table-column>
         <el-table-column label="总分" prop="Score"> </el-table-column>
         <el-table-column
@@ -250,7 +255,7 @@ export default {
       isIndeterminate: false,
       searchkey: "",
       groupid: "",
-      topicID: "",
+      topicName: "", // 项目名称
       datelist: [],
       deviceid: "11654bb8ffae11e9ab9b00cfe04d1a01",
       currentPage: 1, //初始页
@@ -270,7 +275,7 @@ export default {
       //用户组数组
       list: [],
       //量表数组
-      topic: [],
+      topic: [], // 名称数组
       AdminID: "",
       zhuanyeId: "",
       zhuanye: [
@@ -314,7 +319,7 @@ export default {
     });
     this.gettreeList();
     this.handleUserList();
-    this.getTopicList();
+    this.getNameList();
     let lilist = document.getElementsByClassName("layui-nav-item");
     lilist[3].className = "layui-nav-item";
     lilist[5].className = "layui-nav-item layui-this";
@@ -369,7 +374,7 @@ export default {
       this.$refs.multipleTable.toggleAllSelection();
       this.isIndeterminate = false;
     },
-    // 获取表格数据
+    // 分页获取表格数据
     handleUserList() {
       let v = this;
       let param = new URLSearchParams();
@@ -377,7 +382,8 @@ export default {
       let endDate = this.$moment(this.datelist[1]).format("YYYY-MM-DD") || "";
       param.append("userName", this.searchkey);
       param.append("groupId", this.valueId);
-      param.append("titleName", this.topicID);
+      param.append("titleName", this.topicName);
+      param.append("reportType", 2); // 1 表示测评软件 2 表示测评管理
       param.append("pageIndex", this.currentPage);
       param.append("pageSize", this.pagesize);
       this.userList = this.$TestResultAPI.getTestResultPageList(param, function(
@@ -390,11 +396,11 @@ export default {
       });
     },
     //获取主题下拉框
-    getTopicList() {
+    getNameList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("deviceID", this.deviceid);
-      this.$TestResultAPI.getTopicList(param, function(data) {
+      param.append("rtype", "1");
+      this.$TestResultAPI.getNameList(param, function(data) {
         if (data.Code == 1) {
           v.topic = data.Result;
         }
