@@ -118,9 +118,8 @@ export default {
         disimionslist: [],
         disimions: [],
         Suggestion: "",
-        planschemelist: "",
-        Comment,
-      },
+        planschemelist: ""
+      }
     };
   },
   methods: {
@@ -128,19 +127,19 @@ export default {
       let v = this;
       let params = new URLSearchParams();
       params.append("Id", this.testresult.ID);
-      this.$PlanSchemeAPI.getTrain(params, function (data) {
+      this.$PlanSchemeAPI.getTrain(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
-          console.log(v.testresult);
+          console.log(JSON.parse(v.testresult.TrainPlanList[0].TrainResult));
         }
       });
-    },
+    }
   },
   mounted() {
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
   },
-  computed: {},
+  computed: {}
 };
 </script>
 
