@@ -30,7 +30,7 @@
             测试时间：<span>{{ testresult.CreateTime }}</span>
           </td>
           <td>
-            测试时长：<span>{{ testresult.ReportHour }}</span>
+            测试时长：<span>{{ testresult.TestTime }}</span>
           </td>
         </tr>
       </table>
