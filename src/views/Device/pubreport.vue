@@ -39,18 +39,10 @@
         量表名称：<span>{{ testresult.DeviceName }}</span>
       </h3>
     </div>
-    <div class="tlt">评估结果</div>
+    <div class="tlt">呐喊图表</div>
     <div class="info">
-      <table border="1" class="resultTable">
-        <tr>
-          <td>
-            测试总分：<span>{{ testresult.Score }}</span>
-          </td>
-          <td>
-            测试结果：<span>{{ testresult.Result }}</span>
-          </td>
-        </tr>
-      </table>
+      <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
+      <div id="sixEcharts" :style="{ width: '100%', height: '400px' }"></div>
     </div>
     <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
     <div class="tlt">指导建议</div>
@@ -58,32 +50,6 @@
       <p class="tent">{{ testresult.Advice }}</p>
     </div>
   </div>
-  <!-- <div class="bigbox">
-    <div class="report">
-      <div class="img1"><img src="../../../static/img/scl90ck/1.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/2.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/3.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/4.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/5.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/6.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/7.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/8.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/9.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/10.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/11.png" /></div>
-    </div>
-
-    <div style="display: flex; justify-content: center; margin-top: 80px">
-      <button
-        type="button"
-        style="background: #01c8e7"
-        @click="ExportRow"
-        class="layui-btn layui-btn-lg"
-      >
-        导出
-      </button>
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -120,121 +86,32 @@ export default {
       this.$TestResultAPI.getReportResult(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
-          console.log(v.testresult);
+          v.initChart();
         }
       });
     },
     // 初始化图表
     initChart() {
-      var dom = document.getElementById("fiveEcharts");
-      var myChart = this.echarts.init(dom);
-      // 此处数据为假数据，应该取接口返回数据，带接口OK了，在调试
-      let chartData = [
-        20313,
-        19813,
-        22188,
-        19063,
-        19938,
-        19938,
-        18500,
-        18000,
-        22188,
-        19688,
-        20625,
-        19438,
-        18813,
-        19188,
-        19000,
-        19938,
-        19188,
-        19438,
-        22000,
-        33813,
-        39063,
-        32625,
-        26000,
-        24063,
-        24438,
-        27000,
-        28250,
-        24688,
-        27125,
-        26563,
-        25313,
-        25000,
-        26500,
-        26375,
-        25063,
-        24438,
-        24000,
-        24938,
-        24063,
-        25938,
-        24813,
-        22688,
-        21938,
-        22438,
-        20563,
-        22000,
-        19500,
-        19750,
-        19750,
-        23813,
-        24000,
-        23250,
-        24063,
-        24438,
-        24688,
-        23938,
-        24063,
-        24688,
-        23438,
-        25813,
-        25875,
-        25938,
-        24688,
-        24500,
-        25688,
-        22750,
-        26188,
-        25938,
-        25313,
-        24063,
-        25438,
-        24500,
-        24563,
-        26313,
-        17875,
-        19875,
-        20813,
-        20750,
-        18313,
-        18563,
-        18688,
-        19313,
-        18688,
-        18063,
-        19063,
-        19750,
-        19813,
-        19813,
-        20563,
-        20563,
-        21063,
-        19938,
-        20000,
-        17500,
-        19438,
-        18188
-      ];
+      var dom1 = document.getElementById("fiveEcharts");
+      var dom2 = document.getElementById("sixEcharts");
+      var myChart1 = this.echarts.init(dom1);
+      var myChart2 = this.echarts.init(dom2);
       // 用数据函数循环x轴坐标
-      let xData = chartData.map((item, index) => index + 1);
-      console.log(xData);
+      let xData1 = (this.testresult.BrokenLine1
+        ? JSON.parse(this.testresult.BrokenLine1)
+        : []
+      ).map((item, index) => index + 1);
+      console.log(this.testresult.BrokenLine2);
+      let xData2 = (this.testresult.BrokenLine2
+        ? JSON.parse(this.testresult.BrokenLine2)
+        : []
+      ).map((item, index) => index + 1);
+
       // 绘制图表
-      myChart.setOption({
+      myChart1.setOption({
         color: ["#3cc5a3", "#ffc000", "#5cdbf2"],
         title: {
-          text: "测试数据",
+          text: "图表1",
           textStyle: {
             left: "center",
             fontSize: 14
@@ -254,14 +131,54 @@ export default {
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: xData
+          data: xData1
         },
         yAxis: {
           type: "value"
         },
         series: [
           {
-            data: chartData,
+            data: this.testresult.BrokenLine1
+              ? JSON.parse(this.testresult.BrokenLine1)
+              : [],
+            type: "line"
+          }
+        ]
+      });
+      // 绘制图表
+      myChart2.setOption({
+        color: ["#3cc5a3", "#ffc000", "#5cdbf2"],
+        title: {
+          text: "图表1",
+          textStyle: {
+            left: "center",
+            fontSize: 14
+          },
+          fontSize: 12,
+          left: "center",
+          top: 15
+        },
+        tooltip: {
+          show: true,
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow",
+            shadowStyle: "rgba(150,150,150,0.3)"
+          }
+        },
+        grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
+        xAxis: {
+          type: "category",
+          data: xData2
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            data: this.testresult.BrokenLine2
+              ? JSON.parse(this.testresult.BrokenLine2)
+              : [],
             type: "line"
           }
         ]
@@ -284,7 +201,6 @@ export default {
     // 获取路由参数，回去详情数据
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
-    this.initChart();
   },
   computed: {}
 };
