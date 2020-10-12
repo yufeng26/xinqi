@@ -169,7 +169,7 @@ export default {
       zongfen_name: "总分",
       zongfen_grade: "",
       dimisionList: [],
-      colorArr: ["#3CC24C", "#0070E5", "#D4BF00", "#ED49E7", "#ED4C45"],
+      colorArr: ["#ED4C45", "#ED49E7", "#D4BF00", "#0070E5", "#3CC24C"],
       tableData: [
         {
           TitleName: "工作学习压力",
@@ -224,17 +224,17 @@ export default {
         if (score >= 0 && score <= 4) {
           tempObj = {
             bgcolor: this.colorArr[0],
-            level: "较低",
+            level: "学习焦虑较低",
           };
         } else if (score > 4 && score <= 8) {
           tempObj = {
             bgcolor: this.colorArr[3],
-            level: "中等",
+            level: "学习焦虑中等",
           };
         } else if (score > 8 && score <= 16) {
           tempObj = {
             bgcolor: this.colorArr[4],
-            level: "较高",
+            level: "学习焦虑较高",
           };
         }
       } else if (propertyStr === "躯体化" || propertyStr === "身体症状") {
@@ -258,44 +258,44 @@ export default {
         if (score >= 0 && score <= 31) {
           tempObj = {
             bgcolor: this.colorArr[0],
-            level: "很差",
+            level: "适应性很差",
           };
         } else if (score > 31 && score <= 61) {
           tempObj = {
             bgcolor: this.colorArr[1],
-            level: "较差",
+            level: "适应性较差",
           };
         } else if (score > 61 && score <= 91) {
           tempObj = {
             bgcolor: this.colorArr[2],
-            level: "一般",
+            level: "适应性一般",
           };
         } else if (score > 91 && score <= 121) {
           tempObj = {
             bgcolor: this.colorArr[3],
-            level: "较强",
+            level: "适应性较强",
           };
         } else if (score > 121 && score <= 151) {
           tempObj = {
             bgcolor: this.colorArr[4],
-            level: "很强",
+            level: "适应性很强",
           };
         }
       } else if (propertyStr === "社交焦虑") {
         if (score >= 0 && score <= 4) {
           tempObj = {
             bgcolor: this.colorArr[0],
-            level: "较低",
+            level: "社交焦虑较低",
           };
         } else if (score > 4 && score <= 8) {
           tempObj = {
             bgcolor: this.colorArr[3],
-            level: "中等",
+            level: "社交焦虑中等",
           };
         } else if (score > 8 && score <= 11) {
           tempObj = {
             bgcolor: this.colorArr[4],
-            level: "较高",
+            level: "社交焦虑较高",
           };
         }
       } else if (propertyStr === "抑郁") {
@@ -324,27 +324,27 @@ export default {
         if (score >= 36 && score <= 73) {
           tempObj = {
             bgcolor: this.colorArr[0],
-            level: "过弱",
+            level: "自尊感过强",
           };
         } else if (score > 73 && score <= 109) {
           tempObj = {
             bgcolor: this.colorArr[1],
-            level: "较强",
+            level: "自尊感较强",
           };
         } else if (score > 109 && score <= 145) {
           tempObj = {
             bgcolor: this.colorArr[2],
-            level: "一般",
+            level: "自尊感一般",
           };
         } else if (score > 145 && score <= 181) {
           tempObj = {
             bgcolor: this.colorArr[3],
-            level: "较强",
+            level: "自卑感较强",
           };
         } else if (score > 181 && score <= 253) {
           tempObj = {
             bgcolor: this.colorArr[4],
-            level: "过强",
+            level: "自卑感国强",
           };
         }
       }
