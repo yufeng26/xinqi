@@ -10,7 +10,7 @@
             用户名：<span>{{ testresult.UserName || "" }}</span>
           </td>
           <td>
-            分组：<span>{{ testresult.GroupName || "" }}</span>
+            分组：<span>{{ testresult.GroupName || "分组一" }}</span>
           </td>
           <td>
             真实姓名：<span>{{ testresult.RealName || "" }}</span>
@@ -30,7 +30,7 @@
             测试时间：<span>{{ testresult.CreateTime || "" }}</span>
           </td>
           <td>
-            测试时长：<span>{{ testresult.ReportHour || "" }}</span>
+            测试时长：<span>{{ testresult.TestTime || "" }}</span>
           </td>
         </tr>
       </table>
@@ -110,7 +110,7 @@
         <el-col :span="16">
           <el-progress :percentage="process" color="#ed4c45"></el-progress>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="3">
           <strong>（{{ process === 100 ? "已完成" : "进行中" }}）</strong>
         </el-col>
       </el-row>
