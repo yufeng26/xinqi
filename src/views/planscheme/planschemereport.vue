@@ -159,8 +159,8 @@ export default {
           Train: 8,
           Trained: 2,
           result: "这次宣泄不是很成功，加油！",
-          traintime: "2019/07/19 10:40",
-        },
+          traintime: "2019/07/19 10:40"
+        }
       ],
       testresult: {
         ID: "",
@@ -172,7 +172,13 @@ export default {
         Birthday: "",
         ReportTime: "",
         ReportHour: "",
-      },
+        Score: "",
+        Grade: "",
+        disimionslist: [],
+        disimions: [],
+        Suggestion: "",
+        planschemelist: ""
+      }
     };
   },
   methods: {
@@ -180,7 +186,7 @@ export default {
       let v = this;
       let params = new URLSearchParams();
       params.append("id", this.testresult.ID);
-      this.$PlanSchemeAPI.getTrain(params, function (data) {
+      this.$PlanSchemeAPI.getTrain(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           v.tableData = data.Result.TrainPlanList;
@@ -199,7 +205,7 @@ export default {
       document.body.appendChild(elt);
       elt.click();
       document.body.removeChild(elt);
-    },
+    }
   },
   mounted() {
     // 获取路由参数，回去详情数据
@@ -208,8 +214,8 @@ export default {
   },
   computed: {},
   components: {
-    RadialProgressBar,
-  },
+    RadialProgressBar
+  }
 };
 </script>
 
