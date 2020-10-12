@@ -42,7 +42,7 @@
     <div class="tlt">评估结果</div>
     <div class="info">
       <p class="pinggujieguo">
-        {{ JSON.parse(testresult.TestResult)[0] || "" }}
+        {{ testresult.TestResult ? JSON.parse(testresult.TestResult)[0] : "" }}
       </p>
     </div>
     <div class="tlt">专注度参数</div>
@@ -91,7 +91,9 @@
     <div id="sixEcharts" :style="{ width: '100%', height: '400px' }"></div>
     <div class="tlt">各项说明</div>
     <div
-      v-for="item in JSON.parse(testresult.DimensionList) || []"
+      v-for="item in testresult.DimensionList
+        ? JSON.parse(testresult.DimensionList)
+        : []"
       :key="item.DimensionName"
       class="gexiangshuoming"
     >
@@ -173,9 +175,10 @@ export default {
       var myChart1 = this.echarts.init(dom1);
       var myChart2 = this.echarts.init(dom2);
       // 用数据函数循环x轴坐标
-      let xData = (JSON.parse(this.testresult.lstAtt) || []).map(
-        (item, index) => index + 1
-      );
+      let xData = (this.testresult.lstAtt
+        ? JSON.parse(this.testresult.lstAtt)
+        : []
+      ).map((item, index) => index + 1);
       // 绘制图表
       myChart1.setOption({
         color: ["#3cc5a3", "#ffc000", "#5cdbf2"],
@@ -216,18 +219,24 @@ export default {
             name: "专注度",
             type: "line",
             stack: "总量",
-            data: JSON.parse(this.testresult.lstAtt) || [],
+            data: this.testresult.lstAtt
+              ? JSON.parse(this.testresult.lstAtt)
+              : [],
           },
           {
             name: "放松度",
             type: "line",
             stack: "总量",
-            data: JSON.parse(this.testresult.lstMed) || [],
+            data: this.testresult.lstMed
+              ? JSON.parse(this.testresult.lstMed)
+              : [],
           },
         ],
       });
       // 绘制图表
-      const data2 = JSON.parse(this.testresult.Factorscores) || [];
+      const data2 = this.testresult.Factorscores
+        ? JSON.parse(this.testresult.Factorscores)
+        : [];
       myChart2.setOption({
         color: ["#3398DB"],
         tooltip: {
