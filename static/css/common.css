@@ -127,3 +127,15 @@
   text-align: left;
   padding-left: 10px;
 }
+.detailPage .info .rulest {
+  padding: 10px;
+}
+.detailPage .info .rulest h4 {
+  color: #006fe5;
+  font-size: 18px;
+  text-align: left;
+}
+.detailPage .info .rulest p {
+  text-align: left;
+  text-indent: 2rem;
+}

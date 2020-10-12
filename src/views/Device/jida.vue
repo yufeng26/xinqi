@@ -170,7 +170,7 @@ export default {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       // 选项列表（必选）
@@ -183,12 +183,12 @@ export default {
         export: "",
         exportUsable: false,
         delete: "",
-        deleteUsable: false,
-      },
+        deleteUsable: false
+      }
     };
   },
   components: {
-    SelectTree,
+    SelectTree
   },
   mounted() {
     this.AdminID = this.$store.state.userinfo.ID;
@@ -197,7 +197,7 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", this.viewPath);
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
@@ -216,7 +216,7 @@ export default {
     },
     setmenuModel(item) {
       let that = this;
-      item.forEach((c) => {
+      item.forEach(c => {
         if (c.ID == 44) {
           that.menuModel.look = c.MenuName;
           that.menuModel.lookUsable = c.Usable;
@@ -270,15 +270,14 @@ export default {
       param.append("pageSize", this.pagesize); //每页数量
       param.append("reportType", 1); //1:击打、2:呐喊、3:拥抱、4:自信心
 
-      this.userList = this.$TestResultAPI.getTestResultPageList(
-        param,
-        function (data) {
-          if (data.Code == 1) {
-            v.userList = data.Result.Data;
-            v.totalRecords = data.Result.totalRecords;
-          }
+      this.userList = this.$TestResultAPI.getReportResultList(param, function(
+        data
+      ) {
+        if (data.Code == 1) {
+          v.userList = data.Result.Data;
+          v.totalRecords = data.Result.totalRecords;
         }
-      );
+      });
     },
     // 取值
     getValue(value) {
@@ -291,11 +290,11 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function (value, index, array) {
+          selectrows.forEach(function(value, index, array) {
             newarr += value.Id + ",";
           });
           if (newarr) {
@@ -304,7 +303,7 @@ export default {
           console.log(newarr);
           var params = new URLSearchParams();
           params.append("Id", newarr);
-          this.$TestResultAPI.PLdelResult(params, function (data) {
+          this.$TestResultAPI.PLdelResult(params, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -318,7 +317,7 @@ export default {
       let v = this;
 
       let param = new URLSearchParams();
-      this.$UserAPI.getUserGroupList(param, function (data) {
+      this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;
         }
@@ -329,7 +328,7 @@ export default {
       let v = this;
       let param = new URLSearchParams();
       param.append("rtype", "7");
-      this.$TestResultAPI.getNameList(param, function (data) {
+      this.$TestResultAPI.getNameList(param, function(data) {
         if (data.Code == 1) {
           v.topic = data.Result;
         }
@@ -340,13 +339,13 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("Id", row.Id);
 
-          this.$TestResultAPI.delResult(param, function (data) {
+          this.$TestResultAPI.delResult(param, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -362,22 +361,20 @@ export default {
     //导出
     exportDevice(row) {
       this.$PlanSchemeAPI.ReportResult(row.ID);
-    },
+    }
   },
   computed: {
     /* 转树形数据 */
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
-      return cloneData.filter((father) => {
+      return cloneData.filter(father => {
         // 循环所有项，并添加children属性
-        let branchArr = cloneData.filter(
-          (child) => father.id == child.parentId
-        ); // 返回每一项的子级数组
+        let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
         branchArr.length > 0 ? (father.children = branchArr) : ""; //给父级添加一个children属性，并赋值
         return father.parentId == 0; //返回第一层
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

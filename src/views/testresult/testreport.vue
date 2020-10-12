@@ -35,32 +35,82 @@
         </tr>
       </table>
 
-      <h3>
+      <!-- <h3>
         量表名称：<span>{{ testresult.DeviceName }}</span>
-      </h3>
+      </h3> -->
     </div>
     <div class="tlt">评估结果</div>
     <div class="info">
-      <table border="1" class="resultTable">
-        <tr>
-          <td>
-            测试总分：<span>{{ testresult.Score }}</span>
-          </td>
-          <td>
-            测试结果：<span>{{ testresult.Result }}</span>
-          </td>
-        </tr>
-      </table>
+      <el-row>
+        <el-col :span="6" class="col-01">
+          <span>总分</span>
+          <radial-progress-bar
+            :diameter="200"
+            :completed-steps="completedSteps"
+            :total-steps="totalSteps"
+            startColor="#f44336"
+            stopColor="#f44336"
+            innerStrokeColor="#ececec"
+          >
+            <p>{{ completedSteps }}</p>
+            <p>心理状态不佳</p>
+          </radial-progress-bar>
+        </el-col>
+        <el-col :span="6" class="col-02">
+          <el-row>
+            <p>学习焦虑</p>
+            <p><strong>12分</strong><span>严重</span></p>
+          </el-row>
+          <el-row>
+            <p>社交焦虑</p>
+            <p><strong>12分</strong><span>中重</span></p>
+          </el-row>
+        </el-col>
+        <el-col :span="6" class="col-02">
+          <el-row>
+            <p>躯体化</p>
+            <p><strong>12分</strong><span>重度</span></p>
+          </el-row>
+          <el-row>
+            <p>抑郁</p>
+            <p><strong>12分</strong><span>轻度</span></p>
+          </el-row>
+        </el-col>
+        <el-col :span="6" class="col-02">
+          <el-row>
+            <p>环境适应</p>
+            <p><strong>12分</strong><span>正常</span></p>
+          </el-row>
+          <el-row>
+            <p>自卑感</p>
+            <p><strong>12分</strong><span>中重</span></p>
+          </el-row>
+        </el-col>
+      </el-row>
     </div>
     <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
+    <div class="tlt">评估结果分析</div>
+    <div class="info">
+      <div
+        class="rulest"
+        v-for="item in testresult.DimisionList"
+        v-bind:key="item.Name"
+      >
+        <h4>{{ item.Name }}:{{ item.result }}</h4>
+        <p>{{ item.Suggestion }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import RadialProgressBar from "./radial-progress-bar.vue";
 export default {
   name: "testttreport",
   data() {
     return {
+      completedSteps: 78,
+      totalSteps: 100,
       testresult: {
         ID: "",
         UserName: "",
@@ -71,14 +121,15 @@ export default {
         Birthday: "",
         ReportTime: "",
         ReportHour: "",
-        Score: "",
+        Score: "", // 总分
         Grade: "",
         disimionslist: [],
         disimions: [],
         Suggestion: "",
         planschemelist: "",
         BrokenLine1: [],
-        BrokenLine2: []
+        BrokenLine2: [],
+        DimisionList: [] // 测评结果维度
       }
     };
   },
@@ -90,7 +141,7 @@ export default {
       this.$TestResultAPI.getResultDetail(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
-          console.log(v.testresult);
+          // console.log(v.testresult);
         }
       });
     },
@@ -199,7 +250,7 @@ export default {
       ];
       // 用数据函数循环x轴坐标
       let xData = chartData.map((item, index) => index + 1);
-      console.log(xData);
+      // console.log(xData);
       // 绘制图表
       myChart.setOption({
         color: ["#3cc5a3", "#ffc000", "#5cdbf2"],
@@ -256,13 +307,82 @@ export default {
     this.getdetail();
     this.initChart();
   },
-  computed: {}
+  computed: {},
+  components: {
+    RadialProgressBar
+  }
 };
 </script>
 
-<style scoped>
+<style>
 @import "../../../static/css/common.css";
 .img1 {
   width: 100%;
+}
+.col-01 {
+  position: relative;
+  height: 260px;
+  border-right: 2px solid #dfdfdf;
+  border-bottom: 2px solid #dfdfdf;
+}
+.col-01 span {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+.radial-progress-container {
+  margin: 30px auto;
+}
+.radial-progress-inner p {
+  color: #f44336;
+}
+.radial-progress-inner p:first-child {
+  font-size: 52px;
+  font-weight: bold;
+}
+.radial-progress-inner p:last-child {
+  font-size: 16px;
+}
+.col-02 .el-row {
+  padding: 16px 20px;
+  box-sizing: border-box;
+  height: 130px;
+  border-right: 2px solid #dfdfdf;
+  border-bottom: 2px solid #dfdfdf;
+}
+.col-02 .el-row p {
+  width: 70%;
+  text-align: left;
+  margin: 0 auto;
+}
+.col-02 .el-row p:first-child {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.col-02 .el-row p:last-child strong {
+  font-size: 26px;
+  color: #f44336;
+}
+.col-02 .el-row p:last-child span {
+  background: #f44336;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  margin-left: 30px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #fff;
+}
+.info_progress {
+  margin: 20px auto;
+}
+.info_progress strong {
+  font-size: 20px;
+}
+.info_progress .el-progress--line {
+  margin-top: 8px;
 }
 </style>
