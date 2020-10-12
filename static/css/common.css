@@ -130,12 +130,31 @@
 .detailPage .info .rulest {
   padding: 10px;
 }
+.detailPage .info .tent {
+  text-align: left;
+  padding: 10px;
+  text-indent: 2rem;
+}
 .detailPage .info .rulest h4 {
   color: #006fe5;
-  font-size: 18px;
+  font-size: 16px;
   text-align: left;
+  margin-bottom: 10px;
 }
 .detailPage .info .rulest p {
   text-align: left;
   text-indent: 2rem;
+}
+.detailPage .info .train thead {
+  background-color: #e5e5e5;
+}
+.detailPage .info .train td {
+  text-align: center;
+}
+.detailPage .exportBox {
+  padding: 30px 0;
+  text-align: center;
+}
+.detailPage .exportBox .exportBtn {
+  width: 160px !important;
 }
