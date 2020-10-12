@@ -1,5 +1,5 @@
 <template>
-  <!-- 测试软件报告详情 -->
+  <!-- 击打报告详情 -->
   <div class="detailPage">
     <div class="tlt">{{ testresult.ReportName }}</div>
     <div class="info">
@@ -10,7 +10,7 @@
             用户名：<span>{{ testresult.UserName }}</span>
           </td>
           <td>
-            分组：<span>{{ testresult.GroupName }}</span>
+            分组：<span>{{ testresult.GroupName || "分组一" }}</span>
           </td>
           <td>
             真实姓名：<span>{{ testresult.RealName }}</span>
@@ -30,7 +30,7 @@
             测试时间：<span>{{ testresult.CreateTime }}</span>
           </td>
           <td>
-            测试时长：<span>{{ testresult.ReportHour }}</span>
+            测试时长：<span>{{ testresult.TestTime }}</span>
           </td>
         </tr>
       </table>
@@ -53,6 +53,10 @@
       </table>
     </div>
     <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
+    <div class="tlt">指导建议</div>
+    <div class="info">
+      <p class="tent">{{ testresult.Advice }}</p>
+    </div>
   </div>
   <!-- <div class="bigbox">
     <div class="report">
@@ -104,8 +108,8 @@ export default {
         Suggestion: "",
         planschemelist: "",
         BrokenLine1: [],
-        BrokenLine2: [],
-      },
+        BrokenLine2: []
+      }
     };
   },
   methods: {
@@ -113,7 +117,7 @@ export default {
       let v = this;
       let params = new URLSearchParams();
       params.append("Id", this.testresult.ID);
-      this.$TestResultAPI.getReportResult(params, function (data) {
+      this.$TestResultAPI.getReportResult(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           console.log(v.testresult);
@@ -221,7 +225,7 @@ export default {
         20000,
         17500,
         19438,
-        18188,
+        18188
       ];
       // 用数据函数循环x轴坐标
       let xData = chartData.map((item, index) => index + 1);
@@ -233,34 +237,34 @@ export default {
           text: "测试数据",
           textStyle: {
             left: "center",
-            fontSize: 14,
+            fontSize: 14
           },
           fontSize: 12,
           left: "center",
-          top: 15,
+          top: 15
         },
         tooltip: {
           show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow",
-            shadowStyle: "rgba(150,150,150,0.3)",
-          },
+            shadowStyle: "rgba(150,150,150,0.3)"
+          }
         },
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: xData,
+          data: xData
         },
         yAxis: {
-          type: "value",
+          type: "value"
         },
         series: [
           {
             data: chartData,
-            type: "line",
-          },
-        ],
+            type: "line"
+          }
+        ]
       });
     },
     //导出报告
@@ -274,7 +278,7 @@ export default {
       document.body.appendChild(elt);
       elt.click();
       document.body.removeChild(elt);
-    },
+    }
   },
   mounted() {
     // 获取路由参数，回去详情数据
@@ -282,7 +286,7 @@ export default {
     this.getdetail();
     this.initChart();
   },
-  computed: {},
+  computed: {}
 };
 </script>
 
