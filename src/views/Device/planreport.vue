@@ -1,90 +1,138 @@
 <template>
-  <div class="bigbox">
+  <!-- 测试软件报告详情 -->
+  <div class="detailPage">
+    <div class="tlt">{{ testresult.ReportName }}</div>
+    <div class="info">
+      <h2>基本信息</h2>
+      <table class="baseTable" border="1">
+        <tr>
+          <td>
+            用户名：<span>{{ testresult.UserName }}</span>
+          </td>
+          <td>
+            分组：<span>{{ testresult.GroupName }}</span>
+          </td>
+          <td>
+            真实姓名：<span>{{ testresult.RealName }}</span>
+          </td>
+          <td>
+            当前受教水平：<span>{{ testresult.EducationTitle }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            性别：<span>{{ testresult.Sex }}</span>
+          </td>
+          <td>
+            出生年月：<span>{{ testresult.BirthDate }}</span>
+          </td>
+          <td>
+            测试时间：<span>{{ testresult.CreateTime }}</span>
+          </td>
+          <td>
+            测试时长：<span>{{ testresult.ReportHour }}</span>
+          </td>
+        </tr>
+      </table>
+
+      <h3>
+        量表名称：<span>{{ testresult.DeviceName }}</span>
+      </h3>
+    </div>
+    <div class="tlt">评估结果</div>
+    <div class="info">
+      <p class="pinggujieguo">
+        {{ testresult.TestResult ? JSON.parse(testresult.TestResult)[0] : "" }}
+      </p>
+    </div>
+    <div class="tlt">专注度参数</div>
+    <table border="1" class="resultTable">
+      <tr>
+        <td>
+          平均值：<span>{{ testresult.AttentionAvg }}</span>
+        </td>
+        <td>
+          最大值：<span>{{ testresult.AttentionMax }}</span>
+        </td>
+        <td>
+          最小值：<span>{{ testresult.AttentionMin }}</span>
+        </td>
+        <td>
+          平方差：<span>{{ testresult.AttentionSD }}</span>
+        </td>
+        <td>
+          标准差：<span>{{ testresult.AttentionCV }}</span>
+        </td>
+      </tr>
+    </table>
+    <div class="tlt">放松度参数</div>
+    <table border="1" class="resultTable">
+      <tr>
+        <td>
+          平均值：<span>{{ testresult.MeditationAvg }}</span>
+        </td>
+        <td>
+          最大值：<span>{{ testresult.MeditationMax }}</span>
+        </td>
+        <td>
+          最小值：<span>{{ testresult.MeditationMin }}</span>
+        </td>
+        <td>
+          平方差：<span>{{ testresult.MeditationSD }}</span>
+        </td>
+        <td>
+          标准差：<span>{{ testresult.MeditationCV }}</span>
+        </td>
+      </tr>
+    </table>
+    <div class="tlt">脑波曲线</div>
+    <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
+    <div class="tlt">因子得分图表</div>
+    <div id="sixEcharts" :style="{ width: '100%', height: '400px' }"></div>
+    <div class="tlt">各项说明</div>
+    <div
+      v-for="item in testresult.DimensionList
+        ? JSON.parse(testresult.DimensionList)
+        : []"
+      :key="item.DimensionName"
+      class="gexiangshuoming"
+    >
+      <p>纬度名称：{{ item.DimensionName }}</p>
+      <p>结果分析：{{ item.DAnalysis }}</p>
+      <p>指导建议：{{ item.DAdvice }}</p>
+    </div>
+  </div>
+  <!-- <div class="bigbox">
     <div class="report">
-      <h3 style="color: #555; background: #fff">基本信息</h3>
-      <div
-        class="tab"
-        style="color: rgb(85, 85, 85); background: rgb(255, 255, 255)"
-      >
-        <table class="tabs">
-          <tr>
-            <td>
-              用户名：<span>{{ testresult.UserName }}</span>
-            </td>
-            <td>
-              分组：<span>{{ testresult.GroupName }}</span>
-            </td>
-            <td>
-              真实姓名：<span>{{ testresult.RealName }}</span>
-            </td>
-            <td>
-              当前受教水平：<span>{{ testresult.Education }}</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              性别：<span>{{ testresult.Sex }}</span>
-            </td>
-            <td>
-              出生年月：<span>{{ testresult.Birthday }}</span>
-            </td>
-            <td>
-              测试时间：<span>{{ testresult.ReportTime }}</span>
-            </td>
-            <td>
-              测试时长：<span>{{ testresult.ReportHour }}</span>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="facility">
-      <h3>评估结果</h3>
-      <div
-        class="tab"
-        style="color: rgb(85, 85, 85); background: rgb(255, 255, 255)"
-      >
-        <table class="tabd">
-          <img :src="testresult.ReportImg" />
-        </table>
-      </div>
-    </div>
-    <div class="supervision" style="color: #555; background: #fff">
-      <h3>评估结果分析</h3>
-      <div class="yyjl">
-        <div class="zxmess">
-          <h1>总分：{{ testresult.Result }}</h1>
-          <p>{{ testresult.Suggestion }}</p>
-        </div>
-      </div>
-      <div class="yyjl">
-        <div
-          class="zxmess"
-          v-for="items in testresult.disimionslist"
-          :key="items.ID"
-        >
-          <h1>{{ items.dm_DimisionName }}：{{ items.dm_Grade }}</h1>
-          <p>{{ items.dm_Analysis }}</p>
-        </div>
-      </div>
+      <div class="img1"><img src="../../../static/img/scl90ck/1.png" /></div>
+      <div class="img1"><img src="../../../static/img/scl90ck/2.png" /></div>
+      <div class="img1"><img src="../../../static/img/scl90ck/3.png" /></div>
+      <div class="img1"><img src="../../../static/img/scl90ck/4.png" /></div>
+      <div class="img1"><img src="../../../static/img/scl90ck/5.png" /></div>
+      <div class="img1"><img src="../../../static/img/scl90ck/6.png" /></div>
+      <div class="img1"><img src="../../../static/img/scl90ck/7.png" /></div>
+      <div class="img1"><img src="../../../static/img/scl90ck/8.png" /></div>
+      <div class="img1"><img src="../../../static/img/scl90ck/9.png" /></div>
+      <div class="img1"><img src="../../../static/img/scl90ck/10.png" /></div>
+      <div class="img1"><img src="../../../static/img/scl90ck/11.png" /></div>
     </div>
 
     <div style="display: flex; justify-content: center; margin-top: 80px">
       <button
         type="button"
-        @click="exportDevice(testresult.ID)"
         style="background: #01c8e7"
+        @click="ExportRow"
         class="layui-btn layui-btn-lg"
       >
         导出
       </button>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
 export default {
-  name: "planreport",
+  name: "cepingreport",
   data() {
     return {
       testresult: {
@@ -102,9 +150,8 @@ export default {
         disimionslist: [],
         disimions: [],
         Suggestion: "",
-        Result: "",
-        Comment,
-        ReportImg: "",
+        BrokenLine1: [],
+        BrokenLine2: [],
       },
     };
   },
@@ -112,43 +159,138 @@ export default {
     getdetail() {
       let v = this;
       let params = new URLSearchParams();
-      params.append("Id", this.testresult.ID);
+      params.append("id", this.testresult.ID);
       // 百思锐详情
       this.$ReportOptionAPI.GetBaisiruiReport(params, function (data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
-          v.testresult.planschemelist = combineYd(v.testresult.planschemelist);
-          console.log(v.testresult.planschemelist);
+          v.initChart();
         }
       });
     },
-    combineYd(list) {
-      var k = 0;
-      let field = "yd";
-      while (k < list.length) {
-        list[k][field + "span"] = 1;
-        list[k][field + "dis"] = false;
-        for (var i = k + 1; i <= list.length - 1; i++) {
-          if (list[k][field] == list[i][field] && list[k][field] != "") {
-            list[k][field + "span"]++;
-            list[k][field + "dis"] = false;
-            list[i][field + "span"] = 1;
-            list[i][field + "dis"] = true;
-          } else {
-            break;
-          }
-        }
-        k = i;
-      }
-      return list;
+    // 初始化图表
+    initChart() {
+      var dom1 = document.getElementById("fiveEcharts");
+      var dom2 = document.getElementById("sixEcharts");
+      var myChart1 = this.echarts.init(dom1);
+      var myChart2 = this.echarts.init(dom2);
+      // 用数据函数循环x轴坐标
+      let xData = (this.testresult.lstAtt
+        ? JSON.parse(this.testresult.lstAtt)
+        : []
+      ).map((item, index) => index + 1);
+      // 绘制图表
+      myChart1.setOption({
+        color: ["#3cc5a3", "#ffc000", "#5cdbf2"],
+        tooltip: {
+          trigger: "axis",
+        },
+        legend: {
+          data: ["专注度", "放松度"],
+        },
+        title: {
+          text: "脑波曲线",
+          textStyle: {
+            left: "center",
+            fontSize: 14,
+          },
+          fontSize: 12,
+          left: "center",
+          top: 15,
+        },
+        tooltip: {
+          show: true,
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow",
+            shadowStyle: "rgba(150,150,150,0.3)",
+          },
+        },
+        grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
+        xAxis: {
+          type: "category",
+          data: xData,
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            name: "专注度",
+            type: "line",
+            stack: "总量",
+            data: this.testresult.lstAtt
+              ? JSON.parse(this.testresult.lstAtt)
+              : [],
+          },
+          {
+            name: "放松度",
+            type: "line",
+            stack: "总量",
+            data: this.testresult.lstMed
+              ? JSON.parse(this.testresult.lstMed)
+              : [],
+          },
+        ],
+      });
+      // 绘制图表
+      const data2 = this.testresult.Factorscores
+        ? JSON.parse(this.testresult.Factorscores)
+        : [];
+      myChart2.setOption({
+        color: ["#3398DB"],
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+          },
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true,
+        },
+        xAxis: [
+          {
+            type: "category",
+            data: data2.map((item) => item.DimensionName),
+            axisTick: {
+              alignWithLabel: true,
+            },
+          },
+        ],
+        yAxis: [
+          {
+            type: "value",
+          },
+        ],
+        series: [
+          {
+            name: "分数",
+            type: "bar",
+            barWidth: "60%",
+            data: data2.map((item) => item.Score),
+          },
+        ],
+      });
     },
-    //导出
-    exportDevice(row) {
-      console.log(row);
-      this.$PlanSchemeAPI.ReportResult(row);
+    //导出报告
+    ExportRow() {
+      // this.$TestResultAPI.ReportResult(this.testresult.ID);
+      let url = "../../../static/img/scl90ck.rar";
+      const elt = document.createElement("a");
+      elt.setAttribute("href", url);
+      elt.setAttribute("download", "scl-90查看图片.rar");
+      elt.style.display = "none";
+      document.body.appendChild(elt);
+      elt.click();
+      document.body.removeChild(elt);
     },
   },
   mounted() {
+    // 获取路由参数，回去详情数据
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
   },
@@ -157,5 +299,34 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../static/css/appraisallook.css";
+@import "../../../static/css/common.css";
+.img1 {
+  width: 100%;
+}
+.resultTable {
+  margin: 20px auto;
+  width: 90%;
+}
+.resultTable tr {
+  height: 50px;
+}
+.resultTable tr td span {
+  color: brown;
+}
+.info .pinggujieguo {
+  text-indent: 2em;
+  text-align: left;
+  line-height: 28px;
+  margin: 20px;
+}
+.gexiangshuoming {
+  text-indent: 2em;
+  text-align: left;
+  line-height: 28px;
+  margin: 20px;
+}
+.gexiangshuoming p:first-child {
+  font-weight: bold;
+  font-size: 16px;
+}
 </style>
