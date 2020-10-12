@@ -10,7 +10,7 @@
             用户名：<span>{{ testresult.UserName }}</span>
           </td>
           <td>
-            分组：<span>{{ testresult.GroupName }}</span>
+            分组：<span>{{ testresult.GroupName || "分组一" }}</span>
           </td>
           <td>
             真实姓名：<span>{{ testresult.RealName }}</span>
@@ -53,42 +53,54 @@
             innerStrokeColor="#ececec"
           >
             <p>{{ completedSteps }}</p>
-            <p>心理状态不佳</p>
+            <p>{{ gradeAll }}</p>
           </radial-progress-bar>
         </el-col>
         <el-col :span="6" class="col-02">
           <el-row>
             <p>学习焦虑</p>
-            <p><strong>12分</strong><span>严重</span></p>
+            <p>
+              <strong>{{ colScore1 }}分</strong><span>{{ colGrade1 }}</span>
+            </p>
           </el-row>
           <el-row>
             <p>社交焦虑</p>
-            <p><strong>12分</strong><span>中重</span></p>
+            <p>
+              <strong>{{ colScore4 }}分</strong><span>{{ colGrade4 }}</span>
+            </p>
           </el-row>
         </el-col>
         <el-col :span="6" class="col-02">
           <el-row>
             <p>躯体化</p>
-            <p><strong>12分</strong><span>重度</span></p>
+            <p>
+              <strong>{{ colScore2 }}分</strong><span>{{ colGrade2 }}</span>
+            </p>
           </el-row>
           <el-row>
             <p>抑郁</p>
-            <p><strong>12分</strong><span>轻度</span></p>
+            <p>
+              <strong>{{ colScore5 }}分</strong><span>{{ colGrade5 }}</span>
+            </p>
           </el-row>
         </el-col>
         <el-col :span="6" class="col-02">
           <el-row>
             <p>环境适应</p>
-            <p><strong>12分</strong><span>正常</span></p>
+            <p>
+              <strong>{{ colScore3 }}分</strong><span>{{ colGrade3 }}</span>
+            </p>
           </el-row>
           <el-row>
             <p>自卑感</p>
-            <p><strong>12分</strong><span>中重</span></p>
+            <p>
+              <strong>{{ colScore6 }}分</strong><span>{{ colGrade6 }}</span>
+            </p>
           </el-row>
         </el-col>
       </el-row>
     </div>
-    <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
+    <!-- <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div> -->
     <div class="tlt">评估结果分析</div>
     <div class="info">
       <div
@@ -100,6 +112,40 @@
         <p>{{ item.Suggestion }}</p>
       </div>
     </div>
+    <div class="tlt">指导建议</div>
+    <div class="info">
+      <p class="tent">{{ testresult.Suggestion }}</p>
+    </div>
+    <div class="tlt">推荐训练方案</div>
+    <div class="info">
+      <table class="train" border="1">
+        <thead>
+          <tr>
+            <td>
+              训练设备
+            </td>
+            <td>
+              训练项目
+            </td>
+            <td>
+              推荐训练量
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in testresult.TrainPlanList" v-bind:key="item.ID">
+            <td>{{ item.DeivceName }}</td>
+            <td>{{ item.TitleName }}</td>
+            <td>{{ item.Train }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="exportBox">
+      <el-button type="primary" @click="exportWord" class="exportBtn">
+        导出
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -109,8 +155,21 @@ export default {
   name: "testttreport",
   data() {
     return {
-      completedSteps: 78,
-      totalSteps: 100,
+      completedSteps: 78, // 总得分
+      totalSteps: 100, // 满分
+      gradeAll: "心态良好", // 总得分等级
+      colScore1: 2, // 学习焦虑分数
+      colGrade1: "正常", // 等级
+      colScore2: 3, // 躯体化分数
+      colGrade2: "正常", // 等级
+      colScore3: 4, // 环境适应分数
+      colGrade3: "正常", // 等级
+      colScore4: 5, // 社交焦虑分数
+      colGrade4: "正常", // 等级
+      colScore5: 6, // 抑郁分数
+      colGrade5: "正常", // 等级
+      colScore6: 6, // 自卑感分数
+      colGrade6: "正常", // 等级
       testresult: {
         ID: "",
         UserName: "",
@@ -134,6 +193,8 @@ export default {
     };
   },
   methods: {
+    getColorAll() {},
+    // 获取页面信息
     getdetail() {
       let v = this;
       let params = new URLSearchParams();
@@ -141,7 +202,55 @@ export default {
       this.$TestResultAPI.getResultDetail(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
-          // console.log(v.testresult);
+          // 总分
+          v.completedSteps = data.Result.DimisionList.filter(
+            a => a.Name === "总分"
+          )[0].score;
+          v.gradeAll = data.Result.DimisionList.filter(
+            a => a.Name === "总分"
+          )[0].grade;
+          // 学习焦虑
+          v.colScore1 = data.Result.DimisionList.filter(
+            a => a.Name === "学习焦虑"
+          )[0].score;
+          v.colGrade1 = data.Result.DimisionList.filter(
+            a => a.Name === "学习焦虑"
+          )[0].grade;
+          // 躯体化
+          v.colScore2 = data.Result.DimisionList.filter(
+            a => a.Name === "身体症状"
+          )[0].score;
+          v.colGrade2 = data.Result.DimisionList.filter(
+            a => a.Name === "身体症状"
+          )[0].grade;
+          // 环境适应
+          v.colScore3 = data.Result.DimisionList.filter(
+            a => a.Name === "环境适应性"
+          )[0].score;
+          v.colGrade3 = data.Result.DimisionList.filter(
+            a => a.Name === "环境适应性"
+          )[0].grade;
+          // 社交焦虑
+          v.colScore4 = data.Result.DimisionList.filter(
+            a => a.Name === "社交焦虑"
+          )[0].score;
+          v.colGrade4 = data.Result.DimisionList.filter(
+            a => a.Name === "社交焦虑"
+          )[0].grade;
+          // 抑郁
+          v.colScore5 = data.Result.DimisionList.filter(
+            a => a.Name === "抑郁"
+          )[0].score;
+          v.colGrade5 = data.Result.DimisionList.filter(
+            a => a.Name === "抑郁"
+          )[0].grade;
+          // 自卑
+          v.colScore6 = data.Result.DimisionList.filter(
+            a => a.Name === "自卑"
+          )[0].score;
+          v.colGrade6 = data.Result.DimisionList.filter(
+            a => a.Name === "自卑"
+          )[0].grade;
         }
       });
     },
@@ -289,23 +398,24 @@ export default {
       });
     },
     //导出报告
-    ExportRow() {
-      // this.$TestResultAPI.ReportResult(this.testresult.ID);
-      let url = "../../../static/img/scl90ck.rar";
-      const elt = document.createElement("a");
-      elt.setAttribute("href", url);
-      elt.setAttribute("download", "scl-90查看图片.rar");
-      elt.style.display = "none";
-      document.body.appendChild(elt);
-      elt.click();
-      document.body.removeChild(elt);
+    exportWord() {
+      let exportId = this.$route.query.ID;
+      alert("导出id=" + exportId);
+      // let url = "../../../static/img/scl90ck.rar";
+      // const elt = document.createElement("a");
+      // elt.setAttribute("href", url);
+      // elt.setAttribute("download", "scl-90查看图片.rar");
+      // elt.style.display = "none";
+      // document.body.appendChild(elt);
+      // elt.click();
+      // document.body.removeChild(elt);
     }
   },
   mounted() {
     // 获取路由参数，回去详情数据
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
-    this.initChart();
+    // this.initChart();
   },
   computed: {},
   components: {
@@ -351,13 +461,13 @@ export default {
   border-bottom: 2px solid #dfdfdf;
 }
 .col-02 .el-row p {
-  width: 70%;
+  width: 90%;
   text-align: left;
   margin: 0 auto;
 }
 .col-02 .el-row p:first-child {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   font-size: 14px;
 }
 .col-02 .el-row p:last-child strong {
@@ -367,14 +477,14 @@ export default {
 .col-02 .el-row p:last-child span {
   background: #f44336;
   display: inline-block;
-  width: 40px;
   height: 20px;
   line-height: 20px;
   text-align: center;
-  margin-left: 30px;
+  margin-left: 10px;
   margin-bottom: 5px;
   font-size: 12px;
   color: #fff;
+  padding: 0 5px;
 }
 .info_progress {
   margin: 20px auto;
