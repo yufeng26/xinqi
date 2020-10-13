@@ -13,7 +13,9 @@
       </ul>
       <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
-          您好，{{ userinfo.a_RealName }}.欢迎使用心企物联网云平台！
+          <span @click="goCenter"
+            >您好，{{ userinfo.a_RealName }}.欢迎使用心企物联网云平台！</span
+          >
         </li>
         <li class="layui-nav-item" @click="layout">【退出】</li>
       </ul>
@@ -368,6 +370,9 @@ export default {
   methods: {
     goto(path) {
       this.$router.push({ path: path });
+    },
+    goCenter() {
+      this.$router.push({ path: "/admincenter" });
     },
     layout() {
       sessionStorage.removeItem("accessToken");
