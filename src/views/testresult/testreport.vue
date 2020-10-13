@@ -43,61 +43,63 @@
     <div class="info">
       <el-row>
         <el-col :span="6" class="col-01">
-          <span>总分</span>
+          <span>{{ zongfen_name }}</span>
           <radial-progress-bar
             :diameter="200"
             :completed-steps="completedSteps"
             :total-steps="totalSteps"
-            startColor="#f44336"
-            stopColor="#f44336"
+            :startColor="radialProgressbarColor"
+            :stopColor="radialProgressbarColor"
             innerStrokeColor="#ececec"
           >
             <p>{{ completedSteps }}</p>
-            <p>{{ gradeAll }}</p>
+            <p>{{ zongfen_grade }}</p>
           </radial-progress-bar>
         </el-col>
-        <el-col :span="6" class="col-02">
-          <el-row>
-            <p>学习焦虑</p>
-            <p>
-              <strong>{{ colScore1 }}分</strong><span>{{ colGrade1 }}</span>
-            </p>
-          </el-row>
-          <el-row>
-            <p>社交焦虑</p>
-            <p>
-              <strong>{{ colScore4 }}分</strong><span>{{ colGrade4 }}</span>
-            </p>
-          </el-row>
-        </el-col>
-        <el-col :span="6" class="col-02">
-          <el-row>
-            <p>躯体化</p>
-            <p>
-              <strong>{{ colScore2 }}分</strong><span>{{ colGrade2 }}</span>
-            </p>
-          </el-row>
-          <el-row>
-            <p>抑郁</p>
-            <p>
-              <strong>{{ colScore5 }}分</strong><span>{{ colGrade5 }}</span>
-            </p>
-          </el-row>
-        </el-col>
-        <el-col :span="6" class="col-02">
-          <el-row>
-            <p>环境适应</p>
-            <p>
-              <strong>{{ colScore3 }}分</strong><span>{{ colGrade3 }}</span>
-            </p>
-          </el-row>
-          <el-row>
-            <p>自卑感</p>
-            <p>
-              <strong>{{ colScore6 }}分</strong><span>{{ colGrade6 }}</span>
-            </p>
-          </el-row>
-        </el-col>
+        <div v-if="dimisionList.length === 7">
+          <div v-for="n in 6" :key="n">
+            <el-col v-if="n % 2 !== 0" :span="6" class="col-02">
+              <el-row>
+                <p>{{ dimisionList[n].Name }}</p>
+                <p>
+                  <strong>{{ dimisionList[n].score }}分</strong
+                  ><span
+                    :style="{
+                      background: getScoreColor(
+                        dimisionList[n].Name,
+                        dimisionList[n].score
+                      ).bgcolor,
+                    }"
+                    >{{
+                      getScoreColor(dimisionList[n].Name, dimisionList[n].score)
+                        .level
+                    }}</span
+                  >
+                </p>
+              </el-row>
+              <el-row>
+                <p>{{ dimisionList[n + 1].Name }}</p>
+                <p>
+                  <strong>{{ dimisionList[n + 1].score }}分</strong
+                  ><span
+                    :style="{
+                      background: getScoreColor(
+                        dimisionList[n + 1].Name,
+                        dimisionList[n + 1].score
+                      ).bgcolor,
+                    }"
+                    >{{
+                      getScoreColor(
+                        dimisionList[n + 1].Name,
+                        dimisionList[n + 1].score
+                      ).level
+                    }}</span
+                  >
+                </p>
+              </el-row>
+            </el-col>
+          </div>
+        </div>
       </el-row>
     </div>
     <!-- <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div> -->
@@ -121,15 +123,9 @@
       <table class="train" border="1">
         <thead>
           <tr>
-            <td>
-              训练设备
-            </td>
-            <td>
-              训练项目
-            </td>
-            <td>
-              推荐训练量
-            </td>
+            <td>训练设备</td>
+            <td>训练项目</td>
+            <td>推荐训练量</td>
           </tr>
         </thead>
         <tbody>
@@ -155,21 +151,13 @@ export default {
   name: "testttreport",
   data() {
     return {
-      completedSteps: 78, // 总得分
-      totalSteps: 100, // 满分
-      gradeAll: "心态良好", // 总得分等级
-      colScore1: 2, // 学习焦虑分数
-      colGrade1: "正常", // 等级
-      colScore2: 3, // 躯体化分数
-      colGrade2: "正常", // 等级
-      colScore3: 4, // 环境适应分数
-      colGrade3: "正常", // 等级
-      colScore4: 5, // 社交焦虑分数
-      colGrade4: "正常", // 等级
-      colScore5: 6, // 抑郁分数
-      colGrade5: "正常", // 等级
-      colScore6: 6, // 自卑感分数
-      colGrade6: "正常", // 等级
+      radialProgressbarColor: "#ED4C45",
+      completedSteps: 0,
+      totalSteps: 100,
+      zongfen_name: "总分",
+      zongfen_grade: "",
+      dimisionList: [],
+      colorArr: ["#ED4C45", "#ED49E7", "#D4BF00", "#0070E5", "#3CC24C"],
       testresult: {
         ID: "",
         UserName: "",
@@ -188,8 +176,7 @@ export default {
         planschemelist: "",
         BrokenLine1: [],
         BrokenLine2: [],
-        DimisionList: [] // 测评结果维度
-      }
+      },
     };
   },
   methods: {
@@ -199,58 +186,31 @@ export default {
       let v = this;
       let params = new URLSearchParams();
       params.append("id", this.testresult.ID);
-      this.$TestResultAPI.getResultDetail(params, function(data) {
+      this.$TestResultAPI.getResultDetail(params, function (data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
-          // 总分
-          v.completedSteps = data.Result.DimisionList.filter(
-            a => a.Name === "总分"
-          )[0].score;
-          v.gradeAll = data.Result.DimisionList.filter(
-            a => a.Name === "总分"
-          )[0].grade;
-          // 学习焦虑
-          v.colScore1 = data.Result.DimisionList.filter(
-            a => a.Name === "学习焦虑"
-          )[0].score;
-          v.colGrade1 = data.Result.DimisionList.filter(
-            a => a.Name === "学习焦虑"
-          )[0].grade;
-          // 躯体化
-          v.colScore2 = data.Result.DimisionList.filter(
-            a => a.Name === "身体症状"
-          )[0].score;
-          v.colGrade2 = data.Result.DimisionList.filter(
-            a => a.Name === "身体症状"
-          )[0].grade;
-          // 环境适应
-          v.colScore3 = data.Result.DimisionList.filter(
-            a => a.Name === "环境适应性"
-          )[0].score;
-          v.colGrade3 = data.Result.DimisionList.filter(
-            a => a.Name === "环境适应性"
-          )[0].grade;
-          // 社交焦虑
-          v.colScore4 = data.Result.DimisionList.filter(
-            a => a.Name === "社交焦虑"
-          )[0].score;
-          v.colGrade4 = data.Result.DimisionList.filter(
-            a => a.Name === "社交焦虑"
-          )[0].grade;
-          // 抑郁
-          v.colScore5 = data.Result.DimisionList.filter(
-            a => a.Name === "抑郁"
-          )[0].score;
-          v.colGrade5 = data.Result.DimisionList.filter(
-            a => a.Name === "抑郁"
-          )[0].grade;
-          // 自卑
-          v.colScore6 = data.Result.DimisionList.filter(
-            a => a.Name === "自卑"
-          )[0].score;
-          v.colGrade6 = data.Result.DimisionList.filter(
-            a => a.Name === "自卑"
-          )[0].grade;
+          v.tableData = data.Result.TrainPlanList;
+          v.dimisionList = data.Result.DimisionList;
+          v.process = data.Result.Process * 100;
+          if (data.Result.DimisionList.length > 0) {
+            v.completedSteps = data.Result.DimisionList[0].score;
+            v.zongfen_grade = data.Result.DimisionList[0].grade;
+            v.zongfen_name = data.Result.DimisionList[0].Name;
+
+            if (
+              data.Result.DimisionList[0].score >= 0 &&
+              data.Result.DimisionList[0].score < 38.89
+            ) {
+              v.radialProgressbarColor = this.colorArr[4];
+            } else if (
+              data.Result.DimisionList[0].score >= 38.89 &&
+              data.Result.DimisionList[0].score < 59.03
+            ) {
+              v.radialProgressbarColor = this.colorArr[3];
+            } else if (data.Result.DimisionList[0].score >= 59.03) {
+              v.radialProgressbarColor = this.colorArr[0];
+            }
+          }
         }
       });
     },
@@ -355,7 +315,7 @@ export default {
         20000,
         17500,
         19438,
-        18188
+        18188,
       ];
       // 用数据函数循环x轴坐标
       let xData = chartData.map((item, index) => index + 1);
@@ -367,35 +327,168 @@ export default {
           text: "测试数据",
           textStyle: {
             left: "center",
-            fontSize: 14
+            fontSize: 14,
           },
           fontSize: 12,
           left: "center",
-          top: 15
+          top: 15,
         },
         tooltip: {
           show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow",
-            shadowStyle: "rgba(150,150,150,0.3)"
-          }
+            shadowStyle: "rgba(150,150,150,0.3)",
+          },
         },
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: xData
+          data: xData,
         },
         yAxis: {
-          type: "value"
+          type: "value",
         },
         series: [
           {
             data: chartData,
-            type: "line"
-          }
-        ]
+            type: "line",
+          },
+        ],
       });
+    },
+    // 等级
+    getScoreColor(propertyStr, score) {
+      let tempObj = {};
+      if (propertyStr === "学习焦虑") {
+        if (score >= 0 && score <= 4) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "学习焦虑较低",
+          };
+        } else if (score > 4 && score <= 8) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "学习焦虑中等",
+          };
+        } else if (score > 8 && score <= 16) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "学习焦虑较高",
+          };
+        }
+      } else if (propertyStr === "躯体化" || propertyStr === "身体症状") {
+        if (score >= 0 && score <= 4) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "较低",
+          };
+        } else if (score > 4 && score <= 8) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "中等",
+          };
+        } else if (score > 8 && score <= 16) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "偏多",
+          };
+        }
+      } else if (propertyStr === "环境适应" || propertyStr === "环境适应性") {
+        if (score >= 0 && score <= 31) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "适应性很差",
+          };
+        } else if (score > 31 && score <= 61) {
+          tempObj = {
+            bgcolor: this.colorArr[1],
+            level: "适应性较差",
+          };
+        } else if (score > 61 && score <= 91) {
+          tempObj = {
+            bgcolor: this.colorArr[2],
+            level: "适应性一般",
+          };
+        } else if (score > 91 && score <= 121) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "适应性较强",
+          };
+        } else if (score > 121 && score <= 151) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "适应性很强",
+          };
+        }
+      } else if (propertyStr === "社交焦虑") {
+        if (score >= 0 && score <= 4) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "社交焦虑较低",
+          };
+        } else if (score > 4 && score <= 8) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "社交焦虑中等",
+          };
+        } else if (score > 8 && score <= 11) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "社交焦虑较高",
+          };
+        }
+      } else if (propertyStr === "抑郁") {
+        if (score >= 20 && score <= 40) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "无抑郁症状",
+          };
+        } else if (score > 40 && score <= 48) {
+          tempObj = {
+            bgcolor: this.colorArr[2],
+            level: "中度至重度抑郁",
+          };
+        } else if (score > 48 && score <= 56) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "轻微或轻度抑郁",
+          };
+        } else if (score > 56 && score <= 81) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "重度抑郁",
+          };
+        }
+      } else if (propertyStr === "自卑感" || propertyStr === "自卑") {
+        if (score >= 36 && score <= 73) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "自尊感过强",
+          };
+        } else if (score > 73 && score <= 109) {
+          tempObj = {
+            bgcolor: this.colorArr[1],
+            level: "自尊感较强",
+          };
+        } else if (score > 109 && score <= 145) {
+          tempObj = {
+            bgcolor: this.colorArr[2],
+            level: "自尊感一般",
+          };
+        } else if (score > 145 && score <= 181) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "自卑感较强",
+          };
+        } else if (score > 181 && score <= 253) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "自卑感过强",
+          };
+        }
+      }
+      return tempObj;
     },
     //导出报告
     exportWord() {
@@ -409,7 +502,7 @@ export default {
       // document.body.appendChild(elt);
       // elt.click();
       // document.body.removeChild(elt);
-    }
+    },
   },
   mounted() {
     // 获取路由参数，回去详情数据
@@ -419,8 +512,8 @@ export default {
   },
   computed: {},
   components: {
-    RadialProgressBar
-  }
+    RadialProgressBar,
+  },
 };
 </script>
 

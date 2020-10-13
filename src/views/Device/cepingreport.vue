@@ -110,6 +110,7 @@
 </template>
 
 <script>
+import RadialProgressBar from "./radial-progress-bar.vue";
 export default {
   name: "cepingreport",
   data() {
@@ -194,6 +195,139 @@ export default {
         ]
       });
     },
+    // 等级
+    getScoreColor(propertyStr, score) {
+      let tempObj = {};
+      if (propertyStr === "学习焦虑") {
+        if (score >= 0 && score <= 4) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "学习焦虑较低"
+          };
+        } else if (score > 4 && score <= 8) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "学习焦虑中等"
+          };
+        } else if (score > 8 && score <= 16) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "学习焦虑较高"
+          };
+        }
+      } else if (propertyStr === "躯体化" || propertyStr === "身体症状") {
+        if (score >= 0 && score <= 4) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "较低"
+          };
+        } else if (score > 4 && score <= 8) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "中等"
+          };
+        } else if (score > 8 && score <= 16) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "偏多"
+          };
+        }
+      } else if (propertyStr === "环境适应" || propertyStr === "环境适应性") {
+        if (score >= 0 && score <= 31) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "适应性很差"
+          };
+        } else if (score > 31 && score <= 61) {
+          tempObj = {
+            bgcolor: this.colorArr[1],
+            level: "适应性较差"
+          };
+        } else if (score > 61 && score <= 91) {
+          tempObj = {
+            bgcolor: this.colorArr[2],
+            level: "适应性一般"
+          };
+        } else if (score > 91 && score <= 121) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "适应性较强"
+          };
+        } else if (score > 121 && score <= 151) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "适应性很强"
+          };
+        }
+      } else if (propertyStr === "社交焦虑") {
+        if (score >= 0 && score <= 4) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "社交焦虑较低"
+          };
+        } else if (score > 4 && score <= 8) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "社交焦虑中等"
+          };
+        } else if (score > 8 && score <= 11) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "社交焦虑较高"
+          };
+        }
+      } else if (propertyStr === "抑郁") {
+        if (score >= 20 && score <= 40) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "无抑郁症状"
+          };
+        } else if (score > 40 && score <= 48) {
+          tempObj = {
+            bgcolor: this.colorArr[2],
+            level: "中度至重度抑郁"
+          };
+        } else if (score > 48 && score <= 56) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "轻微或轻度抑郁"
+          };
+        } else if (score > 56 && score <= 81) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "重度抑郁"
+          };
+        }
+      } else if (propertyStr === "自卑感" || propertyStr === "自卑") {
+        if (score >= 36 && score <= 73) {
+          tempObj = {
+            bgcolor: this.colorArr[0],
+            level: "自尊感过强"
+          };
+        } else if (score > 73 && score <= 109) {
+          tempObj = {
+            bgcolor: this.colorArr[1],
+            level: "自尊感较强"
+          };
+        } else if (score > 109 && score <= 145) {
+          tempObj = {
+            bgcolor: this.colorArr[2],
+            level: "自尊感一般"
+          };
+        } else if (score > 145 && score <= 181) {
+          tempObj = {
+            bgcolor: this.colorArr[3],
+            level: "自卑感较强"
+          };
+        } else if (score > 181 && score <= 253) {
+          tempObj = {
+            bgcolor: this.colorArr[4],
+            level: "自卑感过强"
+          };
+        }
+      }
+      return tempObj;
+    },
     //导出报告
     exportWord() {
       let exportId = this.$route.query.ID;
@@ -234,5 +368,71 @@ export default {
 @import "../../../static/css/common.css";
 .img1 {
   width: 100%;
+}
+.col-01 {
+  position: relative;
+  height: 260px;
+  border-right: 2px solid #dfdfdf;
+  border-bottom: 2px solid #dfdfdf;
+}
+.col-01 span {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+.radial-progress-container {
+  margin: 30px auto;
+}
+.radial-progress-inner p {
+  color: #f44336;
+}
+.radial-progress-inner p:first-child {
+  font-size: 52px;
+  font-weight: bold;
+}
+.radial-progress-inner p:last-child {
+  font-size: 16px;
+}
+.col-02 .el-row {
+  padding: 16px 20px;
+  box-sizing: border-box;
+  height: 130px;
+  border-right: 2px solid #dfdfdf;
+  border-bottom: 2px solid #dfdfdf;
+}
+.col-02 .el-row p {
+  width: 90%;
+  text-align: left;
+  margin: 0 auto;
+}
+.col-02 .el-row p:first-child {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+.col-02 .el-row p:last-child strong {
+  font-size: 26px;
+  color: #f44336;
+}
+.col-02 .el-row p:last-child span {
+  background: #f44336;
+  display: inline-block;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #fff;
+  padding: 0 5px;
+}
+.info_progress {
+  margin: 20px auto;
+}
+.info_progress strong {
+  font-size: 20px;
+}
+.info_progress .el-progress--line {
+  margin-top: 8px;
 }
 </style>
