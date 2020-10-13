@@ -27,6 +27,7 @@ import Nahan from "@/views/Device/nahan";
 import Yongbao from "@/views/Device/yongbao";
 import Zixinxin from "@/views/Device/zixinxin";
 import Consult from "@/views/consult/consult";
+import Consultlook from "@/views/consult/consultlook";
 import Duty from "@/views/consult/duty";
 import DutyEdit from "@/views/consult/dutyedit";
 import Backup from "@/views/system/backup";
@@ -276,6 +277,14 @@ export default [
         path: "/consult",
         name: "consult",
         component: Consult,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: "/consultlook",
+        name: "consultlook",
+        component: Consultlook,
         meta: {
           requireAuth: true
         }

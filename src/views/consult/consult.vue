@@ -25,7 +25,7 @@
       </el-button>
     </div>
     <div class="searchData">
-      <el-table ref="multipleTable" style="width: 100%;" :data="userList">
+      <el-table ref="multipleTable" style="width: 100%" :data="userList">
         <el-table-column
           v-model="checkAll"
           type="selection"
@@ -81,7 +81,7 @@ export default {
       pagesize: 10, //    每页的数据
       userList: [],
       totalRecords: 0,
-      AdminID: ""
+      AdminID: "",
     };
   },
   methods: {
@@ -110,7 +110,7 @@ export default {
       param.append("pageSize", this.pagesize);
       this.userList = this.$ConsulationAPI.getConsulationPageList(
         param,
-        function(data) {
+        function (data) {
           if (data.Code == 1) {
             v.userList = data.Result.Data;
             v.totalRecords = data.Result.totalRecords;
@@ -130,11 +130,11 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function(value, index, array) {
+          selectrows.forEach(function (value, index, array) {
             newarr += value.ID + ",";
           });
           if (newarr) {
@@ -142,7 +142,7 @@ export default {
           }
           var params = new URLSearchParams();
           params.append("ID", newarr);
-          this.$ConsulationAPI.PLdelConsulation(params, function(data) {
+          this.$ConsulationAPI.PLdelConsulation(params, function (data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -154,6 +154,10 @@ export default {
     // 查看
     lookRow(row) {
       console.log(row);
+      this.$router.push({
+        name: "consultlook",
+        query: { ID: row.ID, issave: "false" },
+      });
     },
     //单个删除
     deleteRow(row) {
@@ -161,13 +165,13 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("ID", row.ID);
 
-          this.$ConsulationAPI.delConsulation(param, function(data) {
+          this.$ConsulationAPI.delConsulation(param, function (data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -175,7 +179,7 @@ export default {
           });
         })
         .catch(() => {});
-    }
+    },
   },
   mounted() {
     this.AdminID = this.$store.state.userinfo.ID;
@@ -186,7 +190,7 @@ export default {
     childNodes.className = "layui-nav-item layui-nav-itemed";
     let dl = childNodes.childNodes[2];
     dl.children[0].className = "layui-this";
-  }
+  },
 };
 </script>
 
