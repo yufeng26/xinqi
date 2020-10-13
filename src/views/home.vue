@@ -333,6 +333,11 @@ export default {
   },
   updated() {
     // console.log(this.$route.path);
+    // let lilist = document.getElementsByClassName("layui-nav-item");
+    // Array.from(lilist).forEach((ele) => {
+    //   ele.className = "layui-nav-item";
+    // });
+    // lilist[9].className = "layui-nav-item layui-this";
     // const $menuList = $(this.$refs["menu-list"]);
     // $menuList.find("li").each(function (i, obj) {
     //   $(obj).removeClass("layui-nav-itemed");
