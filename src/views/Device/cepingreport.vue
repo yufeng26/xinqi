@@ -35,11 +35,11 @@
         </tr>
       </table>
 
-      <h3>
+      <!-- <h3>
         量表名称：<span>{{ testresult.DeviceName }}</span>
-      </h3>
+      </h3> -->
     </div>
-    <div class="tlt">评估结果</div>
+    <div class="tlt mtop15">测评结果</div>
     <div class="info">
       <table border="1" class="resultTable">
         <tr>
@@ -47,39 +47,66 @@
             测试总分：<span>{{ testresult.Score }}</span>
           </td>
           <td>
-            测试结果：<span>{{ testresult.Result }}</span>
+            测试结果：<span>{{ testresult.ResultType }}</span>
           </td>
         </tr>
       </table>
     </div>
+    <div class="tlt mtop15">因子</div>
     <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
-  </div>
-  <!-- <div class="bigbox">
-    <div class="report">
-      <div class="img1"><img src="../../../static/img/scl90ck/1.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/2.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/3.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/4.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/5.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/6.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/7.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/8.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/9.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/10.png" /></div>
-      <div class="img1"><img src="../../../static/img/scl90ck/11.png" /></div>
-    </div>
-
-    <div style="display: flex; justify-content: center; margin-top: 80px">
-      <button
-        type="button"
-        style="background: #01c8e7"
-        @click="ExportRow"
-        class="layui-btn layui-btn-lg"
+    <div class="tlt mtop15">测评结果分析</div>
+    <div class="info">
+      <div
+        class="rulest"
+        v-for="item in testresult.DimisionList"
+        v-bind:key="item.Name"
       >
-        导出
-      </button>
+        <h4>
+          维度名称：{{ item.Name }}；得分：{{ item.score }}；维度等级：{{
+            item.grade
+          }}
+        </h4>
+        <h4>维度结果分析：</h4>
+        <p>{{ item.result }}</p>
+        <h4 class="mtop10">维度指导意见：</h4>
+        <p>{{ item.Suggestion }}</p>
+      </div>
     </div>
-  </div> -->
+    <div class="tlt">指导建议</div>
+    <div class="info">
+      <p class="tent">{{ testresult.Suggestion }}</p>
+    </div>
+    <div class="tlt">推荐训练方案</div>
+    <div class="info">
+      <table class="train" border="1">
+        <thead>
+          <tr>
+            <td>
+              训练设备
+            </td>
+            <td>
+              训练项目
+            </td>
+            <td>
+              推荐训练量
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in testresult.TrainPlanList" v-bind:key="item.ID">
+            <td>{{ item.DeivceName }}</td>
+            <td>{{ item.TitleName }}</td>
+            <td>{{ item.Train }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="exportBox">
+      <el-button type="primary" @click="exportWord" class="exportBtn">
+        导出
+      </el-button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -87,6 +114,7 @@ export default {
   name: "cepingreport",
   data() {
     return {
+      DimisionList: [], // 维度参数
       testresult: {
         ID: "",
         UserName: "",
@@ -116,121 +144,24 @@ export default {
       this.$TestResultAPI.getResultDetail(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
-          console.log(v.testresult);
+          v.DimisionList = data.Result.DimisionList;
         }
       });
     },
     // 初始化图表
     initChart() {
+      console.log(this.DimisionList);
       var dom = document.getElementById("fiveEcharts");
       var myChart = this.echarts.init(dom);
       // 此处数据为假数据，应该取接口返回数据，带接口OK了，在调试
-      let chartData = [
-        20313,
-        19813,
-        22188,
-        19063,
-        19938,
-        19938,
-        18500,
-        18000,
-        22188,
-        19688,
-        20625,
-        19438,
-        18813,
-        19188,
-        19000,
-        19938,
-        19188,
-        19438,
-        22000,
-        33813,
-        39063,
-        32625,
-        26000,
-        24063,
-        24438,
-        27000,
-        28250,
-        24688,
-        27125,
-        26563,
-        25313,
-        25000,
-        26500,
-        26375,
-        25063,
-        24438,
-        24000,
-        24938,
-        24063,
-        25938,
-        24813,
-        22688,
-        21938,
-        22438,
-        20563,
-        22000,
-        19500,
-        19750,
-        19750,
-        23813,
-        24000,
-        23250,
-        24063,
-        24438,
-        24688,
-        23938,
-        24063,
-        24688,
-        23438,
-        25813,
-        25875,
-        25938,
-        24688,
-        24500,
-        25688,
-        22750,
-        26188,
-        25938,
-        25313,
-        24063,
-        25438,
-        24500,
-        24563,
-        26313,
-        17875,
-        19875,
-        20813,
-        20750,
-        18313,
-        18563,
-        18688,
-        19313,
-        18688,
-        18063,
-        19063,
-        19750,
-        19813,
-        19813,
-        20563,
-        20563,
-        21063,
-        19938,
-        20000,
-        17500,
-        19438,
-        18188
-      ];
+      let chartData = this.DimisionList.map(a => a.score);
       // 用数据函数循环x轴坐标
-      let xData = chartData.map((item, index) => index + 1);
-      console.log(xData);
+      let xData = this.DimisionList.map(item => item.Name);
       // 绘制图表
       myChart.setOption({
         color: ["#3cc5a3", "#ffc000", "#5cdbf2"],
         title: {
-          text: "测试数据",
+          text: "因子得分",
           textStyle: {
             left: "center",
             fontSize: 14
@@ -258,31 +189,44 @@ export default {
         series: [
           {
             data: chartData,
-            type: "line"
+            type: "bar"
           }
         ]
       });
     },
     //导出报告
-    ExportRow() {
-      // this.$TestResultAPI.ReportResult(this.testresult.ID);
-      let url = "../../../static/img/scl90ck.rar";
-      const elt = document.createElement("a");
-      elt.setAttribute("href", url);
-      elt.setAttribute("download", "scl-90查看图片.rar");
-      elt.style.display = "none";
-      document.body.appendChild(elt);
-      elt.click();
-      document.body.removeChild(elt);
+    exportWord() {
+      let exportId = this.$route.query.ID;
+      alert("导出id=" + exportId);
+      // let url = "../../../static/img/scl90ck.rar";
+      // const elt = document.createElement("a");
+      // elt.setAttribute("href", url);
+      // elt.setAttribute("download", "scl-90查看图片.rar");
+      // elt.style.display = "none";
+      // document.body.appendChild(elt);
+      // elt.click();
+      // document.body.removeChild(elt);
     }
   },
-  mounted() {
+  created() {
     // 获取路由参数，回去详情数据
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
+  },
+  mounted() {
     this.initChart();
   },
-  computed: {}
+  computed: {},
+  watch: {
+    DimisionList: {
+      handler(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.initChart();
+        }
+      },
+      deep: true
+    }
+  }
 };
 </script>
 

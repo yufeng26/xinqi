@@ -107,13 +107,14 @@
   width: 100%;
   background-color: #006fe5;
   color: #ffffff;
-  font-size: 24px;
+  font-size: 20px;
   height: 40px;
   line-height: 40px;
   text-align: center;
 }
 .detailPage .info h2 {
   margin: 15px 0;
+  font-size: 18px;
 }
 .detailPage .info table {
   width: 100%;
