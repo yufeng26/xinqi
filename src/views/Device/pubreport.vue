@@ -39,7 +39,20 @@
         量表名称：<span>{{ testresult.DeviceName }}</span>
       </h3>
     </div>
-    <div class="tlt">呐喊图表</div>
+    <div class="tlt mtop15">测评结果</div>
+    <div class="info">
+      <table border="1" class="resultTable">
+        <tr>
+          <td>
+            测试总分：<span>{{ testresult.Score }}</span>
+          </td>
+          <td>
+            测试结果：<span>{{ testresult.Result }}</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="tlt mtop15">呐喊图表</div>
     <div class="info">
       <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
       <div id="sixEcharts" :style="{ width: '100%', height: '400px' }"></div>
