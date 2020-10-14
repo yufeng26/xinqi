@@ -1,11 +1,11 @@
 <template>
   <div class="formPage">
     <!-- 内容主体区域 -->
-    <div class="pageTille">个人资料</div>
+    <div class="pageTille">管理员信息</div>
     <div class="inputBox">
       <el-row class="mtop15">
         <el-col :span="8">
-          <label class="inputLabel">*用户名：</label>
+          <label class="inputLabel">用户名：</label>
           <div class="inputData">
             <el-input
               v-model="admininfo.a_UserName"
@@ -16,7 +16,7 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <label class="inputLabel">*真实姓名：</label>
+          <label class="inputLabel">真实姓名：</label>
           <div class="inputData">
             <el-input
               v-model="admininfo.a_RealName"
