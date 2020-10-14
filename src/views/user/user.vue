@@ -321,6 +321,7 @@ export default {
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange(size) {
       this.pagesize = size;
+      this.handleUserList(); //点击每页几条
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
@@ -329,7 +330,7 @@ export default {
     handleUserList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("searchkey", this.searchkey);
+      param.append("userName", this.searchkey);
       param.append("AdminID", this.AdminID);
       param.append("groupid", this.valueId);
       param.append("pageNum", this.currentPage);
