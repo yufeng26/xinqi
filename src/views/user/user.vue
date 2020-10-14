@@ -103,16 +103,6 @@
         >
           {{ menuModel.addfenzu }}
         </button>
-
-        <button
-          type="button"
-          style="background: #ff433f"
-          @click="handlePLDelete"
-          class="layui-btn layui-btn-normal"
-          v-if="menuModel.deleteUsable"
-        >
-          批量删除
-        </button>
         <button
           type="button"
           style="background: #20bb45"
@@ -124,7 +114,7 @@
         </button>
         <button
           type="button"
-          style="background: #20bb45"
+          style="background: #01c8e7"
           @click="$router.push({ name: 'importuser' })"
           class="layui-btn layui-btn-normal pldr"
           v-if="menuModel.daoruUsable"
@@ -139,6 +129,15 @@
           v-if="menuModel.yidongUsable"
         >
           移动用户
+        </button>
+        <button
+          type="button"
+          style="background: #ff433f"
+          @click="handlePLDelete"
+          class="layui-btn layui-btn-normal"
+          v-if="menuModel.deleteUsable"
+        >
+          批量删除
         </button>
       </div>
     </div>

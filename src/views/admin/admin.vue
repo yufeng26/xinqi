@@ -52,6 +52,7 @@
               @click.native.prevent="fenpeiquanxian(scope.row, true)"
               type="warning"
               size="mini"
+              style="background-color: #f56cc0"
               v-if="menuModel.quanxianUsable"
               >{{ menuModel.quanxian }}</el-button
             >
@@ -59,6 +60,7 @@
               @click.native.prevent="Allocation(scope.row)"
               type="success"
               size="mini"
+              style="background-color: #57c2ff"
               v-if="menuModel.fenpeiUsable"
               >{{ menuModel.fenpei }}</el-button
             >
@@ -83,7 +85,6 @@
         :total="totalRecords"
       ></el-pagination>
     </div>
-    <div id="test1"></div>
     <el-dialog
       title="提示"
       :visible.sync="centerDialogVisible"
@@ -192,6 +193,7 @@ export default {
     handleSizeChange(size) {
       this.pagesize = size;
       console.log(this.pagesize); //每页下拉显示数据
+      this.handleUserList(); //点击每页几条
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
