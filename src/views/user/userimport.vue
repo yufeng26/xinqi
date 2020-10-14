@@ -72,22 +72,30 @@
 </template>
 
 <script>
-    export default {
-        name: "userimport",
-      data(){
-          return{
-            groupid:"",
-            fileurl:"",
-            AdminID:"",
-            a_Authorization:"",
-            tableData:[{ID:"",e_CreateTime:"",e_FiledName:"",e_OptionInfo:"",e_Types:""}],
-            tb_header:[]
-          }
-      },
-      mounted(){
-        // this.groupid=this.$route.query.GroupID
-        this.AdminID=this.$store.state.userinfo.ID
-        const a_Authorization = this.$store.state.userinfo.a_Authorization;
+export default {
+  name: "userimport",
+  data() {
+    return {
+      groupid: "",
+      fileurl: "",
+      AdminID: "",
+      a_Authorization: "",
+      tableData: [
+        {
+          ID: "",
+          e_CreateTime: "",
+          e_FiledName: "",
+          e_OptionInfo: "",
+          e_Types: "",
+        },
+      ],
+      tb_header: [],
+    };
+  },
+  mounted() {
+    // this.groupid=this.$route.query.GroupID
+    this.AdminID = this.$store.state.userinfo.ID;
+    const a_Authorization = this.$store.state.userinfo.a_Authorization;
     if (a_Authorization == null) {
       //说明是一级管理员
       this.a_Authorization = this.AdminID;
@@ -95,200 +103,209 @@
       //说明是一级以下的管理员
       this.a_Authorization = a_Authorization + "," + this.AdminID;
     }
-    this.getSystem()
-      },
-      methods:{
-        getSystem(){
-               let that=this
-               let param = new URLSearchParams();
-               this.$SystemAPI.getSystem(param,function (data){
-                 if (data.Code==1) { 
-                   console.log(data)
-                     let datas=data.Result
-                     if(datas.length>0){
-                           that.tb_header=datas
-                     }
-                   }
-               })
-        },
-        exportExcel() {
-          let that=this
+    this.getSystem();
+  },
+  methods: {
+    getSystem() {
+      let that = this;
+      let param = new URLSearchParams();
+      this.$SystemAPI.getSystem(param, function (data) {
+        if (data.Code == 1) {
+          console.log(data);
+          let datas = data.Result;
+          if (datas.length > 0) {
+            that.tb_header = datas;
+          }
+        }
+      });
+    },
+    exportExcel() {
+      let that = this;
       require.ensure([], () => {
         const { export_json_to_excel } = require("../../excel/Export2Excel");
-        const tHeader = ['*用户名', '*密码', '*真实姓名','*性别','*当前受教水平','*出生年月'];
-        that.tb_header.forEach(item=>{
-          tHeader.push(item.e_FiledName)
-        })
+        const tHeader = [
+          "*用户名",
+          "*密码",
+          "*真实姓名",
+          "*性别",
+          "*当前受教水平",
+          "*出生年月",
+        ];
+        that.tb_header.forEach((item) => {
+          tHeader.push(item.e_FiledName);
+        });
         // 上面设置Excel的表格第一行的标题
-        const filterVal = ['ID', 'e_CreateTime','e_FiledName','e_OptionInfo','e_Types'];
+        const filterVal = [
+          "ID",
+          "e_CreateTime",
+          "e_FiledName",
+          "e_OptionInfo",
+          "e_Types",
+        ];
         // 上面的index、nickName、name是tableData里对象的属性
-        const list = this.tableData;  //把data里的tableData存到list
-         const data = this.formatJson(filterVal, list);
-        export_json_to_excel(tHeader, data, '物联网云平台批量创建用户模板');
-      })
+        const list = this.tableData; //把data里的tableData存到list
+        const data = this.formatJson(filterVal, list);
+        export_json_to_excel(tHeader, data, "物联网云平台批量创建用户模板");
+      });
     },
-     formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => v[j]))
-      },
-        update(e){
-          let v=this;
-          let file = e.target.files[0];
-          let param = new FormData(); //创建form对象
-          param.append('file',file);//通过append向form对象添加数据
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]));
+    },
+    update(e) {
+      let v = this;
+      let file = e.target.files[0];
+      let param = new FormData(); //创建form对象
+      param.append("file", file); //通过append向form对象添加数据
 
-          let config = {
-            headers:{'Content-Type':'multipart/form-data'}
-          }; //添加请求头
-          this.$UserAPI.UploadFile(param,function (data) {
-            if (data.Code==1) {
-
-              v.fileurl=data.Result;
-            }else{
-              v.$message.success('上传失败!'+data.Msg);
-            }
-          });
-
-      },
-        importuser(){
-          let v=this;
-          if (!this.fileurl){
-
-            this.$message.warning('请选择文件!');
-            return;
-          }
-          let param = new URLSearchParams();
-          param.append('Groupid',this.groupid)
-          param.append('Headstr',this.fileurl)
-          param.append('AdminID',this.AdminID)
-          param.append('AuthorizationId',this.a_Authorization)
-          this.$UserAPI.ImportCUser(param,function(data){
-            if (data.Code==1) {
-              // v.$set(v.groupid,'')
-              // v.$set(v.fileurl,'')//暂时不知道这是什么业务逻辑
-              v.$message.success('导入成功!');
-            }else {
-              v.$message.error('导入失败!'+data.Msg
-              );
-            }
-          });
-
-    }
+      let config = {
+        headers: { "Content-Type": "multipart/form-data" },
+      }; //添加请求头
+      this.$UserAPI.UploadFile(param, function (data) {
+        if (data.Code == 1) {
+          v.fileurl = data.Result;
+        } else {
+          v.$message.success("上传失败!" + data.Msg);
+        }
+      });
+    },
+    importuser() {
+      let v = this;
+      if (!this.fileurl) {
+        this.$message.warning("请选择文件!");
+        return;
       }
-    }
+      let param = new URLSearchParams();
+      param.append("Groupid", this.groupid);
+      param.append("Headstr", this.fileurl);
+      param.append("AdminID", this.AdminID);
+      param.append("AuthorizationId", this.a_Authorization);
+      this.$UserAPI.ImportCUser(param, function (data) {
+        if (data.Code == 1) {
+          // v.$set(v.groupid,'')
+          // v.$set(v.fileurl,'')//暂时不知道这是什么业务逻辑
+          v.$message.success("导入成功!");
+          this.$router.push("/user");
+        } else {
+          v.$message.error("导入失败!" + data.Msg);
+        }
+      });
+    },
+  },
+};
 </script>
 <style>
-  .mycenters li p{
-    width: 45%;
-    padding-left: 2%;
-  }
-  .mycenters li p input{
-    width: 60%;
-  }
-  .mycenters li p a{
-    color: #0070E5;
-    border-bottom: 1px solid #0070E5;
-  }
-  .files{
-    width:30%;
-    border: 1px solid #0070E5;
-    display: flex;
-    height: 40px;
-    position: relative;
-  }
-  .files span{
-    display: inline-block;
-  }
-  .files span:nth-child(1){
-    width: 65%;
-    text-align: center;
-    line-height: 40px;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    overflow:hidden;
-  }
-  .files span:nth-child(2){
-    text-align: center;
-    width: 35%;
-    background: #0070E5;
-    line-height: 40px;
-    color: #fff;
-  }
-  .files input{
-    position: absolute;
-    right: 0;
-    width: 45%;
-    height: 40px;
-    opacity: 0;
-    z-index: 666;
-  }
-  #deltwo{
-    width:20%;
-    height: 272px;
-    background: #FFFFFF;
-    border-radius: 5px;
-    position: fixed;
-    top:35%;
-    left: 50%;
-    box-shadow: 3px 3px 3px #CCCCCC;
-    border: 1px solid #F2F2F2;
-    display: none;
-  }
-  #deltwo .deltit{
-    height: 40px;
-    font-size: 18px;
-    color: #fff;
-    background: #0070e5;
-    text-align: center;
-    line-height: 40px;
-    margin-bottom: 34px;
-  }
-  #deltwo p{
-    width: 100%;
-    padding-bottom: 15px;
-    text-align: center;
-  }
-  #del{
-    width:20%;
-    background: #FFFFFF;
-    border-radius: 5px;
-    position: fixed;
-    top:35%;
-    left: 50%;
-    box-shadow: 3px 3px 3px #CCCCCC;
-    border: 1px solid #F2F2F2;
-    display: none;
-  }
-  #del .deltit{
-    height: 40px;
-    font-size: 18px;
-    color: #fff;
-    background: #0070e5;
-    text-align: center;
-    line-height: 40px;
-    margin-bottom: 34px;
-  }
-  #del p{
-    width: 100%;
-    margin: 15px 0;
-    text-align: center;
-    font-size: 18px;
-    color: #555;
-  }
-  #del .resume{
-    display: flex;
-    justify-content: space-around;
-    margin: 0;
-    padding-bottom:20px;
-  }
-  #del .resume button{
-    width: 30%;
-    font-size: 16px;
-  }
+.mycenters li p {
+  width: 45%;
+  padding-left: 2%;
+}
+.mycenters li p input {
+  width: 60%;
+}
+.mycenters li p a {
+  color: #0070e5;
+  border-bottom: 1px solid #0070e5;
+}
+.files {
+  width: 30%;
+  border: 1px solid #0070e5;
+  display: flex;
+  height: 40px;
+  position: relative;
+}
+.files span {
+  display: inline-block;
+}
+.files span:nth-child(1) {
+  width: 65%;
+  text-align: center;
+  line-height: 40px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.files span:nth-child(2) {
+  text-align: center;
+  width: 35%;
+  background: #0070e5;
+  line-height: 40px;
+  color: #fff;
+}
+.files input {
+  position: absolute;
+  right: 0;
+  width: 45%;
+  height: 40px;
+  opacity: 0;
+  z-index: 666;
+}
+#deltwo {
+  width: 20%;
+  height: 272px;
+  background: #ffffff;
+  border-radius: 5px;
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  box-shadow: 3px 3px 3px #cccccc;
+  border: 1px solid #f2f2f2;
+  display: none;
+}
+#deltwo .deltit {
+  height: 40px;
+  font-size: 18px;
+  color: #fff;
+  background: #0070e5;
+  text-align: center;
+  line-height: 40px;
+  margin-bottom: 34px;
+}
+#deltwo p {
+  width: 100%;
+  padding-bottom: 15px;
+  text-align: center;
+}
+#del {
+  width: 20%;
+  background: #ffffff;
+  border-radius: 5px;
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  box-shadow: 3px 3px 3px #cccccc;
+  border: 1px solid #f2f2f2;
+  display: none;
+}
+#del .deltit {
+  height: 40px;
+  font-size: 18px;
+  color: #fff;
+  background: #0070e5;
+  text-align: center;
+  line-height: 40px;
+  margin-bottom: 34px;
+}
+#del p {
+  width: 100%;
+  margin: 15px 0;
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+}
+#del .resume {
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding-bottom: 20px;
+}
+#del .resume button {
+  width: 30%;
+  font-size: 16px;
+}
 </style>
 <style scoped>
-  @import "../../../static/css/pcenter.css";
-  @import "../../../static/css/common.css";
-  .content .import{
-    padding-left:20px;
-  }
+@import "../../../static/css/pcenter.css";
+@import "../../../static/css/common.css";
+.content .import {
+  padding-left: 20px;
+}
 </style>

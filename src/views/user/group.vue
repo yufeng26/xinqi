@@ -2,27 +2,20 @@
   <div>
     <!-- 内容主体区域 -->
     <div class="top">
-      <form class="layui-form" action>
-        <div class="layui-form-item">
-          <label class="layui-form-label">真实姓名：</label>
-          <div class="layui-input-block">
-            <el-input placeholder="请输入姓名" v-model="searchkey"></el-input>
-          </div>
-        </div>
-      </form>
-      <div class="selects"></div>
+      <h3 class="gropName">分组名称：{{ showGropName }}</h3>
       <button
         type="button"
-        @click="handleUserList"
+        @click="goBank()"
         style="background: #006fe5; margin-left: 50%"
         class="layui-btn layui-btn-normal"
       >
-        开始检索
+        返回
       </button>
     </div>
+    <div class="kong"></div>
     <div class="bigbox">
       <div class="consult">
-        <div class="grouping" v-if="groupvisible">
+        <!-- <div class="grouping" v-if="groupvisible">
           <h2 style="color: #0070e5">创建分组</h2>
           <input
             type="text"
@@ -46,8 +39,8 @@
           >
             返回
           </button>
-        </div>
-        <div class="move" v-show="movingvisible">
+        </div> -->
+        <!-- <div class="move" v-show="movingvisible">
           <h2>移动至</h2>
           <div class="movercount">
             <img style="display: block" class="xia" src="/static/img/jt.png" />
@@ -84,8 +77,8 @@
           >
             返回
           </button>
-        </div>
-        <div style="display: flex; justify-content: flex-start">
+        </div> -->
+        <!-- <div style="display: flex; justify-content: flex-start">
           <button
             type="button"
             style="background: #006fe5"
@@ -104,7 +97,7 @@
           >
             {{ menuModel.delete }}
           </button>
-        </div>
+        </div> -->
 
         <div class="tab">
           <el-table ref="multipleTable" style="width: 100%" :data="userList">
@@ -114,7 +107,7 @@
               :indeterminate="isIndeterminate"
               @change="handleCheckAllChange"
             ></el-table-column>
-            <el-table-column label="名称">
+            <el-table-column label="用户名">
               <template slot-scope="scope">
                 <img v-if="scope.row.IsGroup" src="/static/img/zu.png" />
                 {{ scope.row.RealName }}
@@ -123,6 +116,7 @@
             <el-table-column
               label="创建时间"
               prop="CreateTime"
+              :formatter="dateFormat"
             ></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
@@ -203,6 +197,7 @@ export default {
       groupvisible: false,
       movingvisible: false,
       addgroupid: "",
+      showGropName: "",
       AdminID: "",
       menuModel: {
         addfenzu: "",
@@ -217,6 +212,7 @@ export default {
   mounted() {
     this.AdminID = this.$store.state.userinfo.ID;
     this.addgroupid = this.$route.query.GroupID;
+    this.showGropName = this.$route.query.GroupName;
     let that = this;
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
@@ -230,6 +226,17 @@ export default {
     this.gettreeList();
   },
   methods: {
+    // 返回上一页
+    goBank() {
+      this.$router.push("/user");
+    },
+    // 格式化时间
+    dateFormat(row, column, cellValue, index) {
+      if (cellValue == undefined) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
     setmenuModel(item) {
       let that = this;
       item.forEach((c) => {
@@ -254,7 +261,7 @@ export default {
     handleUserList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("searchkey", this.searchkey);
+      // param.append("searchkey", this.searchkey);
 
       param.append("groupid", this.addgroupid);
       param.append("pageNum", this.currentPage);
@@ -402,6 +409,15 @@ export default {
 </script>
 
 <style type="text/css">
+.gropName {
+  color: #006fe5;
+  font-size: 18px;
+}
+.kong {
+  width: 100%;
+  height: 15px;
+  background: #ebebeb;
+}
 .liand select {
   border: 1px solid #006fe5;
 }
@@ -498,6 +514,9 @@ export default {
   display: flex;
   justify-content: center;
   padding-top: 30px;
+}
+.el-pagination {
+  margin-top: 15px;
 }
 </style>
 <style scoped>

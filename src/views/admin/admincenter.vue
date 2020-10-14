@@ -15,16 +15,17 @@
     <div class="inputBox" v-if="changeRed == 0">
       <el-row class="mtop15">
         <el-col :span="8">
-          <label class="inputLabel">*用户名：</label>
+          <label class="inputLabel">用户名：</label>
           <div class="inputData">
             <el-input
               v-model="admininfo.a_UserName"
               placeholder="请输入用户名"
+              disabled
             ></el-input>
           </div>
         </el-col>
         <el-col :span="8">
-          <label class="inputLabel">*真实姓名：</label>
+          <label class="inputLabel">真实姓名：</label>
           <div class="inputData">
             <el-input
               v-model="admininfo.a_RealName"
@@ -37,7 +38,16 @@
         <el-col :span="8">
           <label class="inputLabel">性 别：</label>
           <div class="inputData">
-            <el-input v-model="admininfo.a_Sex"></el-input>
+            <!-- <el-input v-model="admininfo.a_Sex"></el-input> -->
+            <el-select v-model="admininfo.a_Sex" placeholder="请选择">
+              <el-option
+                v-for="item in optionsSex"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
           </div>
         </el-col>
         <el-col :span="8">
@@ -75,7 +85,7 @@
           <label class="inputLabel">个人简介：</label>
           <div class="inputData">
             <el-input
-              placeholder="请输入内容"
+              placeholder="如教育背景、工作经验、擅长领域经验介绍、个人心路历程"
               v-model="admininfo.a_Produce"
               type="textarea"
               rows="4"
@@ -130,6 +140,16 @@ export default {
   name: "usercenter",
   data() {
     return {
+      optionsSex: [
+        {
+          value: "男",
+          label: "男",
+        },
+        {
+          value: "女",
+          label: "女",
+        },
+      ],
       admininfo: {
         ID: this.$store.state.userinfo.ID,
         a_UserName: "",

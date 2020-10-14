@@ -64,7 +64,7 @@
           全部分组
         </div>
         <SelectTree
-          style="width: 94%; margin: 0 auto 20px; height: 305px"
+          style="width: calc(100% - 20px); margin-left: 10px; height: 305px"
           :props="props2"
           :options="optionData"
           :value="valueId2"
@@ -345,15 +345,23 @@ export default {
     // 多人移动用户
     moveArrs() {
       var selectrows = this.$refs.multipleTable.selection;
-      let newarr = "";
-      selectrows.forEach(function (value, index, array) {
-        newarr += value.ID + ",";
-      });
-      if (newarr) {
-        newarr = newarr.substring(0, newarr.lastIndexOf(","));
+      let isGroupArr = selectrows.filter((a) => a.IsGroup);
+      if (isGroupArr.length > 0) {
+        this.$message({
+          message: "不支持分组移出/移入分组！",
+          type: "warning",
+        });
+      } else {
+        let newarr = "";
+        selectrows.forEach(function (value, index, array) {
+          newarr += value.ID + ",";
+        });
+        if (newarr) {
+          newarr = newarr.substring(0, newarr.lastIndexOf(","));
+        }
+        this.movingvisible = true;
+        this.userid = newarr;
       }
-      this.movingvisible = true;
-      this.userid = newarr;
     },
     // 表单移动用户
     moveRow(row) {
@@ -476,7 +484,10 @@ export default {
     //编辑查看
     editRow(row, issave) {
       if (row.IsGroup) {
-        this.$router.push({ name: "group", query: { GroupID: row.ID } });
+        this.$router.push({
+          name: "group",
+          query: { GroupID: row.ID, GroupName: row.RealName },
+        });
       } else {
         this.$router.push({
           name: "edituser",

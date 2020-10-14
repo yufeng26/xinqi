@@ -6,7 +6,7 @@
       <p class="notice">*为必填信息</p>
       <el-row class="mtop15">
         <el-col :span="8">
-          <label class="inputLabel">*用户名：</label>
+          <label class="inputLabel">用户名：</label>
           <div class="inputData">
             <el-input
               :disabled="!btnvisible"
@@ -16,19 +16,20 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <label class="inputLabel">*密码：</label>
+          <label class="inputLabel">密码：</label>
           <div class="inputData">
             <el-input
               :disabled="!btnvisible"
               v-model="user.u_Password"
               placeholder="请输入密码"
+              :type="`${btnvisible ? 'text' : 'password'}`"
             ></el-input>
           </div>
         </el-col>
       </el-row>
       <el-row class="mtop15">
         <el-col :span="8">
-          <label class="inputLabel">*真实姓名：</label>
+          <label class="inputLabel">真实姓名：</label>
           <div class="inputData">
             <el-input
               :disabled="!btnvisible"
