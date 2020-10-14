@@ -85,7 +85,7 @@
           <label class="inputLabel">个人简介：</label>
           <div class="inputData">
             <el-input
-              placeholder="请输入内容"
+              placeholder="如教育背景、工作经验、擅长领域经验介绍、个人心路历程"
               v-model="admininfo.a_Produce"
               type="textarea"
               rows="4"

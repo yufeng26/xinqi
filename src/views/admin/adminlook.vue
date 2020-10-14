@@ -1,7 +1,7 @@
 <template>
   <div class="formPage">
     <!-- 内容主体区域 -->
-    <div class="pageTille">管理员信息</div>
+    <div class="pageTille">{{ btnvisible ? "编辑管理员" : "查看管理员" }}</div>
     <div class="inputBox">
       <el-row class="mtop15">
         <el-col :span="8">
@@ -10,8 +10,7 @@
             <el-input
               v-model="admininfo.a_UserName"
               placeholder="请输入5到20位字母、数字、下划线"
-              :disabled="!btnvisible"
-              btnvisible
+              disabled
             ></el-input>
           </div>
         </el-col>
@@ -91,7 +90,7 @@
           <label class="inputLabel">个人简介：</label>
           <div class="inputData">
             <el-input
-              placeholder="请输入内容"
+              placeholder="如教育背景、工作经验、擅长领域经验介绍、个人心路历程"
               :disabled="!btnvisible"
               v-model="admininfo.a_Produce"
               type="textarea"
