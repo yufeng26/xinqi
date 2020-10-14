@@ -201,6 +201,20 @@ export default {
     this.handleUserList();
     this.gettreeList();
     this.getNameList();
+    let lilist = document.getElementsByClassName("layui-nav-item");
+    let thatEle = null;
+    Array.from(lilist).forEach((ele) => {
+      ele.className = "layui-nav-item";
+      if (ele.innerText === "设备管理") {
+        thatEle = ele;
+        thatEle.className = "layui-nav-item layui-nav-itemed";
+      }
+    });
+    Array.from(thatEle.childNodes[2].children).forEach((eleChild) => {
+      if (eleChild.innerText === "呐喊(iii)") {
+        eleChild.children[0].className = "layui-this";
+      }
+    });
   },
   methods: {
     // 格式化时间
