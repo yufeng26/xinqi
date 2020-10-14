@@ -44,6 +44,7 @@
               />
               <span>自动登录</span>
             </p>
+            <p class="noPass" @click="showContent()">忘记密码？</p>
           </li>
         </ul>
       </div>
@@ -82,6 +83,15 @@ export default {
     }
   },
   methods: {
+    // 忘记密码
+    showContent() {
+      this.$message({
+        message: "请联系网站管理员，重新设置新密码！",
+        type: "success",
+        center: true,
+        duration: 2000,
+      });
+    },
     handlelogin() {
       if (this.loginmodel.UserName === "" || this.loginmodel.Password === "") {
         this.$message.error("用户名或者密码不能为空!");
@@ -111,4 +121,8 @@ export default {
 
 <style scoped>
 @import "../../static/css/login.css";
+.noPass {
+  color: #007fe0;
+  cursor: pointer;
+}
 </style>
