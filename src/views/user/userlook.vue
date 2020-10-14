@@ -11,7 +11,7 @@
             <el-input
               :disabled="!btnvisible"
               v-model="user.u_UserName"
-              placeholder="请输入用户名"
+              placeholder="请输入5到20位字母、数字、下划线"
             ></el-input>
           </div>
         </el-col>

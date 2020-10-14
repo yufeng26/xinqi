@@ -271,15 +271,16 @@ export default {
   margin: 20px 0 0 10px;
 }
 .extendfiled .btnBox span {
-  width: 200px;
-  height: 60px;
-  line-height: 60px;
+  width: 130px;
+  height: 48px;
+  line-height: 48px;
   text-align: center;
   display: inline-block;
   color: #ffffff;
   background-color: rgb(0, 119, 255);
-  font-size: 24px;
+  font-size: 20px;
   cursor: pointer;
+  border-radius: 6px;
 }
 .extendfiled .top-right {
   cursor: pointer;
