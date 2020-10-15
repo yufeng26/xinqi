@@ -14,15 +14,15 @@
         <li>导入步骤：</li>
         <li>1、点击<button @click="exportExcel()">这里</button>下载用户信息模板，在Excel表格中录入信息</li>
         <li>
-           2、选择导入的文件：
-          <span class="files">
+          <span>2、选择导入的文件：</span>
+           <span class="files">
 								<span class="count">{{fileName}}</span>
 								<span class="wj">选择文件</span>
 								<input name="fileup" @change="update"  style="border:0;" type="file" />
 							</span>
         </li>
         <li class="mtop15">
-          <button type="button" @click="importuser"  class="layui-btn layui-btn-normal channel">马上导入</button>
+          <button type="button" @click="importuser" style="background: #00bcd4;" class="layui-btn layui-btn-normal channel">马上导入</button>
           <button type="button" @click="$router.go(-1)" style="background: #9571f9;" class="layui-btn">返回</button>
         </li>
       </ul>
@@ -309,5 +309,34 @@ export default {
 @import "../../../static/css/common.css";
 .content .import {
   padding-left: 20px;
+}
+.content {
+  background-color: #fff;
+}
+.content .noticeArr li,
+.content .import li {
+  line-height: 40px;
+  font-size: 16px;
+}
+.content .import li:nth-child(2) button {
+  border: none;
+  background-color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+  margin: 5px;
+  color: blue;
+}
+.content .import li:nth-child(3) span {
+  float: left;
+}
+.content .import li:nth-child(3) {
+  overflow: hidden;
+}
+.content .import li:nth-child(4) {
+  clear: both;
+  margin-top: 30px;
+}
+.content .import li:nth-child(4) button {
+  width: 100px;
 }
 </style>
