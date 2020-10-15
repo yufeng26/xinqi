@@ -257,7 +257,7 @@ export default {
           //   item.fieldValue=""
           // })
           v.$message.success("添加成功!");
-          this.$router.push({
+          v.$router.push({
             name: "allocation",
             query: {
               ID: data.Result.ID,

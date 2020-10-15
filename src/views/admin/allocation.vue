@@ -151,6 +151,9 @@ export default {
       this.$SystemAPI.SaveLimit(param, function (data) {
         if (data.Code == 1) {
           that.$message.success("权限设置成功!");
+          that.$router.push({
+            name: "admin",
+          });
         }
       });
     },
