@@ -447,17 +447,9 @@ export default {
     tuantibaogao() {
       this.$router.push({ name: "tuanbaogao" });
     },
-    //导出报告
+    //单个的导出报告
     ExportRow(row) {
-      // this.$TestResultAPI.ReportResult(row.ID);
-      let url = "../../../static/img/scl90ck.rar";
-      const elt = document.createElement("a");
-      elt.setAttribute("href", url);
-      elt.setAttribute("download", "scl-90查看图片.rar");
-      elt.style.display = "none";
-      document.body.appendChild(elt);
-      elt.click();
-      document.body.removeChild(elt);
+      this.$TestResultAPI.cpReportResult(row.Id);
     },
     //批量导出报告
     PLExportRow(row) {

@@ -24,8 +24,10 @@ const PLdelResult = (params, success) => {
   return ajax(baseurl + "/ReportOption/DelTrain", params, success);
 };
 const ReportResult = params => {
-  return (location.href = baseurl + "/exportOption/jidanahanyongbao?id=" + params);
+  return (location.href =
+    baseurl + "/exportOption/jidanahanyongbao?id=" + params);
 };
+// 自信心单个导出
 const ReportResultZxx = params => {
   return (location.href = baseurl + "/exportOption/exportzixinxi?id=" + params);
 };

@@ -44,6 +44,11 @@ const PLdelResult = (params, success) => {
 const ReportResult = params => {
   return (location.href = baseurl + "/TestManager/ReportWord/" + params);
 };
+// 测评软件单个导出
+const cpReportResult = params => {
+  return (location.href =
+    baseurl + "/exportOption/exporttestReport?id=" + params);
+};
 const PLReportResult = params => {
   return (location.href =
     baseurl + "/TestManager/ReportWordBatch/" + encodeURIComponent(params));
@@ -58,5 +63,6 @@ export default {
   getResultDetail,
   ReportResult,
   PLReportResult,
-  getNameList
+  getNameList,
+  cpReportResult
 };
