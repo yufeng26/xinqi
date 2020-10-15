@@ -257,7 +257,13 @@ export default {
           //   item.fieldValue=""
           // })
           v.$message.success("添加成功!");
-          v.$router.go(-1);
+          v.$router.push({
+            name: "allocation",
+            query: {
+              ID: data.Result.ID,
+              a_Authorization: data.Result.a_Authorization,
+            },
+          });
         } else {
           v.$message.error("添加失败!" + data.Msg);
         }

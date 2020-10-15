@@ -24,7 +24,10 @@ const PLdelResult = (params, success) => {
   return ajax(baseurl + "/ReportOption/DelTrain", params, success);
 };
 const ReportResult = params => {
-  return (location.href = baseurl + "/PlanManager/ReportWord/" + params);
+  return (location.href = baseurl + "/exportOption/jidanahanyongbao?id=" + params);
+};
+const ReportResultZxx = params => {
+  return (location.href = baseurl + "/exportOption/exportzixinxi?id=" + params);
 };
 const PLReportResult = params => {
   return (location.href =
@@ -36,5 +39,6 @@ export default {
   delResult,
   PLdelResult,
   ReportResult,
-  PLReportResult
+  PLReportResult,
+  ReportResultZxx
 };
