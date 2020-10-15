@@ -16,9 +16,9 @@
         <li>
            2、选择导入的文件：
           <span class="files">
-								<span class="count"></span>
+								<span class="count">{{fileName}}</span>
 								<span class="wj">选择文件</span>
-								<input name="fileup" @change="update" style="border:0;" type="file" />
+								<input name="fileup" @change="update"  style="border:0;" type="file" />
 							</span>
         </li>
         <li class="mtop15">
@@ -76,6 +76,7 @@ export default {
   name: "userimport",
   data() {
     return {
+      fileName: "",
       groupid: "",
       fileurl: "",
       AdminID: "",
@@ -154,6 +155,7 @@ export default {
     update(e) {
       let v = this;
       let file = e.target.files[0];
+      v.fileName = file.name;
       let param = new FormData(); //创建form对象
       param.append("file", file); //通过append向form对象添加数据
 
