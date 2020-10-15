@@ -26,6 +26,9 @@ const PLdelResult = (params, success) => {
 const ReportResult = params => {
   return (location.href = baseurl + "/exportOption/jidanahanyongbao?id=" + params);
 };
+const ReportResultZxx = params => {
+  return (location.href = baseurl + "/exportOption/exportzixinxi?id=" + params);
+};
 const PLReportResult = params => {
   return (location.href =
     baseurl + "/PlanManager/ReportWordBatch/" + encodeURIComponent(params));
@@ -36,5 +39,6 @@ export default {
   delResult,
   PLdelResult,
   ReportResult,
-  PLReportResult
+  PLReportResult,
+  ReportResultZxx
 };

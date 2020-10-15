@@ -368,7 +368,7 @@ export default {
     },
     //导出
     exportDevice(row) {
-      this.$PlanSchemeAPI.ReportResult(row.Id);
+      this.$PlanSchemeAPI.ReportResultZxx(row.Id);
     },
   },
   computed: {
