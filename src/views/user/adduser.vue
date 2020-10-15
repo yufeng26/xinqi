@@ -79,27 +79,26 @@
         </el-col>
       </el-row>
       <el-row class="mtop15">
-        <el-col :span="16">
-          <div v-for="(filed, idx) in fieldList" :key="idx">
-            <label class="inputLabel">{{ filed.e_FiledName }}：</label>
-            <div class="inputData">
-              <el-input
-                v-model="filed.fieldValue"
-                v-if="filed.e_Types == '1'"
-              ></el-input>
-              <el-select
-                v-model="filed.fieldValue"
-                v-if="filed.e_Types == '2'"
-                style="width: 100%"
-              >
-                <el-option
-                  v-for="item in filed.e_OptionInfo"
-                  :key="item.index"
-                  :value="item.option"
-                  :label="item.option"
-                ></el-option>
-              </el-select>
-            </div>
+        <el-col :span="8" v-for="(filed, idx) in fieldList" :key="idx">
+          <label class="inputLabel">{{ filed.e_FiledName }}：</label>
+          <div class="inputData">
+            <el-input
+              v-model="filed.fieldValue"
+              v-if="filed.e_Types == '1'"
+              placeholder="请输入"
+            ></el-input>
+            <el-select
+              v-model="filed.fieldValue"
+              v-if="filed.e_Types == '2'"
+              style="width: 100%"
+            >
+              <el-option
+                v-for="item in filed.e_OptionInfo"
+                :key="item.index"
+                :value="item.option"
+                :label="item.option"
+              ></el-option>
+            </el-select>
           </div>
           <!-- <p
             class="resume"

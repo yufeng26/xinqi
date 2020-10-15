@@ -95,6 +95,31 @@
           </div>
         </el-col>
       </el-row>
+      <el-row class="mtop15" v-if="fieldList.length > 0">
+        <el-col :span="8" v-for="item in fieldList" v-bind:key="item.id">
+          <label class="inputLabel">{{ item.e_FiledName }}：</label>
+          <div class="inputData">
+            <el-input
+              :disabled="!btnvisible"
+              v-model="item.fieldValue"
+              v-if="item.e_Types == '1'"
+              placeholder="请输入信息"
+            ></el-input>
+            <el-select
+              :disabled="!btnvisible"
+              v-model="item.fieldValue"
+              v-if="item.e_Types == '2'"
+            >
+              <el-option
+                v-for="a in item.e_OptionInfo"
+                :key="a.index"
+                :value="a.option"
+                :label="a.option"
+              ></el-option>
+            </el-select>
+          </div>
+        </el-col>
+      </el-row>
       <el-row class="mtop15">
         <div class="btnGroup">
           <el-button
@@ -119,7 +144,7 @@ export default {
   name: "userlook",
   data() {
     return {
-      fieldList: [],
+      fieldList: [], // 拓展字段
       extendList: [],
       optionsSex: [
         {
@@ -206,6 +231,7 @@ export default {
                 e_OptionInfo: JSON.parse(item.e_OptionInfo),
                 fieldValue: fieldValue,
               });
+              console.log(x.fieldList);
             });
           }
         });
