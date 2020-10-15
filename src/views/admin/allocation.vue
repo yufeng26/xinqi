@@ -3,10 +3,25 @@
   <div class="bigbox">
     <div class="consult">
       <p
-        style="background:#0070e5;text-align: center;color:#fff;width:100%;line-height: 42px; font-size: 24px;"
+        style="
+          background: #0070e5;
+          text-align: center;
+          color: #fff;
+          width: 100%;
+          line-height: 42px;
+          font-size: 24px;
+        "
       >
         权限设置
       </p>
+      <div class="guard_quanxuan">
+        <el-checkbox
+          class="menu"
+          v-model="checkAll"
+          @change="handleCheckAllChange"
+          >全选/不选</el-checkbox
+        >
+      </div>
       <ul class="editduty">
         <li v-for="(yiji, index) of menus" :key="index">
           <P class="yiji">{{ yiji.MenuName }}</P>
@@ -22,7 +37,7 @@
                   erji.ID === 23 ||
                   erji.ID === 27 ||
                   erji.ID === 56 ||
-                  erji.ID === 59
+                  erji.ID === 59,
               }"
             >
               <span></span>
@@ -79,7 +94,7 @@
             <button
               type="button"
               @click="$router.go(-1)"
-              style="background: #9571f9;"
+              style="background: #9571f9"
               class="layui-btn"
             >
               返回
@@ -96,11 +111,12 @@ export default {
   name: "dutyedit",
   data() {
     return {
+      checkAll: false,
       menus: {},
       admindID: "",
       fenpeiID: "",
       viewPath: "",
-      limitsId: ""
+      limitsId: "",
     };
   },
   methods: {
@@ -109,7 +125,7 @@ export default {
       let param = new URLSearchParams();
       param.append("adminID", this.admindID);
       param.append("fenpeiID", this.fenpeiID);
-      this.$SystemAPI.GetLimitsList(param, function(data) {
+      this.$SystemAPI.GetLimitsList(param, function (data) {
         if (data.Code == 1) {
           that.menus = data.Result;
         }
@@ -118,9 +134,9 @@ export default {
     SaveLimit() {
       this.limitsId = "";
       let that = this;
-      this.menus.forEach(item => {
-        item.erji.forEach(c => {
-          c.sanji.forEach(x => {
+      this.menus.forEach((item) => {
+        item.erji.forEach((c) => {
+          c.sanji.forEach((x) => {
             if (x.Usable) {
               this.limitsId += x.ID + ",";
             }
@@ -132,12 +148,25 @@ export default {
       console.log(ids);
       param.append("limitsId", ids);
       param.append("fenpeiId", this.fenpeiID);
-      this.$SystemAPI.SaveLimit(param, function(data) {
+      this.$SystemAPI.SaveLimit(param, function (data) {
         if (data.Code == 1) {
-          that.$message.success("保存成功!");
+          that.$message.success("权限设置成功!");
         }
       });
-    }
+    },
+    handleCheckAllChange(val) {
+      this.menus.forEach((item) => {
+        item.erji.forEach((c) => {
+          c.sanji.forEach((x) => {
+            if (val) {
+              x.Usable = true;
+            } else {
+              x.Usable = false;
+            }
+          });
+        });
+      });
+    },
   },
   mounted() {
     this.admindID = this.$store.state.userinfo.ID;
@@ -145,7 +174,7 @@ export default {
     this.viewPath = this.$route.path;
     this.getLimits();
     // this.getdutydetail();
-  }
+  },
 };
 </script>
 
@@ -154,6 +183,14 @@ export default {
 @import "../../../static/css/editduty.css";
 .guard {
   text-align: left;
+}
+.guard_quanxuan {
+  margin-top: 20px;
+  text-align: left;
+  margin-left: 56px;
+}
+.editduty {
+  padding-top: 0px;
 }
 .yiji {
   text-align: left;
