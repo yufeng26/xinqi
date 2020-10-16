@@ -30,7 +30,7 @@
             测试时间：<span>{{ testresult.CreateTime }}</span>
           </td>
           <td>
-            测试时长：<span>{{ testresult.TestTime }}</span>
+            测试时长：<span>{{ testresult.CepingTime }}</span>
           </td>
         </tr>
       </table>
@@ -96,12 +96,13 @@
       v-for="item in testresult.DimensionList
         ? JSON.parse(testresult.DimensionList)
         : []"
-      :key="item.DimensionName"
+      :key="item.Name"
       class="gexiangshuoming"
     >
-      <p>纬度名称：{{ item.DimensionName }}</p>
-      <p>结果分析：{{ item.DAnalysis }}</p>
-      <p>指导建议：{{ item.DAdvice }}</p>
+      <p>纬度名称：{{ item.Name }}</p>
+      <p>得分等级：{{ item.score }} -- {{ item.grade }}</p>
+      <p>结果分析：{{ item.result }}</p>
+      <p>指导建议：{{ item.Suggestion }}</p>
     </div>
   </div>
   <!-- <div class="bigbox">
@@ -153,17 +154,18 @@ export default {
         disimions: [],
         Suggestion: "",
         BrokenLine1: [],
-        BrokenLine2: []
-      }
+        BrokenLine2: [],
+      },
     };
   },
   methods: {
+    // 获取百思锐详情页面数据
     getdetail() {
       let v = this;
       let params = new URLSearchParams();
       params.append("id", this.testresult.ID);
       // 百思锐详情
-      this.$ReportOptionAPI.GetBaisiruiReport(params, function(data) {
+      this.$ReportOptionAPI.GetBaisiruiReport(params, function (data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           v.initChart();
@@ -185,36 +187,36 @@ export default {
       myChart1.setOption({
         color: ["#3cc5a3", "#ffc000", "#5cdbf2"],
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
         },
         legend: {
-          data: ["专注度", "放松度"]
+          data: ["专注度", "放松度"],
         },
         title: {
           text: "脑波曲线",
           textStyle: {
             left: "center",
-            fontSize: 14
+            fontSize: 14,
           },
           fontSize: 12,
           left: "center",
-          top: 15
+          top: 15,
         },
         tooltip: {
           show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow",
-            shadowStyle: "rgba(150,150,150,0.3)"
-          }
+            shadowStyle: "rgba(150,150,150,0.3)",
+          },
         },
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: xData
+          data: xData,
         },
         yAxis: {
-          type: "value"
+          type: "value",
         },
         series: [
           {
@@ -223,7 +225,7 @@ export default {
             stack: "总量",
             data: this.testresult.lstAtt
               ? JSON.parse(this.testresult.lstAtt)
-              : []
+              : [],
           },
           {
             name: "放松度",
@@ -231,9 +233,9 @@ export default {
             stack: "总量",
             data: this.testresult.lstMed
               ? JSON.parse(this.testresult.lstMed)
-              : []
-          }
-        ]
+              : [],
+          },
+        ],
       });
       // 绘制图表
       const data2 = this.testresult.Factorscores
@@ -245,37 +247,37 @@ export default {
           trigger: "axis",
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          }
+            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+          },
         },
         grid: {
           left: "3%",
           right: "4%",
           bottom: "3%",
-          containLabel: true
+          containLabel: true,
         },
         xAxis: [
           {
             type: "category",
-            data: data2.map(item => item.DimensionName),
+            data: data2.map((item) => item.DimensionName),
             axisTick: {
-              alignWithLabel: true
-            }
-          }
+              alignWithLabel: true,
+            },
+          },
         ],
         yAxis: [
           {
-            type: "value"
-          }
+            type: "value",
+          },
         ],
         series: [
           {
             name: "分数",
             type: "bar",
             barWidth: "60%",
-            data: data2.map(item => item.Score)
-          }
-        ]
+            data: data2.map((item) => item.Score),
+          },
+        ],
       });
     },
     //导出报告
@@ -289,14 +291,14 @@ export default {
       document.body.appendChild(elt);
       elt.click();
       document.body.removeChild(elt);
-    }
+    },
   },
   mounted() {
     // 获取路由参数，回去详情数据
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
   },
-  computed: {}
+  computed: {},
 };
 </script>
 
