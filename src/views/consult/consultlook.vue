@@ -4,14 +4,26 @@
     <div class="pageTille">基本信息</div>
     <table class="baseTable" border="1">
       <tr>
-        <td>用户名：<span>用户名</span></td>
-        <td>分组：<span>分组</span></td>
-        <td>真实姓名：<span>真实姓名</span></td>
+        <td>
+          用户名：<span>{{ admininfo.UserName }}</span>
+        </td>
+        <td>
+          分组：<span>{{ admininfo.GroupName || "组一" }}</span>
+        </td>
+        <td>
+          真实姓名：<span>{{ admininfo.RealName }}</span>
+        </td>
       </tr>
       <tr>
-        <td>当前受教水平：<span>当前受教水平</span></td>
-        <td>性别：<span>性别</span></td>
-        <td>出生年月：<span>出生年月</span></td>
+        <td>
+          当前受教水平：<span>{{ admininfo.EducationTitle }}</span>
+        </td>
+        <td>
+          性别：<span>{{ admininfo.Sex }}</span>
+        </td>
+        <td>
+          出生年月：<span>{{ admininfo.BirthDate }}</span>
+        </td>
       </tr>
     </table>
     <div class="pageTille">预约记录</div>
@@ -22,7 +34,7 @@
             <label class="inputLabel">*预约咨询师：</label>
             <div class="inputData">
               <el-input
-                v-model="admininfo.a_UserName"
+                v-model="admininfo.ur_Consulter"
                 placeholder="请输入预约咨询师"
                 :disabled="!btnvisible"
                 btnvisible
@@ -35,7 +47,7 @@
             <label class="inputLabel">*预约时间：</label>
             <div class="inputData">
               <el-input
-                v-model="admininfo.a_RealName"
+                v-model="admininfo.ur_ConsultDate"
                 placeholder="请输入预约时间"
                 :disabled="!btnvisible"
               ></el-input>
@@ -48,7 +60,7 @@
             <div class="inputData">
               <el-input
                 :disabled="!btnvisible"
-                v-model="admininfo.a_Telphone"
+                v-model="admininfo.ur_TelPhone"
               ></el-input>
             </div>
           </el-col>
@@ -60,7 +72,7 @@
               <el-input
                 placeholder="请输入咨询室地点"
                 :disabled="!btnvisible"
-                v-model="admininfo.a_Produce"
+                v-model="admininfo.ur_Address"
                 show-word-limit
               ></el-input>
             </div>
@@ -73,7 +85,7 @@
               <el-input
                 placeholder="请输入咨询问题内容"
                 :disabled="!btnvisible"
-                v-model="admininfo.a_Produce"
+                v-model="admininfo.ur_Title"
                 show-word-limit
               ></el-input>
             </div>
@@ -86,7 +98,7 @@
               <el-input
                 placeholder="请输入描述内容"
                 :disabled="!btnvisible"
-                v-model="admininfo.a_Produce"
+                v-model="admininfo.ur_Description"
                 type="textarea"
                 rows="4"
                 maxlength="300"
@@ -97,15 +109,15 @@
         </el-row>
       </el-row>
       <el-row class="mtop15">
-        <div class="btnGroup">
-          <el-button
+        <div class="btnGroup" style="padding-left: 130px">
+          <!-- <el-button
             v-if="btnvisible"
             type="primary"
             @click="addadminhandle"
             class="InputBtn"
           >
             确定
-          </el-button>
+          </el-button> -->
           <el-button type="success" @click="goback" class="InputBtn">
             返回
           </el-button>
@@ -122,7 +134,7 @@ export default {
     return {
       fieldList: [],
       extendList: [],
-      admininfo: {},
+      admininfo: {}, // 预约详情信息
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
@@ -133,7 +145,7 @@ export default {
   },
   mounted() {
     this.admininfo.ID = this.$route.query.ID;
-    this.btnvisible = this.$route.query.issave;
+    // this.btnvisible = this.$route.query.issave;
     this.getAdminDetail();
   },
 
@@ -150,8 +162,8 @@ export default {
       let v = this;
       let x = this;
       let param = new URLSearchParams();
-      param.append("UserID", this.admininfo.ID);
-      this.$AdminAPI.ShowAdmin(param, function (data) {
+      param.append("Id", this.admininfo.ID);
+      this.$ConsulationAPI.yuyueShow(param, function (data) {
         if (data.Code == 1) {
           v.admininfo = data.Result;
         }
