@@ -90,9 +90,9 @@
         <el-table-column label="训练主题" prop="TopicName" width="200px">
         </el-table-column>
 
-        <el-table-column label="真实姓名" prop="UserName" width="200px">
+        <el-table-column label="真实姓名" prop="RealName" width="130px">
         </el-table-column>
-        <el-table-column label="训练结果" prop="Result" width="200px">
+        <el-table-column label="训练结果" prop="Result" width="300px">
         </el-table-column>
         <el-table-column
           label="创建时间"
