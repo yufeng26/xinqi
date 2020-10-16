@@ -53,6 +53,11 @@ const PLReportResult = params => {
   return (location.href =
     baseurl + "/TestManager/ReportWordBatch/" + encodeURIComponent(params));
 };
+// 测评管理单个导出ReportResultCpm
+const ReportResultCpm = params => {
+  return (location.href =
+    baseurl + "/exportOption/exporttestMansger?id=" + params);
+};
 export default {
   getReportResultList,
   getReportResult,
@@ -64,5 +69,6 @@ export default {
   ReportResult,
   PLReportResult,
   getNameList,
-  cpReportResult
+  cpReportResult,
+  ReportResultCpm
 };
