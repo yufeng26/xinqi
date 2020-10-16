@@ -35,6 +35,11 @@ const PLReportResult = params => {
   return (location.href =
     baseurl + "/PlanManager/ReportWordBatch/" + encodeURIComponent(params));
 };
+// 训练管理单个导出xlReportResult
+const xlReportResult = params => {
+  return (location.href =
+    baseurl + "/exportOption/exporttestTrainPlan?id=" + params);
+};
 export default {
   getTrainList,
   getTrain,
@@ -42,5 +47,6 @@ export default {
   PLdelResult,
   ReportResult,
   PLReportResult,
-  ReportResultZxx
+  ReportResultZxx,
+  xlReportResult
 };

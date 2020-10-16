@@ -61,7 +61,7 @@
         >
         </el-table-column>
 
-        <el-table-column label="真实姓名" prop="UserName" width="200px">
+        <el-table-column label="真实姓名" prop="RealName" width="200px">
         </el-table-column>
         <el-table-column label="训练进度" prop="Progress" width="200px">
         </el-table-column>
@@ -87,6 +87,7 @@
             <el-button
               type="warning"
               size="mini"
+              @click.native.prevent="ExportRow(scope.row)"
               v-if="menuModel.exportUsable"
               >{{ menuModel.export }}</el-button
             >
@@ -291,6 +292,10 @@ export default {
         return "";
       }
       return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
+    //单个的导出报告
+    ExportRow(row) {
+      this.$PlanSchemeAPI.xlReportResult(row.Id);
     },
   },
   computed: {
