@@ -40,6 +40,11 @@ const xlReportResult = params => {
   return (location.href =
     baseurl + "/exportOption/exporttestTrainPlan?id=" + params);
 };
+// 百思锐单个导出bsrReportResult
+const bsrReportResult = params => {
+  return (location.href =
+    baseurl + "/exportOption/exporttestBaisirui?id=" + params);
+};
 export default {
   getTrainList,
   getTrain,
@@ -48,5 +53,6 @@ export default {
   ReportResult,
   PLReportResult,
   ReportResultZxx,
-  xlReportResult
+  xlReportResult,
+  bsrReportResult
 };

@@ -376,9 +376,9 @@ export default {
     editRow(row) {
       this.$router.push({ name: "xunlianreport", query: { ID: row.ID } });
     },
-    //导出
+    //百思锐单个导出
     exportDevice(row) {
-      this.$PlanSchemeAPI.ReportResult(row.ID);
+      this.$PlanSchemeAPI.bsrReportResult(row.Id);
     },
     //批量导出
     handerPLExport() {
