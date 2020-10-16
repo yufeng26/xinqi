@@ -104,6 +104,11 @@
       <p>结果分析：{{ item.result }}</p>
       <p>指导建议：{{ item.Suggestion }}</p>
     </div>
+    <div class="exportBox">
+      <el-button type="primary" @click="exportWord" class="exportBtn">
+        导出
+      </el-button>
+    </div>
   </div>
   <!-- <div class="bigbox">
     <div class="report">
@@ -281,17 +286,21 @@ export default {
       });
     },
     //导出报告
-    ExportRow() {
-      // this.$TestResultAPI.ReportResult(this.testresult.ID);
-      let url = "../../../static/img/scl90ck.rar";
-      const elt = document.createElement("a");
-      elt.setAttribute("href", url);
-      elt.setAttribute("download", "scl-90查看图片.rar");
-      elt.style.display = "none";
-      document.body.appendChild(elt);
-      elt.click();
-      document.body.removeChild(elt);
+    exportWord() {
+      this.$PlanSchemeAPI.bsrReportResult(this.$route.query.ID);
     },
+    // //导出报告
+    // ExportRow() {
+    //   // this.$TestResultAPI.ReportResult(this.testresult.ID);
+    //   let url = "../../../static/img/scl90ck.rar";
+    //   const elt = document.createElement("a");
+    //   elt.setAttribute("href", url);
+    //   elt.setAttribute("download", "scl-90查看图片.rar");
+    //   elt.style.display = "none";
+    //   document.body.appendChild(elt);
+    //   elt.click();
+    //   document.body.removeChild(elt);
+    // },
   },
   mounted() {
     // 获取路由参数，回去详情数据

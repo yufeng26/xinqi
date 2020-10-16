@@ -378,7 +378,7 @@ export default {
     },
     //百思锐单个导出
     exportDevice(row) {
-      this.$PlanSchemeAPI.bsrReportResult(row.Id);
+      this.$PlanSchemeAPI.bsrReportResult(row.ID);
     },
     //批量导出
     handerPLExport() {
