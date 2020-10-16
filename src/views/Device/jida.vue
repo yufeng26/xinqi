@@ -87,11 +87,7 @@
           @change="handleCheckAllChange"
         >
         </el-table-column>
-        <el-table-column
-          label="压力评级"
-          prop="ConfidenceScoreLevel"
-          width="200px"
-        >
+        <el-table-column label="压力评级" prop="Pressure" width="200px">
         </el-table-column>
 
         <el-table-column label="真实姓名" prop="RealName" width="120px">
