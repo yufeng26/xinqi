@@ -20,10 +20,10 @@
           <label class="inputLabel">密码：</label>
           <div class="inputData">
             <el-input
-              :disabled="!btnvisible"
+              disabled
               v-model="user.u_Password"
               placeholder="请输入密码"
-              :type="`${btnvisible ? 'text' : 'password'}`"
+              type="password"
             ></el-input>
           </div>
         </el-col>
@@ -266,12 +266,12 @@ export default {
         this.$message.warning("请填写密码!");
         return;
       }
-      if (!this.$utils.checkPassword(this.user.u_Password)) {
-        this.$message.warning("密码格式不正确!");
-        return;
-      }
+      // if (!this.$utils.checkPassword(this.user.u_Password)) {
+      //   this.$message.warning("密码格式不正确!");
+      //   return;
+      // }
       if (!this.user.u_RealName) {
-        this.$message.warning("请填写姓名!");
+        this.$message.warning("请填写真实姓名!");
         return;
       }
       if (!this.user.u_Sex) {
@@ -309,7 +309,6 @@ export default {
       this.$UserAPI.EditUser(param, function(data) {
         if (data.Code == 1) {
           v.$set(v.user, "u_UserName", "");
-
           v.$set(v.user, "u_RealName", "");
           v.$set(v.user, "u_Sex", "");
           v.$set(v.user, "u_Education", "");
@@ -320,7 +319,7 @@ export default {
           v.$message.success("修改成功!");
           v.$router.go(-1);
         } else {
-          v.$message.error("创建失败!" + data.Msg);
+          v.$message.error("修改失败!" + data.Msg);
         }
       });
     }
