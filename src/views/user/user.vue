@@ -460,7 +460,15 @@ export default {
     },
     // 重置密码
     changePassword(row) {
-      alert(row.Id);
+      let v = this;
+      let param = new URLSearchParams();
+      param.append("id", row.ID);
+      this.$UserAPI.resetPassword(param, function(data) {
+        if (data.Code == 1) {
+          v.$message.success("密码已重置为：111111");
+          v.handleUserList();
+        }
+      });
     },
     //移动
     movehandle() {

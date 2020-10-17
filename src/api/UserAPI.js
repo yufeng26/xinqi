@@ -45,6 +45,10 @@ const AddGroup = (params, success) => {
 const deUser = (params, success) => {
   return ajax(baseurl + "/UserManager/ExistsUser", params, success);
 };
+// 重置用户密码
+const resetPassword = (params, success) => {
+  return ajax(baseurl + "/usermanager/ResetPWD", params, success, "POST");
+};
 const AddUser = (params, success) => {
   return ajax(baseurl + "/UserManager/CreateUser", params, success, "POST");
 };
@@ -92,5 +96,6 @@ export default {
   UploadFile,
   FenpeiUsers,
   addSystem,
-  deUser
+  deUser,
+  resetPassword
 };
