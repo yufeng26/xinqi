@@ -16,7 +16,7 @@
             ></el-input>
           </div>
         </el-col>
-        <el-col :span="8">
+        <!-- <el-col :span="8">
           <label class="inputLabel">密码：</label>
           <div class="inputData">
             <el-input
@@ -26,7 +26,7 @@
               type="password"
             ></el-input>
           </div>
-        </el-col>
+        </el-col> -->
       </el-row>
       <el-row class="mtop15">
         <el-col :span="8">
