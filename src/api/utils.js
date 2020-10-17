@@ -1,35 +1,45 @@
-function uuid () {
-  var s = []
-  var hexDigits = '0123456789abcdef'
+function uuid() {
+  var s = [];
+  var hexDigits = "0123456789abcdef";
   for (var i = 0; i < 36; i++) {
-    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
+    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
   }
-  s[14] = '4' // bits 12-15 of the time_hi_and_version field to 0010
-  s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1)  // bits 6-7 of the clock_seq_hi_and_reserved to 01
-  s[8] = s[13] = s[18] = s[23] = '-'
-  var uuid = s.join('')
-  return uuid
+  s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+  s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+  s[8] = s[13] = s[18] = s[23] = "-";
+  var uuid = s.join("");
+  return uuid;
 }
-function checkUsername (s) {
-  var patrn = /^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,10}$/
+function checkUsername(s) {
+  var patrn = /^[a-zA-Z0-9_]{5,20}$/;
   if (patrn.exec(s)) {
-    return true
+    return true;
   } else {
-    return false
+    return false;
+  }
+}
+// password
+function checkPassword(s) {
+  var patrn = /^[a-z0-9]{6,16}$/;
+  if (patrn.exec(s)) {
+    return true;
+  } else {
+    return false;
   }
 }
 // 电话号码的正则验证
-function telNomber (phone) {
-  var pattern = /^1[34578]\d{9}$/
-  return pattern.test(phone)
+function telNomber(phone) {
+  var pattern = /^1[34578]\d{9}$/;
+  return pattern.test(phone);
 }
-function Email (email) {
-  var pattern = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-  return pattern.test(email)
+function Email(email) {
+  var pattern = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+  return pattern.test(email);
 }
 export default {
-  uuid:uuid,
-  checkUsername:checkUsername,
-  telNomber:telNomber,
-  Email:Email
-}
+  uuid: uuid,
+  checkUsername: checkUsername,
+  checkPassword: checkPassword,
+  telNomber: telNomber,
+  Email: Email
+};

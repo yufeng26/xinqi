@@ -9,6 +9,7 @@
           <label class="inputLabel">用户名：</label>
           <div class="inputData">
             <el-input
+              @input="userChange"
               :disabled="!btnvisible"
               v-model="user.u_UserName"
               placeholder="请输入5到20位字母、数字、下划线"
@@ -46,7 +47,7 @@
               :disabled="!btnvisible"
               v-model="user.u_Sex"
               :style="{
-                width: '100%',
+                width: '100%'
               }"
               placeholder="请选择"
             >
@@ -140,6 +141,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 export default {
   name: "userlook",
   data() {
@@ -149,12 +151,12 @@ export default {
       optionsSex: [
         {
           value: "男",
-          label: "男",
+          label: "男"
         },
         {
           value: "女",
-          label: "女",
-        },
+          label: "女"
+        }
       ],
       user: {
         ID: "",
@@ -172,31 +174,43 @@ export default {
         u_Height: 0,
         u_Weight: 0,
         u_Email: "",
-        u_Extend: "",
+        u_Extend: ""
       },
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
-        },
+        }
       },
       options: [
         {
           value: 0,
-          label: "小学",
+          label: "小学"
         },
         {
           value: 1,
-          label: "中学",
+          label: "中学"
         },
         {
           value: 2,
-          label: "大学及以上",
-        },
+          label: "大学及以上"
+        }
       ],
-      btnvisible: false,
+      btnvisible: false
     };
   },
   methods: {
+    // 用户修改
+    userChange: _.throttle(function(e) {
+      console.log("e", e);
+      let param = new URLSearchParams();
+      let v = this;
+      param.append("userName", e);
+      this.$UserAPI.deUser(param, function(data) {
+        if (data.Code !== 1) {
+          v.$message.warning("用户名已存在!");
+        }
+      });
+    }, 3000),
     //取值
     selectTime(val) {
       this.user.u_Birth = val;
@@ -206,18 +220,18 @@ export default {
       let x = this;
       let param = new URLSearchParams();
       param.append("UserID", this.user.ID);
-      this.$UserAPI.GetUserDetail(param, function (data) {
+      this.$UserAPI.GetUserDetail(param, function(data) {
         if (data.Code == 1) {
           v.user = data.Result;
         }
         let param = new URLSearchParams();
-        v.$SystemAPI.getSystem(param, function (data) {
+        v.$SystemAPI.getSystem(param, function(data) {
           if (data.Code == 1) {
             let extend = JSON.parse(x.user.u_Extend);
             if (extend == null) {
               extend = [];
             }
-            data.Result.forEach((item) => {
+            data.Result.forEach(item => {
               let fieldValue = "";
               for (let i = 0; i < extend.length; i++) {
                 if (extend[i].fieldID == item.ID) {
@@ -229,7 +243,7 @@ export default {
                 e_FiledName: item.e_FiledName,
                 e_Types: item.e_Types,
                 e_OptionInfo: JSON.parse(item.e_OptionInfo),
-                fieldValue: fieldValue,
+                fieldValue: fieldValue
               });
               console.log(x.fieldList);
             });
@@ -250,6 +264,10 @@ export default {
       }
       if (!this.user.u_Password) {
         this.$message.warning("请填写密码!");
+        return;
+      }
+      if (!this.$utils.checkPassword(this.user.u_Password)) {
+        this.$message.warning("密码格式不正确!");
         return;
       }
       if (!this.user.u_RealName) {
@@ -274,10 +292,10 @@ export default {
         return;
       }
       let u_Extend = [];
-      this.fieldList.forEach((item) => {
+      this.fieldList.forEach(item => {
         u_Extend.push({
           fieldID: item.id,
-          fieldValue: item.fieldValue,
+          fieldValue: item.fieldValue
         });
       });
       let param = new URLSearchParams();
@@ -288,7 +306,7 @@ export default {
       param.append("u_Education", this.user.u_Education);
       param.append("u_Birth", this.user.u_Birth);
       param.append("u_Extend", JSON.stringify(u_Extend));
-      this.$UserAPI.EditUser(param, function (data) {
+      this.$UserAPI.EditUser(param, function(data) {
         if (data.Code == 1) {
           v.$set(v.user, "u_UserName", "");
 
@@ -296,7 +314,7 @@ export default {
           v.$set(v.user, "u_Sex", "");
           v.$set(v.user, "u_Education", "");
           v.$set(v.user, "u_Birth", "");
-          v.fieldList.forEach((item) => {
+          v.fieldList.forEach(item => {
             item.fieldValue = "";
           });
           v.$message.success("修改成功!");
@@ -305,13 +323,13 @@ export default {
           v.$message.error("创建失败!" + data.Msg);
         }
       });
-    },
+    }
   },
   mounted() {
     this.user.ID = this.$route.query.ID;
     this.btnvisible = this.$route.query.issave;
     this.getDetail();
-  },
+  }
 };
 </script>
 
