@@ -10,7 +10,7 @@
             用户名：<span>{{ testresult.UserName }}</span>
           </td>
           <td>
-            分组：<span>{{ testresult.GroupName || "分组一" }}</span>
+            分组：<span>{{ testresult.GroupName || "" }}</span>
           </td>
           <td>
             真实姓名：<span>{{ testresult.RealName }}</span>
@@ -114,13 +114,20 @@
         v-for="item in testresult.DimisionList"
         v-bind:key="item.Name"
       >
-        <h4>{{ item.Name }}:{{ item.result }}</h4>
-        <p>{{ item.Suggestion }}</p>
+        <h4>{{ item.Name }}</h4>
+        <p class="blue">{{ item.result }}</p>
       </div>
     </div>
     <div class="tlt">指导建议</div>
     <div class="info">
-      <p class="tent">{{ testresult.Suggestion }}</p>
+      <div
+        class="rulest"
+        v-for="item in testresult.DimisionList"
+        v-bind:key="item.Name"
+      >
+        <h4>{{ item.Name }}</h4>
+        <p>{{ item.Suggestion }}</p>
+      </div>
     </div>
     <div class="tlt">推荐训练方案</div>
     <div class="info">
@@ -204,7 +211,9 @@ export default {
           v.dimisionList = data.Result.DimisionList;
           v.process = data.Result.Process * 100;
           if (data.Result.DimisionList.length > 0) {
-            v.completedSteps = data.Result.DimisionList[0].score;
+            v.completedSteps = Number(
+              data.Result.DimisionList[0].score
+            ).toFixed(2);
             v.zongfen_grade = data.Result.DimisionList[0].grade;
             v.zongfen_name = data.Result.DimisionList[0].Name;
 

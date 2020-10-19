@@ -140,11 +140,14 @@
   color: #006fe5;
   font-size: 16px;
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+.detailPage .info .rulest .blue {
+  color: #006fe5;
 }
 .detailPage .info .rulest p {
   text-align: left;
-  text-indent: 2rem;
 }
 .detailPage .info .train thead {
   background-color: #e5e5e5;
