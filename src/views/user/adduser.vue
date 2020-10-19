@@ -35,7 +35,7 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <label class="inputLabel">性 别：</label>
+          <label class="inputLabel">*性 别：</label>
           <div class="inputData">
             <!-- <el-input v-model="user.u_Sex"></el-input> -->
             <el-select v-model="user.u_Sex" placeholder="请选择">
@@ -52,7 +52,7 @@
       </el-row>
       <el-row class="mtop15">
         <el-col :span="8">
-          <label class="inputLabel">教育水平：</label>
+          <label class="inputLabel">*当前受教水平：</label>
           <div class="inputData">
             <el-select style="width: 100%" v-model="user.u_Education">
               <el-option
@@ -65,7 +65,7 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <label class="inputLabel">出生年月：</label>
+          <label class="inputLabel">*出生年月：</label>
           <div class="inputData">
             <el-date-picker
               style="width: 100%"
@@ -224,7 +224,7 @@ export default {
         return;
       }
       if (!this.user.u_Sex) {
-        this.$message.warning("请填写性别!");
+        this.$message.warning("请填写选择性别!");
         return;
       }
       if (this.user.u_Sex.length > 1) {
