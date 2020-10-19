@@ -39,6 +39,18 @@
         </tr>
       </table>
 
+      <div class="otherInfo" v-if="testresult.ExtendFieldList.length > 0">
+        <h2>拓展字段</h2>
+        <el-row>
+          <el-col
+            span="6"
+            v-for="item in testresult.ExtendFieldList"
+            v-bind:key="item.fieldID"
+          >
+            {{ item.fieldName }}:{{ item.fieldValue }}
+          </el-col>
+        </el-row>
+      </div>
       <!-- <h3>
         量表名称：<span>{{ testresult.DeviceName }}</span>
       </h3> -->
@@ -541,6 +553,10 @@ export default {
 @import "../../../static/css/common.css";
 .img1 {
   width: 100%;
+}
+.baseTable th,
+.baseTable td {
+  width: 25%;
 }
 .col-01 {
   position: relative;
