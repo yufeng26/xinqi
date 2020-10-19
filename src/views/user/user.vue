@@ -122,7 +122,7 @@
         </button>
         <button
           type="button"
-          style="background: #006fe5"
+          style="background: #006fe5; border-color: #006fe5"
           @click="moveArrs"
           class="layui-btn layui-btn-normal"
           v-if="menuModel.yidongUsable"
@@ -131,7 +131,7 @@
         </button>
         <button
           type="button"
-          style="background: #ff433f"
+          style="background: #ff433f; border-color: #ff433f"
           @click="handlePLDelete"
           class="layui-btn layui-btn-normal"
           v-if="menuModel.deleteUsable"
@@ -193,7 +193,7 @@
             <el-button
               @click.native.prevent="changePassword(scope.row)"
               type="danger"
-              style="background-color: #f56cc0"
+              style="background-color: #f56cc0; border-color: #f56cc0"
               size="mini"
               v-if="!scope.row.IsGroup"
               >重置密码</el-button
