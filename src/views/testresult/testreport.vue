@@ -115,7 +115,7 @@
         v-bind:key="item.Name"
       >
         <h4>{{ item.Name }}</h4>
-        <p class="blue">{{ item.result }}</p>
+        <p class="blue">{{ item.result.toString() }}</p>
       </div>
     </div>
     <div class="tlt">指导建议</div>
@@ -126,7 +126,7 @@
         v-bind:key="item.Name"
       >
         <h4>{{ item.Name }}</h4>
-        <p>{{ item.Suggestion }}</p>
+        <p>{{ item.Suggestion.toString() }}</p>
       </div>
     </div>
     <div class="tlt">推荐训练方案</div>
