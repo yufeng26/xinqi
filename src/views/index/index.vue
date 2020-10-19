@@ -2,7 +2,7 @@
   <div class="content">
     <div class="bigbox">
       <el-row :gutter="15">
-        <el-col :span="12">
+        <el-col :span="12" style="padding-left: 0px; padding-right: 0px">
           <div class="report">
             <h3>自诊报告</h3>
             <div class="tab">
@@ -20,7 +20,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="item in ReportList">
+                  <tr v-for="(item, index) in ReportList" :key="index">
                     <td class="left">{{ item.UserName }}</td>
                     <td>{{ item.Score }}分</td>
                     <td>{{ dateFormat(item.CreateTime) }}</td>
@@ -36,7 +36,7 @@
             </div>
           </div>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" style="padding-right: 0px">
           <div class="supervision">
             <h3>训练监督</h3>
             <div class="tab">
@@ -55,7 +55,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="item in PlanList">
+                  <tr v-for="(item, index) in PlanList" :key="index">
                     <td class="left">{{ item.UserName }}</td>
                     <td>{{ item.TopicName }}</td>
                     <td>{{ item.progress }}</td>
@@ -74,7 +74,7 @@
         </el-col>
       </el-row>
       <el-row :gutter="15">
-        <el-col :span="12">
+        <el-col :span="12" style="padding-left: 0px; padding-right: 0px">
           <div class="facility">
             <h3>互联设备</h3>
             <div class="tab">
@@ -107,7 +107,7 @@
             </div>
           </div>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" style="padding-right: 0px">
           <div class="consult">
             <h3>预约咨询</h3>
             <div class="tab">
@@ -125,7 +125,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="item in ConsultationLsit">
+                  <tr v-for="(item, index) in ConsultationLsit" :key="index">
                     <td class="left">{{ item.UserName }}</td>
                     <td>{{ item.Consulater }}</td>
                     <td>{{ dateFormat(item.CreateTime) }}</td>
@@ -260,6 +260,11 @@ export default {
 <style>
 .content {
   background: #ebebeb;
+}
+.content .bigbox .layui-table {
+  box-sizing: border-box;
+  border-collapse: collapse;
+  border: none;
 }
 .content .pl5 {
   background-color: #ffffff;
