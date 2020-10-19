@@ -57,7 +57,7 @@
         团体报告
       </el-button> -->
       <el-button
-        style="background: #01c8e7"
+        style="background: #01c8e7;border-color: #01c8e7"
         type="primary"
         v-if="menuModel.exportUsable"
         class="secachBtn"
@@ -270,7 +270,7 @@ export default {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       //用户组数组
@@ -284,17 +284,14 @@ export default {
         { ID: 2, Name: "运动训练" },
         { ID: 3, Name: "运动康复" },
         { ID: 4, Name: "汉语言文学" },
-        { ID: 5, Name: "新闻学体育新闻" },
+        { ID: 5, Name: "新闻学体育新闻" }
       ],
       xingbieID: "",
-      xingbie: [
-        { ID: 1, Name: "男" },
-        { ID: 0, Name: "女" },
-      ],
+      xingbie: [{ ID: 1, Name: "男" }, { ID: 0, Name: "女" }],
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
-        },
+        }
       },
       menuModel: {
         look: "",
@@ -302,12 +299,12 @@ export default {
         export: "",
         exportUsable: false,
         delete: "",
-        deleteUsable: false,
-      },
+        deleteUsable: false
+      }
     };
   },
   components: {
-    SelectTree,
+    SelectTree
   },
   mounted() {
     this.AdminID = this.$store.state.userinfo.ID;
@@ -316,7 +313,7 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", this.viewPath);
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
@@ -338,7 +335,7 @@ export default {
     },
     setmenuModel(item) {
       let that = this;
-      item.forEach((c) => {
+      item.forEach(c => {
         if (c.ID == 24) {
           that.menuModel.look = c.MenuName;
           that.menuModel.lookUsable = c.Usable;
@@ -390,22 +387,21 @@ export default {
       param.append("reportType", 2); // 1 表示测评软件 2 表示测评管理
       param.append("pageIndex", this.currentPage);
       param.append("pageSize", this.pagesize);
-      this.userList = this.$TestResultAPI.getTestResultPageList(
-        param,
-        function (data) {
-          if (data.Code == 1) {
-            v.userList = data.Result.Data;
-            v.totalRecords = data.Result.totalRecords;
-          }
+      this.userList = this.$TestResultAPI.getTestResultPageList(param, function(
+        data
+      ) {
+        if (data.Code == 1) {
+          v.userList = data.Result.Data;
+          v.totalRecords = data.Result.totalRecords;
         }
-      );
+      });
     },
     //获取主题下拉框
     getNameList() {
       let v = this;
       let param = new URLSearchParams();
       param.append("rtype", "1");
-      this.$TestResultAPI.getNameList(param, function (data) {
+      this.$TestResultAPI.getNameList(param, function(data) {
         if (data.Code == 1) {
           v.topic = data.Result;
         }
@@ -420,7 +416,7 @@ export default {
       let v = this;
 
       let param = new URLSearchParams();
-      this.$UserAPI.getUserGroupList(param, function (data) {
+      this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;
         }
@@ -433,11 +429,11 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function (value, index, array) {
+          selectrows.forEach(function(value, index, array) {
             newarr += value.ID + ",";
           });
           if (newarr) {
@@ -445,7 +441,7 @@ export default {
           }
           var params = new URLSearchParams();
           params.append("ID", newarr);
-          this.$TestResultAPI.PLdelResult(params, function (data) {
+          this.$TestResultAPI.PLdelResult(params, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -460,13 +456,13 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("Id", row.Id);
 
-          this.$TestResultAPI.delResult(param, function (data) {
+          this.$TestResultAPI.delResult(param, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -486,21 +482,19 @@ export default {
     //单个的导出报告
     ExportRow(row) {
       this.$TestResultAPI.ReportResultCpm(row.Id);
-    },
+    }
   },
   computed: {
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
-      return cloneData.filter((father) => {
+      return cloneData.filter(father => {
         // 循环所有项，并添加children属性
-        let branchArr = cloneData.filter(
-          (child) => father.id == child.parentId
-        ); // 返回每一项的子级数组
+        let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
         branchArr.length > 0 ? (father.children = branchArr) : ""; //给父级添加一个children属性，并赋值
         return father.parentId == 0; //返回第一层
       });
-    } /* 转树形数据 */,
-  },
+    } /* 转树形数据 */
+  }
 };
 </script>
 
