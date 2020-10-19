@@ -4,7 +4,7 @@
     <div class="inputBox">
       <p class="notice">*为必填信息</p>
       <el-row class="mtop15">
-        <el-col :span="8">
+        <el-col :span="9">
           <label class="inputLabel">*用户名：</label>
           <div class="inputData">
             <el-input
@@ -14,7 +14,7 @@
             ></el-input>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <label class="inputLabel">*密码：</label>
           <div class="inputData">
             <el-input
@@ -25,7 +25,7 @@
         </el-col>
       </el-row>
       <el-row class="mtop15">
-        <el-col :span="8">
+        <el-col :span="9">
           <label class="inputLabel">*真实姓名：</label>
           <div class="inputData">
             <el-input
@@ -34,7 +34,7 @@
             ></el-input>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <label class="inputLabel">*性 别：</label>
           <div class="inputData">
             <!-- <el-input v-model="user.u_Sex"></el-input> -->
@@ -51,7 +51,7 @@
         </el-col>
       </el-row>
       <el-row class="mtop15">
-        <el-col :span="8">
+        <el-col :span="9">
           <label class="inputLabel">*当前受教水平：</label>
           <div class="inputData">
             <el-select style="width: 100%" v-model="user.u_Education">
@@ -64,7 +64,7 @@
             </el-select>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <label class="inputLabel">*出生年月：</label>
           <div class="inputData">
             <el-date-picker
@@ -80,7 +80,7 @@
         </el-col>
       </el-row>
       <el-row class="mtop15">
-        <el-col :span="8" v-for="(filed, idx) in fieldList" :key="idx">
+        <el-col :span="9" v-for="(filed, idx) in fieldList" :key="idx">
           <label class="inputLabel">{{ filed.e_FiledName }}：</label>
           <div class="inputData">
             <el-input
@@ -135,12 +135,12 @@ export default {
       optionsSex: [
         {
           value: "男",
-          label: "男"
+          label: "男",
         },
         {
           value: "女",
-          label: "女"
-        }
+          label: "女",
+        },
       ],
       user: {
         ID: "",
@@ -160,37 +160,37 @@ export default {
         u_Email: "",
         u_AdminID: "",
         u_Authorization: "",
-        u_Extend: ""
+        u_Extend: "",
       },
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
-        }
+        },
       },
       options: [
         {
           value: 0,
-          label: "小学"
+          label: "小学",
         },
         {
           value: 1,
-          label: "中学"
+          label: "中学",
         },
         {
           value: 2,
-          label: "大学及以上"
-        }
-      ]
+          label: "大学及以上",
+        },
+      ],
     };
   },
   methods: {
     // 用户修改
-    userChange: _.throttle(function(e) {
+    userChange: _.throttle(function (e) {
       console.log("e", e);
       let param = new URLSearchParams();
       let v = this;
       param.append("userName", e);
-      this.$UserAPI.deUser(param, function(data) {
+      this.$UserAPI.deUser(param, function (data) {
         if (data.Code !== 1) {
           v.$message.warning("用户名已存在!");
         }
@@ -241,10 +241,10 @@ export default {
         return;
       }
       let u_Extend = [];
-      this.fieldList.forEach(item => {
+      this.fieldList.forEach((item) => {
         u_Extend.push({
           fieldID: item.id,
-          fieldValue: item.fieldValue
+          fieldValue: item.fieldValue,
         });
       });
       let param = new URLSearchParams();
@@ -257,7 +257,7 @@ export default {
       param.append("u_AdminID", this.user.u_AdminID);
       param.append("u_Authorization", this.user.u_Authorization);
       param.append("u_Extend", JSON.stringify(u_Extend));
-      this.$UserAPI.AddUser(param, function(data) {
+      this.$UserAPI.AddUser(param, function (data) {
         if (data.Code == 1) {
           v.$set(v.user, "u_UserName", "");
 
@@ -270,7 +270,7 @@ export default {
           v.$set(v.user, "u_Education", "");
 
           v.$set(v.user, "u_Birth", "");
-          v.fieldList.forEach(item => {
+          v.fieldList.forEach((item) => {
             item.fieldValue = "";
           });
           v.$message.success("创建成功!");
@@ -278,7 +278,7 @@ export default {
           v.$message.error("创建失败!" + data.Msg);
         }
       });
-    }
+    },
   },
   mounted() {
     let v = this;
@@ -293,21 +293,21 @@ export default {
       this.user.u_Authorization = a_Authorization + "," + this.user.u_AdminID;
     }
     let param = new URLSearchParams();
-    this.$SystemAPI.getSystem(param, function(data) {
+    this.$SystemAPI.getSystem(param, function (data) {
       if (data.Code == 1) {
-        data.Result.forEach(item => {
+        data.Result.forEach((item) => {
           let fieldValue = "";
           v.fieldList.push({
             id: item.ID,
             e_FiledName: item.e_FiledName,
             e_Types: item.e_Types,
             e_OptionInfo: JSON.parse(item.e_OptionInfo),
-            fieldValue: fieldValue
+            fieldValue: fieldValue,
           });
         });
       }
     });
-  }
+  },
 };
 </script>
 
