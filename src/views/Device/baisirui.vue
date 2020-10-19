@@ -275,8 +275,8 @@ export default {
     handleUserList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("searchkey", this.searchkey);
-      param.append("groupID", this.valueId);
+      param.append("userName", this.searchkey);
+      param.append("groupId", this.valueId);
       param.append("gameId", this.searchName);
       param.append("pageSize", this.pagesize);
       param.append("pageIndex", this.currentPage);
