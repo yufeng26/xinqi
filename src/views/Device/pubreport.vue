@@ -27,10 +27,10 @@
             出生年月：<span>{{ testresult.BirthDate }}</span>
           </td>
           <td>
-            测试时间：<span>{{ testresult.CreateTime }}</span>
+            训练时长：<span>{{ testresult.CreateTime }}</span>
           </td>
           <td>
-            测试时长：<span>{{ testresult.TestTime }}</span>
+            训练时长：<span>{{ testresult.TestTime }}</span>
           </td>
         </tr>
       </table>
@@ -87,8 +87,8 @@ export default {
         Suggestion: "",
         planschemelist: "",
         BrokenLine1: [],
-        BrokenLine2: []
-      }
+        BrokenLine2: [],
+      },
     };
   },
   methods: {
@@ -96,7 +96,7 @@ export default {
       let v = this;
       let params = new URLSearchParams();
       params.append("Id", this.testresult.ID);
-      this.$TestResultAPI.getReportResult(params, function(data) {
+      this.$TestResultAPI.getReportResult(params, function (data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           v.initChart();
@@ -127,36 +127,36 @@ export default {
           text: "图表1",
           textStyle: {
             left: "center",
-            fontSize: 14
+            fontSize: 14,
           },
           fontSize: 12,
           left: "center",
-          top: 15
+          top: 15,
         },
         tooltip: {
           show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow",
-            shadowStyle: "rgba(150,150,150,0.3)"
-          }
+            shadowStyle: "rgba(150,150,150,0.3)",
+          },
         },
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: xData1
+          data: xData1,
         },
         yAxis: {
-          type: "value"
+          type: "value",
         },
         series: [
           {
             data: this.testresult.BrokenLine1
               ? JSON.parse(this.testresult.BrokenLine1)
               : [],
-            type: "line"
-          }
-        ]
+            type: "line",
+          },
+        ],
       });
       // 绘制图表
       myChart2.setOption({
@@ -165,36 +165,36 @@ export default {
           text: "图表1",
           textStyle: {
             left: "center",
-            fontSize: 14
+            fontSize: 14,
           },
           fontSize: 12,
           left: "center",
-          top: 15
+          top: 15,
         },
         tooltip: {
           show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow",
-            shadowStyle: "rgba(150,150,150,0.3)"
-          }
+            shadowStyle: "rgba(150,150,150,0.3)",
+          },
         },
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: xData2
+          data: xData2,
         },
         yAxis: {
-          type: "value"
+          type: "value",
         },
         series: [
           {
             data: this.testresult.BrokenLine2
               ? JSON.parse(this.testresult.BrokenLine2)
               : [],
-            type: "line"
-          }
-        ]
+            type: "line",
+          },
+        ],
       });
     },
     //导出报告
@@ -208,14 +208,14 @@ export default {
       document.body.appendChild(elt);
       elt.click();
       document.body.removeChild(elt);
-    }
+    },
   },
   mounted() {
     // 获取路由参数，回去详情数据
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
   },
-  computed: {}
+  computed: {},
 };
 </script>
 
