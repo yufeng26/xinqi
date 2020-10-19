@@ -158,7 +158,10 @@
 
     <div class="layui-body">
       <!-- 内容主体区域 -->
-      <router-view></router-view>
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive" />
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive" />
     </div>
 
     <!-- <div class="layui-footer">

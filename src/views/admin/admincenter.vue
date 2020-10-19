@@ -100,7 +100,7 @@
           <el-button type="primary" @click="addadminhandle()" class="InputBtn">
             确定
           </el-button>
-          <el-button type="success" @click="router.go(-1)" class="InputBtn">
+          <el-button type="success" @click="$router.go(-1)" class="InputBtn">
             返回
           </el-button>
         </div>
@@ -126,7 +126,7 @@
           <el-button type="primary" @click="admininfo()" class="InputBtn">
             确定
           </el-button>
-          <el-button type="success" @click="router.go(-1)" class="InputBtn">
+          <el-button type="success" @click="$router.go(-1)" class="InputBtn">
             返回
           </el-button>
         </div>
