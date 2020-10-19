@@ -60,7 +60,11 @@
     <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
     <div class="tlt">指导建议</div>
     <div class="info">
-      <p class="tent">{{ testresult.Advice }}</p>
+      <ul class="tent">
+        <li v-for="(item, index) in AdviceArr" :key="index">
+          {{ item }}
+        </li>
+      </ul>
     </div>
     <div class="exportBox">
       <el-button type="primary" @click="exportWord" class="exportBtn">
@@ -75,6 +79,7 @@ export default {
   name: "cepingreport",
   data() {
     return {
+      AdviceArr: [],
       testresult: {
         ID: "",
         UserName: "",
@@ -104,6 +109,7 @@ export default {
       this.$TestResultAPI.getReportResult(params, function (data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
+          v.AdviceArr = JSON.parse(v.testresult.Advice);
           v.initChart();
         }
       });
@@ -238,5 +244,9 @@ export default {
 @import "../../../static/css/common.css";
 .img1 {
   width: 100%;
+}
+.info .tent li {
+  margin-top: 10px;
+  line-height: 26px;
 }
 </style>
