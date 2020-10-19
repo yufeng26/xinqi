@@ -72,7 +72,6 @@
           :accordion="isAccordion"
           @getValue="getValue2($event)"
         />
-
         <button
           type="button"
           style="background: #258dff; margin-left: 30px; width: 40%"
@@ -392,12 +391,11 @@ export default {
     //用户分组
     gettreeList() {
       let v = this;
-
       let param = new URLSearchParams();
       param.append("adminID", this.AdminID);
       this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
-          v.list = data.Result;
+          v.list = data.Result; // 用户分组
           v.list2 = data.Result2;
         }
       });
@@ -527,6 +525,12 @@ export default {
     /* 转树形数据 */
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
+      let addItem = {
+        id: "",
+        name: "无分组",
+        parentId: "0"
+      };
+      cloneData.unshift(addItem);
       return cloneData.filter(father => {
         // 循环所有项，并添加children属性
         let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
