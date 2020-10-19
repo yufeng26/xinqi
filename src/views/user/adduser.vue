@@ -4,16 +4,17 @@
     <div class="inputBox">
       <p class="notice">*为必填信息</p>
       <el-row class="mtop15">
-        <el-col :span="8">
+        <el-col :span="9">
           <label class="inputLabel">*用户名：</label>
           <div class="inputData">
             <el-input
+              @input="userChange"
               v-model="user.u_UserName"
               placeholder="请输入5到20位字母、数字、下划线"
             ></el-input>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="9">
           <label class="inputLabel">*密码：</label>
           <div class="inputData">
             <el-input
@@ -24,7 +25,7 @@
         </el-col>
       </el-row>
       <el-row class="mtop15">
-        <el-col :span="8">
+        <el-col :span="9">
           <label class="inputLabel">*真实姓名：</label>
           <div class="inputData">
             <el-input
@@ -33,8 +34,8 @@
             ></el-input>
           </div>
         </el-col>
-        <el-col :span="8">
-          <label class="inputLabel">性 别：</label>
+        <el-col :span="9">
+          <label class="inputLabel">*性 别：</label>
           <div class="inputData">
             <!-- <el-input v-model="user.u_Sex"></el-input> -->
             <el-select v-model="user.u_Sex" placeholder="请选择">
@@ -50,8 +51,8 @@
         </el-col>
       </el-row>
       <el-row class="mtop15">
-        <el-col :span="8">
-          <label class="inputLabel">教育水平：</label>
+        <el-col :span="9">
+          <label class="inputLabel">*当前受教水平：</label>
           <div class="inputData">
             <el-select style="width: 100%" v-model="user.u_Education">
               <el-option
@@ -63,8 +64,8 @@
             </el-select>
           </div>
         </el-col>
-        <el-col :span="8">
-          <label class="inputLabel">出生年月：</label>
+        <el-col :span="9">
+          <label class="inputLabel">*出生年月：</label>
           <div class="inputData">
             <el-date-picker
               style="width: 100%"
@@ -79,27 +80,26 @@
         </el-col>
       </el-row>
       <el-row class="mtop15">
-        <el-col :span="16">
-          <div v-for="(filed, idx) in fieldList" :key="idx">
-            <label class="inputLabel">{{ filed.e_FiledName }}：</label>
-            <div class="inputData">
-              <el-input
-                v-model="filed.fieldValue"
-                v-if="filed.e_Types == '1'"
-              ></el-input>
-              <el-select
-                v-model="filed.fieldValue"
-                v-if="filed.e_Types == '2'"
-                style="width: 100%"
-              >
-                <el-option
-                  v-for="item in filed.e_OptionInfo"
-                  :key="item.index"
-                  :value="item.option"
-                  :label="item.option"
-                ></el-option>
-              </el-select>
-            </div>
+        <el-col :span="9" v-for="(filed, idx) in fieldList" :key="idx">
+          <label class="inputLabel">{{ filed.e_FiledName }}：</label>
+          <div class="inputData">
+            <el-input
+              v-model="filed.fieldValue"
+              v-if="filed.e_Types == '1'"
+              placeholder="请输入"
+            ></el-input>
+            <el-select
+              v-model="filed.fieldValue"
+              v-if="filed.e_Types == '2'"
+              style="width: 100%"
+            >
+              <el-option
+                v-for="item in filed.e_OptionInfo"
+                :key="item.index"
+                :value="item.option"
+                :label="item.option"
+              ></el-option>
+            </el-select>
           </div>
           <!-- <p
             class="resume"
@@ -125,6 +125,7 @@
   </div>
 </template>
 <script>
+import _ from "lodash";
 export default {
   name: "adduser",
   data() {
@@ -183,6 +184,18 @@ export default {
     };
   },
   methods: {
+    // 用户修改
+    userChange: _.throttle(function (e) {
+      console.log("e", e);
+      let param = new URLSearchParams();
+      let v = this;
+      param.append("userName", e);
+      this.$UserAPI.deUser(param, function (data) {
+        if (data.Code !== 1) {
+          v.$message.warning("用户名已存在!");
+        }
+      });
+    }, 3000),
     //取值
     selectTime(val) {
       this.user.u_Birth = val;
@@ -202,12 +215,16 @@ export default {
         this.$message.warning("请填写密码!");
         return;
       }
+      if (!this.$utils.checkPassword(this.user.u_Password)) {
+        this.$message.warning("密码格式不正确!");
+        return;
+      }
       if (!this.user.u_RealName) {
         this.$message.warning("请填写姓名!");
         return;
       }
       if (!this.user.u_Sex) {
-        this.$message.warning("请填写性别!");
+        this.$message.warning("请填写选择性别!");
         return;
       }
       if (this.user.u_Sex.length > 1) {

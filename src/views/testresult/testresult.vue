@@ -57,7 +57,7 @@
         团体报告
       </el-button> -->
       <el-button
-        style="background: #01c8e7;"
+        style="background: #01c8e7;border-color: #01c8e7"
         type="primary"
         v-if="menuModel.exportUsable"
         class="secachBtn"
@@ -102,6 +102,7 @@
             </el-button>
 
             <el-button
+              @click.native.prevent="ExportRow(scope.row)"
               type="warning"
               size="mini"
               v-if="menuModel.exportUsable"
@@ -413,8 +414,8 @@ export default {
     //用户分组
     gettreeList() {
       let v = this;
-
       let param = new URLSearchParams();
+      param.append("adminID", this.AdminID);
       this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;
@@ -459,7 +460,7 @@ export default {
       })
         .then(() => {
           let param = new URLSearchParams();
-          param.append("ID", row.ID);
+          param.append("Id", row.Id);
 
           this.$TestResultAPI.delResult(param, function(data) {
             if (data.Code == 1) {
@@ -477,6 +478,10 @@ export default {
     //团体报告
     tuantibaogao() {
       this.$router.push({ name: "testttreport" });
+    },
+    //单个的导出报告
+    ExportRow(row) {
+      this.$TestResultAPI.ReportResultCpm(row.Id);
     }
   },
   computed: {

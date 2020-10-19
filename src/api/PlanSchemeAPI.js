@@ -24,11 +24,26 @@ const PLdelResult = (params, success) => {
   return ajax(baseurl + "/ReportOption/DelTrain", params, success);
 };
 const ReportResult = params => {
-  return (location.href = baseurl + "/PlanManager/ReportWord/" + params);
+  return (location.href =
+    baseurl + "/exportOption/jidanahanyongbao?id=" + params);
+};
+// 自信心单个导出
+const ReportResultZxx = params => {
+  return (location.href = baseurl + "/exportOption/exportzixinxi?id=" + params);
 };
 const PLReportResult = params => {
   return (location.href =
     baseurl + "/PlanManager/ReportWordBatch/" + encodeURIComponent(params));
+};
+// 训练管理单个导出xlReportResult
+const xlReportResult = params => {
+  return (location.href =
+    baseurl + "/exportOption/exporttestTrainPlan?id=" + params);
+};
+// 百思锐单个导出bsrReportResult
+const bsrReportResult = params => {
+  return (location.href =
+    baseurl + "/exportOption/exporttestBaisirui?id=" + params);
 };
 export default {
   getTrainList,
@@ -36,5 +51,8 @@ export default {
   delResult,
   PLdelResult,
   ReportResult,
-  PLReportResult
+  PLReportResult,
+  ReportResultZxx,
+  xlReportResult,
+  bsrReportResult
 };

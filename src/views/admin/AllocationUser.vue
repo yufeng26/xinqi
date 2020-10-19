@@ -280,11 +280,13 @@ export default {
       this.$refs.multipleTable.toggleAllSelection();
       this.isIndeterminate = false;
     },
-    //用户分组
+    //当前管理员的用户分组
     gettreeList() {
       let v = this;
-
       let param = new URLSearchParams();
+      // let getId = this.$route.query.ID; // 分配用户的分组
+      let getId = this.$store.state.userinfo.ID;
+      param.append("adminID", getId);
       this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;

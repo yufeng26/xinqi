@@ -84,7 +84,7 @@
   padding-left: 100px;
 }
 .formPage .inputBox .inputLabel {
-  width: 80px;
+  width: 110px;
   display: inline-block;
   text-align: right;
 }
@@ -140,11 +140,14 @@
   color: #006fe5;
   font-size: 16px;
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+.detailPage .info .rulest .blue {
+  color: #006fe5;
 }
 .detailPage .info .rulest p {
   text-align: left;
-  text-indent: 2rem;
 }
 .detailPage .info .train thead {
   background-color: #e5e5e5;
@@ -158,4 +161,11 @@
 }
 .detailPage .exportBox .exportBtn {
   width: 160px !important;
+}
+.detailPage .otherInfo {
+  margin-bottom: 15px;
+}
+.detailPage .otherInfo .el-col {
+  text-align: left;
+  padding-left: 15px;
 }

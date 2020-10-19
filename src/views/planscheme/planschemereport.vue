@@ -1,7 +1,7 @@
 <template>
   <!-- 软件测试报告详情 -->
   <div class="detailPage">
-    <div class="tlt">{{ testresult.ReportName || "" }}</div>
+    <div class="tlt">训练报告</div>
     <div class="info">
       <h2>基本信息</h2>
       <table class="baseTable" border="1">
@@ -10,7 +10,7 @@
             用户名：<span>{{ testresult.UserName || "" }}</span>
           </td>
           <td>
-            分组：<span>{{ testresult.GroupName || "分组一" }}</span>
+            分组：<span>{{ testresult.GroupName || "" }}</span>
           </td>
           <td>
             真实姓名：<span>{{ testresult.RealName || "" }}</span>
@@ -27,16 +27,20 @@
             出生年月：<span>{{ testresult.BirthDate || "" }}</span>
           </td>
           <td>
-            测试时间：<span>{{ testresult.CreateTime || "" }}</span>
+            测试时间：<span
+              >{{ dateFormat(testresult.testEndtime) }}--{{
+                dateFormat(testresult.testStartTime)
+              }}
+            </span>
           </td>
           <td>
-            测试时长：<span>{{ testresult.TestTime || "" }}</span>
+            测试时长：<span>{{ dateFormat(testresult.TestTime) }}</span>
           </td>
         </tr>
       </table>
 
       <h3>
-        量表名称：<span>{{ testresult.DeviceName }}</span>
+        量表名称：<span>{{ testresult.ReportName }}</span>
       </h3>
     </div>
     <div class="tlt">评估结果</div>
@@ -68,7 +72,7 @@
                       background: getScoreColor(
                         dimisionList[n].Name,
                         dimisionList[n].score
-                      ).bgcolor,
+                      ).bgcolor
                     }"
                     >{{
                       getScoreColor(dimisionList[n].Name, dimisionList[n].score)
@@ -86,7 +90,7 @@
                       background: getScoreColor(
                         dimisionList[n + 1].Name,
                         dimisionList[n + 1].score
-                      ).bgcolor,
+                      ).bgcolor
                     }"
                     >{{
                       getScoreColor(
@@ -179,8 +183,8 @@ export default {
           Train: 8,
           Trained: 2,
           result: "这次宣泄不是很成功，加油！",
-          traintime: "2019/07/19 10:40",
-        },
+          traintime: "2019/07/19 10:40"
+        }
       ],
       testresult: {
         ID: "",
@@ -197,23 +201,33 @@ export default {
         disimionslist: [],
         disimions: [],
         Suggestion: "",
-        planschemelist: "",
-      },
+        planschemelist: ""
+      }
     };
   },
   methods: {
+    // 详情格式化时间
+    dateFormat(cellValue) {
+      if (cellValue == undefined || cellValue == null) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
     getdetail() {
       let v = this;
       let params = new URLSearchParams();
       params.append("id", this.testresult.ID);
-      this.$PlanSchemeAPI.getTrain(params, function (data) {
+      this.$PlanSchemeAPI.getTrain(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           v.tableData = data.Result.TrainPlanList;
           v.dimisionList = data.Result.DimisionList;
           v.process = data.Result.Process * 100;
           if (data.Result.DimisionList.length > 0) {
-            v.completedSteps = data.Result.DimisionList[0].score;
+            // v.completedSteps = data.Result.DimisionList[0].score;
+            v.completedSteps = Number(
+              data.Result.DimisionList[0].score
+            ).toFixed(2);
             v.zongfen_grade = data.Result.DimisionList[0].grade;
             v.zongfen_name = data.Result.DimisionList[0].Name;
 
@@ -241,127 +255,127 @@ export default {
         if (score >= 0 && score <= 4) {
           tempObj = {
             bgcolor: this.colorArr[0],
-            level: "学习焦虑较低",
+            level: "学习焦虑较低"
           };
         } else if (score > 4 && score <= 8) {
           tempObj = {
             bgcolor: this.colorArr[3],
-            level: "学习焦虑中等",
+            level: "学习焦虑中等"
           };
         } else if (score > 8 && score <= 16) {
           tempObj = {
             bgcolor: this.colorArr[4],
-            level: "学习焦虑较高",
+            level: "学习焦虑较高"
           };
         }
       } else if (propertyStr === "躯体化" || propertyStr === "身体症状") {
         if (score >= 0 && score <= 4) {
           tempObj = {
             bgcolor: this.colorArr[0],
-            level: "较低",
+            level: "较低"
           };
         } else if (score > 4 && score <= 8) {
           tempObj = {
             bgcolor: this.colorArr[3],
-            level: "中等",
+            level: "中等"
           };
         } else if (score > 8 && score <= 16) {
           tempObj = {
             bgcolor: this.colorArr[4],
-            level: "偏多",
+            level: "偏多"
           };
         }
       } else if (propertyStr === "环境适应" || propertyStr === "环境适应性") {
         if (score >= 0 && score <= 31) {
           tempObj = {
             bgcolor: this.colorArr[0],
-            level: "适应性很差",
+            level: "适应性很差"
           };
         } else if (score > 31 && score <= 61) {
           tempObj = {
             bgcolor: this.colorArr[1],
-            level: "适应性较差",
+            level: "适应性较差"
           };
         } else if (score > 61 && score <= 91) {
           tempObj = {
             bgcolor: this.colorArr[2],
-            level: "适应性一般",
+            level: "适应性一般"
           };
         } else if (score > 91 && score <= 121) {
           tempObj = {
             bgcolor: this.colorArr[3],
-            level: "适应性较强",
+            level: "适应性较强"
           };
         } else if (score > 121 && score <= 151) {
           tempObj = {
             bgcolor: this.colorArr[4],
-            level: "适应性很强",
+            level: "适应性很强"
           };
         }
       } else if (propertyStr === "社交焦虑") {
         if (score >= 0 && score <= 4) {
           tempObj = {
             bgcolor: this.colorArr[0],
-            level: "社交焦虑较低",
+            level: "社交焦虑较低"
           };
         } else if (score > 4 && score <= 8) {
           tempObj = {
             bgcolor: this.colorArr[3],
-            level: "社交焦虑中等",
+            level: "社交焦虑中等"
           };
         } else if (score > 8 && score <= 11) {
           tempObj = {
             bgcolor: this.colorArr[4],
-            level: "社交焦虑较高",
+            level: "社交焦虑较高"
           };
         }
       } else if (propertyStr === "抑郁") {
         if (score >= 20 && score <= 40) {
           tempObj = {
             bgcolor: this.colorArr[0],
-            level: "无抑郁症状",
+            level: "无抑郁症状"
           };
         } else if (score > 40 && score <= 48) {
           tempObj = {
             bgcolor: this.colorArr[2],
-            level: "中度至重度抑郁",
+            level: "中度至重度抑郁"
           };
         } else if (score > 48 && score <= 56) {
           tempObj = {
             bgcolor: this.colorArr[3],
-            level: "轻微或轻度抑郁",
+            level: "轻微或轻度抑郁"
           };
         } else if (score > 56 && score <= 81) {
           tempObj = {
             bgcolor: this.colorArr[4],
-            level: "重度抑郁",
+            level: "重度抑郁"
           };
         }
       } else if (propertyStr === "自卑感" || propertyStr === "自卑") {
         if (score >= 36 && score <= 73) {
           tempObj = {
             bgcolor: this.colorArr[0],
-            level: "自尊感过强",
+            level: "自尊感过强"
           };
         } else if (score > 73 && score <= 109) {
           tempObj = {
             bgcolor: this.colorArr[1],
-            level: "自尊感较强",
+            level: "自尊感较强"
           };
         } else if (score > 109 && score <= 145) {
           tempObj = {
             bgcolor: this.colorArr[2],
-            level: "自尊感一般",
+            level: "自尊感一般"
           };
         } else if (score > 145 && score <= 181) {
           tempObj = {
             bgcolor: this.colorArr[3],
-            level: "自卑感较强",
+            level: "自卑感较强"
           };
         } else if (score > 181 && score <= 253) {
           tempObj = {
             bgcolor: this.colorArr[4],
-            level: "自卑感国强",
+            level: "自卑感国强"
           };
         }
       }
@@ -378,7 +392,7 @@ export default {
       document.body.appendChild(elt);
       elt.click();
       document.body.removeChild(elt);
-    },
+    }
   },
   mounted() {
     // 获取路由参数，回去详情数据
@@ -387,8 +401,8 @@ export default {
   },
   computed: {},
   components: {
-    RadialProgressBar,
-  },
+    RadialProgressBar
+  }
 };
 </script>
 

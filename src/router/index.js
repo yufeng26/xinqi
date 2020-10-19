@@ -108,7 +108,8 @@ export default [
         name: "user",
         component: User,
         meta: {
-          requireAuth: true
+          requireAuth: true,
+          keepAlive: true // 开启缓存
         }
       },
       {

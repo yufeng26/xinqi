@@ -60,7 +60,16 @@
     <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
     <div class="tlt">指导建议</div>
     <div class="info">
-      <p class="tent">{{ testresult.Advice }}</p>
+      <ul class="tent">
+        <li v-for="(item, index) in AdviceArr" :key="index">
+          {{ item }}
+        </li>
+      </ul>
+    </div>
+    <div class="exportBox">
+      <el-button type="primary" @click="exportWord" class="exportBtn">
+        导出
+      </el-button>
     </div>
   </div>
 </template>
@@ -70,6 +79,7 @@ export default {
   name: "cepingreport",
   data() {
     return {
+      AdviceArr: [],
       testresult: {
         ID: "",
         UserName: "",
@@ -99,6 +109,7 @@ export default {
       this.$TestResultAPI.getReportResult(params, function (data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
+          v.AdviceArr = JSON.parse(v.testresult.Advice);
           v.initChart();
         }
       });
@@ -198,6 +209,7 @@ export default {
       });
     },
     //导出报告
+<<<<<<< HEAD
     ExportRow() {
       // this.$TestResultAPI.ReportResult(this.testresult.ID);
       let url = "../../../static/img/scl90ck.rar";
@@ -209,6 +221,29 @@ export default {
       elt.click();
       document.body.removeChild(elt);
     },
+=======
+    exportWord() {
+      if (this.testresult.Reportype === 4) {
+        //自信心导出
+        this.$PlanSchemeAPI.ReportResultZxx(this.$route.query.ID);
+      } else {
+        // 击打、呐喊、拥抱导出
+        this.$PlanSchemeAPI.ReportResult(this.$route.query.ID);
+      }
+    },
+    //导出报告
+    // ExportRow() {
+    //   // this.$TestResultAPI.ReportResult(this.testresult.ID);
+    //   let url = "../../../static/img/scl90ck.rar";
+    //   const elt = document.createElement("a");
+    //   elt.setAttribute("href", url);
+    //   elt.setAttribute("download", "scl-90查看图片.rar");
+    //   elt.style.display = "none";
+    //   document.body.appendChild(elt);
+    //   elt.click();
+    //   document.body.removeChild(elt);
+    // },
+>>>>>>> 637dca8cc6c0ad224c60ebae0ba8ca2497ac689f
   },
   mounted() {
     // 获取路由参数，回去详情数据
@@ -223,5 +258,9 @@ export default {
 @import "../../../static/css/common.css";
 .img1 {
   width: 100%;
+}
+.info .tent li {
+  margin-top: 10px;
+  line-height: 26px;
 }
 </style>

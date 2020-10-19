@@ -40,7 +40,7 @@
             返回
           </button>
         </div> -->
-        <!-- <div class="move" v-show="movingvisible">
+        <div class="move" v-show="movingvisible">
           <h2>移动至</h2>
           <div class="movercount">
             <img style="display: block" class="xia" src="/static/img/jt.png" />
@@ -77,7 +77,7 @@
           >
             返回
           </button>
-        </div> -->
+        </div>
         <!-- <div style="display: flex; justify-content: flex-start">
           <button
             type="button"
@@ -183,14 +183,14 @@ export default {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       props2: {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       list: [],
@@ -203,8 +203,8 @@ export default {
         addfenzu: "",
         addfenzuUsable: false,
         delete: "",
-        deleteUsable: false,
-      },
+        deleteUsable: false
+      }
     };
   },
   components: { SelectTree },
@@ -217,7 +217,7 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", "/user");
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
@@ -239,7 +239,7 @@ export default {
     },
     setmenuModel(item) {
       let that = this;
-      item.forEach((c) => {
+      item.forEach(c => {
         if (c.ID == 16) {
           that.menuModel.addfenzu = c.MenuName;
           that.menuModel.addfenzuUsable = c.Usable;
@@ -266,7 +266,7 @@ export default {
       param.append("groupid", this.addgroupid);
       param.append("pageNum", this.currentPage);
       param.append("pageSize", this.pagesize);
-      this.userList = this.$UserAPI.getUserPageList2(param, function (data) {
+      this.userList = this.$UserAPI.getUserPageList2(param, function(data) {
         if (data.Code == 1) {
           v.userList = data.Result.Data;
           v.totalRecords = data.Result.totalRecords;
@@ -295,7 +295,7 @@ export default {
 
       let param = new URLSearchParams();
       param.append("adminID", this.AdminID);
-      this.$UserAPI.getUserGroupList(param, function (data) {
+      this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;
           v.list2 = data.Result2;
@@ -309,11 +309,11 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function (value, index, array) {
+          selectrows.forEach(function(value, index, array) {
             newarr += value.ID + ",";
           });
           if (newarr) {
@@ -321,7 +321,7 @@ export default {
           }
           var params = new URLSearchParams();
           params.append("ID", newarr);
-          this.$UserAPI.PlDeleteUser(params, function (data) {
+          this.$UserAPI.PlDeleteUser(params, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -336,12 +336,12 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("ID", row.ID);
-          this.$UserAPI.DeleteUser(param, function (data) {
+          this.$UserAPI.DeleteUser(param, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -356,7 +356,7 @@ export default {
       let param = new URLSearchParams();
       param.append("UserID", this.userid);
       param.append("GroupID", this.valueId2);
-      this.$UserAPI.MoveGroup(param, function (data) {
+      this.$UserAPI.MoveGroup(param, function(data) {
         if (data.Code == 1) {
           v.$message.success("移动成功!");
           v.movingvisible = false;
@@ -371,7 +371,7 @@ export default {
       param.append("ug_GroupName", this.newgroupid);
 
       param.append("ug_ParentID", "0");
-      this.$UserAPI.AddGroup(param, function (data) {
+      this.$UserAPI.AddGroup(param, function(data) {
         if (data.Code == 1) {
           v.$message.success("创建成功!");
           v.groupvisible = false;
@@ -386,25 +386,29 @@ export default {
       } else {
         this.$router.push({
           name: "edituser",
-          query: { ID: row.ID, issave: issave },
+          query: { ID: row.ID, issave: issave }
         });
       }
-    },
+    }
   },
   computed: {
     /* 转树形数据 */
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
-      return cloneData.filter((father) => {
+      let addItem = {
+        id: "",
+        name: "无分组",
+        parentId: "0"
+      };
+      cloneData.unshift(addItem);
+      return cloneData.filter(father => {
         // 循环所有项，并添加children属性
-        let branchArr = cloneData.filter(
-          (child) => father.id == child.parentId
-        ); // 返回每一项的子级数组
+        let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
         branchArr.length > 0 ? (father.children = branchArr) : ""; //给父级添加一个children属性，并赋值
         return father.parentId == 0; //返回第一层
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
