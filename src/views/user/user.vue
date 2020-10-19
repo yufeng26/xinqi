@@ -239,14 +239,14 @@ export default {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       props2: {
         // 配置项（必选）
         value: "id",
         label: "name",
-        children: "children",
+        children: "children"
         // disabled:true
       },
       list: [],
@@ -270,8 +270,8 @@ export default {
         yidong: "",
         yidongUsable: false,
         delete: "",
-        deleteUsable: false,
-      },
+        deleteUsable: false
+      }
     };
   },
   components: { SelectTree },
@@ -283,7 +283,7 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.AdminID);
     param.append("ViewPath", this.viewPath);
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
         that.setmenuModel(data.Result);
       }
@@ -301,7 +301,7 @@ export default {
     },
     setmenuModel(item) {
       let that = this;
-      item.forEach((c) => {
+      item.forEach(c => {
         if (c.ID == 16) {
           that.menuModel.addfenzu = c.MenuName;
           that.menuModel.addfenzuUsable = c.Usable;
@@ -335,15 +335,16 @@ export default {
       this.currentPage = currentPage;
       this.handleUserList(); //点击第几页
     },
+    // 获取用户列表页
     handleUserList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("userName", this.searchkey);
+      param.append("searchKey", this.searchkey);
       param.append("AdminID", this.AdminID);
       param.append("groupid", this.valueId);
       param.append("pageNum", this.currentPage);
       param.append("pageSize", this.pagesize);
-      this.userList = this.$UserAPI.getUserPageList(param, function (data) {
+      this.userList = this.$UserAPI.getUserPageList(param, function(data) {
         if (data.Code == 1) {
           v.userList = data.Result.Data;
           v.totalRecords = data.Result.totalRecords;
@@ -353,15 +354,15 @@ export default {
     // 多人移动用户
     moveArrs() {
       var selectrows = this.$refs.multipleTable.selection;
-      let isGroupArr = selectrows.filter((a) => a.IsGroup);
+      let isGroupArr = selectrows.filter(a => a.IsGroup);
       if (isGroupArr.length > 0) {
         this.$message({
           message: "不支持分组移出/移入分组！",
-          type: "warning",
+          type: "warning"
         });
       } else {
         let newarr = "";
-        selectrows.forEach(function (value, index, array) {
+        selectrows.forEach(function(value, index, array) {
           newarr += value.ID + ",";
         });
         if (newarr) {
@@ -394,7 +395,7 @@ export default {
 
       let param = new URLSearchParams();
       param.append("adminID", this.AdminID);
-      this.$UserAPI.getUserGroupList(param, function (data) {
+      this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;
           v.list2 = data.Result2;
@@ -408,11 +409,11 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let newarr = "";
-          selectrows.forEach(function (value, index, array) {
+          selectrows.forEach(function(value, index, array) {
             newarr += value.ID + ",";
           });
           if (newarr) {
@@ -420,7 +421,7 @@ export default {
           }
           var params = new URLSearchParams();
           params.append("ID", newarr);
-          this.$UserAPI.PlDeleteUser(params, function (data) {
+          this.$UserAPI.PlDeleteUser(params, function(data) {
             if (data.Code == 1) {
               v.$message.success("删除成功!");
               v.handleUserList();
@@ -435,20 +436,20 @@ export default {
       this.$confirm("确认要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           let param = new URLSearchParams();
           param.append("ID", row.ID);
           if (row.IsGroup) {
-            this.$UserAPI.PlDeleteUser(param, function (data) {
+            this.$UserAPI.PlDeleteUser(param, function(data) {
               if (data.Code == 1) {
                 v.$message.success("删除成功!");
                 v.handleUserList();
               }
             });
           } else {
-            this.$UserAPI.DeleteUser(param, function (data) {
+            this.$UserAPI.DeleteUser(param, function(data) {
               if (data.Code == 1) {
                 v.$message.success("删除成功!");
                 v.handleUserList();
@@ -463,7 +464,7 @@ export default {
       let v = this;
       let param = new URLSearchParams();
       param.append("id", row.ID);
-      this.$UserAPI.resetPassword(param, function (data) {
+      this.$UserAPI.resetPassword(param, function(data) {
         if (data.Code == 1) {
           v.$message.success("密码已重置为：111111");
           v.handleUserList();
@@ -477,7 +478,7 @@ export default {
       param.append("UserID", this.userid);
       param.append("GroupID", this.valueId2);
       console.log(param.toString());
-      this.$UserAPI.MoveGroup(param, function (data) {
+      this.$UserAPI.MoveGroup(param, function(data) {
         if (data.Code == 1) {
           v.$message.success("移动成功!");
           v.movingvisible = false;
@@ -493,7 +494,7 @@ export default {
       param.append("ug_AdminID", this.AdminID);
       param.append("ug_ParentID", "0");
       param.append("ID", this.userGroupID);
-      this.$UserAPI.AddGroup(param, function (data) {
+      this.$UserAPI.AddGroup(param, function(data) {
         if (data.Code == 1) {
           v.$message.success(data.Msg);
           v.groupvisible = false;
@@ -506,12 +507,12 @@ export default {
       if (row.IsGroup) {
         this.$router.push({
           name: "group",
-          query: { GroupID: row.ID, GroupName: row.RealName },
+          query: { GroupID: row.ID, GroupName: row.RealName }
         });
       } else {
         this.$router.push({
           name: "edituser",
-          query: { ID: row.ID, issave: issave },
+          query: { ID: row.ID, issave: issave }
         });
       }
       this.groupvisible = false;
@@ -520,22 +521,20 @@ export default {
     },
     editUserGroupRow(row, issave) {
       this.$router.push({ name: "group", query: { GroupID: row.ID } });
-    },
+    }
   },
   computed: {
     /* 转树形数据 */
     optionData() {
       let cloneData = JSON.parse(JSON.stringify(this.list)); // 对源数据深度克隆
-      return cloneData.filter((father) => {
+      return cloneData.filter(father => {
         // 循环所有项，并添加children属性
-        let branchArr = cloneData.filter(
-          (child) => father.id == child.parentId
-        ); // 返回每一项的子级数组
+        let branchArr = cloneData.filter(child => father.id == child.parentId); // 返回每一项的子级数组
         branchArr.length > 0 ? (father.children = branchArr) : ""; //给父级添加一个children属性，并赋值
         return father.parentId == 0; //返回第一层
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style type="text/css">
