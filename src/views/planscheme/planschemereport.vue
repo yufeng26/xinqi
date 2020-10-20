@@ -235,14 +235,14 @@ export default {
               data.Result.DimisionList[0].score >= 0 &&
               data.Result.DimisionList[0].score < 38.89
             ) {
-              v.radialProgressbarColor = this.colorArr[4];
+              v.radialProgressbarColor = this.colorArr[0];
             } else if (
               data.Result.DimisionList[0].score >= 38.89 &&
               data.Result.DimisionList[0].score < 59.03
             ) {
-              v.radialProgressbarColor = this.colorArr[3];
+              v.radialProgressbarColor = this.colorArr[2];
             } else if (data.Result.DimisionList[0].score >= 59.03) {
-              v.radialProgressbarColor = this.colorArr[0];
+              v.radialProgressbarColor = this.colorArr[4];
             }
           }
         }
