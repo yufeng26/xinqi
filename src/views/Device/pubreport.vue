@@ -24,10 +24,14 @@
             性别：<span>{{ testresult.Sex }}</span>
           </td>
           <td>
-            出生年月：<span>{{ testresult.BirthDate }}</span>
+            出生年月：<span>{{
+              testresult.BirthDate
+                ? /\d{4}-\d{1,2}-\d{1,2}/g.exec(testresult.BirthDate)[0]
+                : ""
+            }}</span>
           </td>
           <td>
-            训练时长：<span>{{ testresult.CreateTime }}</span>
+            训练时间：<span>{{ testresult.CreateTime }}</span>
           </td>
           <td>
             训练时长：<span>{{ testresult.TestTime }}</span>
@@ -35,29 +39,41 @@
         </tr>
       </table>
 
-      <h3>
+      <h3 v-if="type !== 1 && type !== 2 && type !== 3 && type !== 4">
         量表名称：<span>{{ testresult.DeviceName }}</span>
       </h3>
     </div>
-    <div class="tlt mtop15">测评结果</div>
-    <div class="info">
+    <div class="tlt mtop15" v-if="type !== 2 && type !== 3 && type !== 4">
+      {{ type !== 1 ? "测评结果" : "训练结果" }}
+    </div>
+    <div class="info" v-if="type !== 2 && type !== 3 && type !== 4">
       <table border="1" class="resultTable">
         <tr>
           <td>
             测试总分：<span>{{ testresult.Score }}</span>
           </td>
           <td>
-            测试结果：<span>{{ testresult.Result }}</span>
+            测试结果：<span>{{
+              testresult.Result ? JSON.parse(testresult.Result)[0] : ""
+            }}</span>
           </td>
         </tr>
       </table>
     </div>
-    <div class="tlt mtop15">呐喊图表</div>
+    <div class="tlt mtop15">{{ zhexiantuName }}</div>
     <div class="info">
       <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
+    </div>
+    <div class="tlt mtop15">脑电折线图</div>
+    <div class="info">
       <div id="sixEcharts" :style="{ width: '100%', height: '400px' }"></div>
     </div>
-    <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
+    <div class="tlt">测试结果</div>
+    <div class="ceshijieguo">
+      <div>
+        {{ testresult.Result ? JSON.parse(testresult.Result)[0] : "" }}
+      </div>
+    </div>
     <div class="tlt">指导建议</div>
     <div class="info">
       <ul class="tent">
@@ -80,6 +96,9 @@ export default {
   data() {
     return {
       AdviceArr: [],
+      type: 1, //1表示击打，2表示呐喊、3：拥抱、4：自信心
+      xData1: [],
+      xData2: [],
       testresult: {
         ID: "",
         UserName: "",
@@ -97,8 +116,8 @@ export default {
         Suggestion: "",
         planschemelist: "",
         BrokenLine1: [],
-        BrokenLine2: []
-      }
+        BrokenLine2: [],
+      },
     };
   },
   methods: {
@@ -106,9 +125,10 @@ export default {
       let v = this;
       let params = new URLSearchParams();
       params.append("Id", this.testresult.ID);
-      this.$TestResultAPI.getReportResult(params, function(data) {
+      this.$TestResultAPI.getReportResult(params, function (data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
+          v.type = data.Result.Reportype; //1表示击打，2表示呐喊、3：拥抱、4：自信心
           v.AdviceArr = JSON.parse(v.testresult.Advice);
           v.initChart();
         }
@@ -121,16 +141,15 @@ export default {
       var myChart1 = this.echarts.init(dom1);
       var myChart2 = this.echarts.init(dom2);
       // 用数据函数循环x轴坐标
-      let xData1 = (this.testresult.BrokenLine1
+      this.xData1 = (this.testresult.BrokenLine1
         ? JSON.parse(this.testresult.BrokenLine1)
         : []
       ).map((item, index) => index + 1);
-      console.log(this.testresult.BrokenLine2);
-      let xData2 = (this.testresult.BrokenLine2
-        ? JSON.parse(this.testresult.BrokenLine2)
+
+      this.xData2 = (this.testresult.BrokenLine2
+        ? JSON.parse(JSON.parse(this.testresult.BrokenLine2).LstAtt)
         : []
       ).map((item, index) => index + 1);
-
       // 绘制图表
       myChart1.setOption({
         color: ["#3cc5a3", "#ffc000", "#5cdbf2"],
@@ -138,36 +157,36 @@ export default {
           text: "图表1",
           textStyle: {
             left: "center",
-            fontSize: 14
+            fontSize: 14,
           },
           fontSize: 12,
           left: "center",
-          top: 15
+          top: 15,
         },
         tooltip: {
           show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow",
-            shadowStyle: "rgba(150,150,150,0.3)"
-          }
+            shadowStyle: "rgba(150,150,150,0.3)",
+          },
         },
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: xData1
+          data: this.xData1,
         },
         yAxis: {
-          type: "value"
+          type: "value",
         },
         series: [
           {
             data: this.testresult.BrokenLine1
               ? JSON.parse(this.testresult.BrokenLine1)
               : [],
-            type: "line"
-          }
-        ]
+            type: "line",
+          },
+        ],
       });
       // 绘制图表
       myChart2.setOption({
@@ -176,36 +195,42 @@ export default {
           text: "图表1",
           textStyle: {
             left: "center",
-            fontSize: 14
+            fontSize: 14,
           },
           fontSize: 12,
           left: "center",
-          top: 15
+          top: 15,
         },
         tooltip: {
           show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow",
-            shadowStyle: "rgba(150,150,150,0.3)"
-          }
+            shadowStyle: "rgba(150,150,150,0.3)",
+          },
         },
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: xData2
+          data: this.xData2,
         },
         yAxis: {
-          type: "value"
+          type: "value",
         },
         series: [
           {
             data: this.testresult.BrokenLine2
-              ? JSON.parse(this.testresult.BrokenLine2)
+              ? JSON.parse(JSON.parse(this.testresult.BrokenLine2).LstAtt)
               : [],
-            type: "line"
-          }
-        ]
+            type: "line",
+          },
+          {
+            data: this.testresult.BrokenLine2
+              ? JSON.parse(JSON.parse(this.testresult.BrokenLine2).LstMed)
+              : [],
+            type: "line",
+          },
+        ],
       });
     },
     //导出报告
@@ -217,7 +242,7 @@ export default {
         // 击打、呐喊、拥抱导出
         this.$PlanSchemeAPI.ReportResult(this.$route.query.ID);
       }
-    }
+    },
     //导出报告
     // ExportRow() {
     //   // this.$TestResultAPI.ReportResult(this.testresult.ID);
@@ -236,7 +261,22 @@ export default {
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
   },
-  computed: {}
+  computed: {
+    // 折线图名称
+    zhexiantuName() {
+      let res = "折线图";
+      if (this.type === 1) {
+        res = "击打折线图";
+      } else if (this.type === 2) {
+        res = "呐喊折线图";
+      } else if (this.type === 3) {
+        res = "拥抱折线图";
+      } else if (this.type === 4) {
+        res = "自信心折线图";
+      }
+      return res;
+    },
+  },
 };
 </script>
 
@@ -248,5 +288,11 @@ export default {
 .info .tent li {
   margin-top: 10px;
   line-height: 26px;
+}
+.ceshijieguo {
+  margin: 20px auto;
+  text-align: left;
+  font-size: 14px;
+  text-indent: 2em;
 }
 </style>
