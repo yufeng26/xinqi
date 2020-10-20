@@ -91,7 +91,10 @@
         </el-table-column>
         <el-table-column label="真实姓名" prop="UserName" width="200px">
         </el-table-column>
-        <el-table-column label="训练结果" prop="Result" width="200px">
+        <el-table-column label="训练结果" width="200px">
+          <template slot-scope="scope">
+            {{ scope.row.Result ? JSON.parse(scope.row.Result)[0] : "" }}
+          </template>
         </el-table-column>
         <el-table-column
           label="创建时间"
@@ -275,8 +278,8 @@ export default {
     handleUserList() {
       let v = this;
       let param = new URLSearchParams();
-      param.append("searchkey", this.searchkey);
-      param.append("groupID", this.valueId);
+      param.append("userName", this.searchkey);
+      param.append("groupId", this.valueId);
       param.append("gameId", this.searchName);
       param.append("pageSize", this.pagesize);
       param.append("pageIndex", this.currentPage);
@@ -332,8 +335,8 @@ export default {
     //用户分组
     gettreeList() {
       let v = this;
-
       let param = new URLSearchParams();
+      param.append("adminID", this.AdminID);
       this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;

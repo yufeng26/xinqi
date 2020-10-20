@@ -80,7 +80,9 @@
                 >
               </dd>
               <dd v-show="tuantishenxinfankui">
-                <a @click="goto('/devicejida')" href="javascript:;">击打</a>
+                <a @click="goto('/devicejida')" href="javascript:;"
+                  >击打(iii)</a
+                >
               </dd>
               <dd v-show="nahan">
                 <a @click="goto('/devicenahan')" href="javascript:;"
@@ -177,7 +179,7 @@ export default {
   data() {
     return {
       userinfo: {
-        a_RealName: "",
+        a_RealName: ""
       },
       adminID: "",
       viewPath: "",
@@ -201,7 +203,7 @@ export default {
       gerenzhongxin: true,
       xitongshezhi: true,
       shujubeifen: false,
-      kuozhanziduan: false,
+      kuozhanziduan: false
     };
   },
   created() {},
@@ -216,10 +218,10 @@ export default {
     let param = new URLSearchParams();
     param.append("adminID", this.adminID);
     param.append("ViewPath", "");
-    this.$SystemAPI.CheckAuthority(param, function (data) {
+    this.$SystemAPI.CheckAuthority(param, function(data) {
       if (data.Code == 1) {
-        that.menus = data.Result.filter((item) => item.Usable);
-        const authorityArray = that.menus.map((item) => {
+        that.menus = data.Result.filter(item => item.Usable);
+        const authorityArray = that.menus.map(item => {
           return item.ID;
         });
         if (
@@ -367,12 +369,12 @@ export default {
       loopFillGroupWithBlank: true,
       pagination: {
         el: ".swiper-pagination",
-        clickable: true,
+        clickable: true
       },
       navigation: {
         nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
+        prevEl: ".swiper-button-prev"
+      }
     });
   },
   methods: {
@@ -390,8 +392,8 @@ export default {
       localStorage.removeItem("IsCheck");
       this.$router.push("/login");
       this.$message.success("退出成功");
-    },
-  },
+    }
+  }
 };
 </script>
 

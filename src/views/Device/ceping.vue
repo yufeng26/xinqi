@@ -398,6 +398,7 @@ export default {
       let v = this;
 
       let param = new URLSearchParams();
+      param.append("adminID", this.AdminID);
       this.$UserAPI.getUserGroupList(param, function(data) {
         if (data.Code == 1) {
           v.list = data.Result;

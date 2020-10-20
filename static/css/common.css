@@ -162,3 +162,10 @@
 .detailPage .exportBox .exportBtn {
   width: 160px !important;
 }
+.detailPage .otherInfo {
+  margin-bottom: 15px;
+}
+.detailPage .otherInfo .el-col {
+  text-align: left;
+  padding-left: 15px;
+}
