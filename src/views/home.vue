@@ -390,6 +390,7 @@ export default {
       localStorage.removeItem("name");
       localStorage.removeItem("pwd");
       localStorage.removeItem("IsCheck");
+      localStorage.removeItem("isShowbox");
       this.$router.push("/login");
       this.$message.success("退出成功");
     }

@@ -1,6 +1,9 @@
 <template>
   <div class="content">
-    <div class="bigbox">
+    <div class="bigPic" v-if="isShowbox" @click="boxPartShow()">
+      <img src="../../assets/image/bg.png" alt="" />
+    </div>
+    <div class="bigbox" v-else>
       <el-row :gutter="15">
         <el-col :span="12" style="padding-left: 0px; padding-right: 0px">
           <div class="report">
@@ -151,6 +154,7 @@ export default {
   name: "index",
   data() {
     return {
+      isShowbox: true,
       ReportList: [],
       PlanList: [],
       DeviceList: [],
@@ -163,16 +167,19 @@ export default {
         loopFillGroupWithBlank: true,
         pagination: {
           el: ".swiper-pagination",
-          clickable: true,
+          clickable: true
         },
         navigation: {
           nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-      },
+          prevEl: ".swiper-button-prev"
+        }
+      }
     };
   },
   mounted() {
+    if (localStorage.getItem("isShowbox") === "false") {
+      this.isShowbox = false;
+    }
     this.getReportList();
 
     this.getPlanList();
@@ -181,6 +188,10 @@ export default {
   },
   watch: {},
   methods: {
+    boxPartShow() {
+      this.isShowbox = false;
+      localStorage.setItem("isShowbox", "false");
+    },
     dateFormat(cellValue) {
       if (cellValue == undefined) {
         return "";
@@ -200,12 +211,12 @@ export default {
         loopFillGroupWithBlank: true,
         pagination: {
           el: ".swiper-pagination",
-          clickable: true,
+          clickable: true
         },
         navigation: {
           nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
+          prevEl: ".swiper-button-prev"
+        }
       });
     },
     getReportList() {
@@ -214,7 +225,7 @@ export default {
       let userInfo2 = JSON.stringify(userInfo);
       let userInfo3 = JSON.parse(userInfo);
       let param = new URLSearchParams(`adminId=${userInfo3.ID}`);
-      this.$ReportAPI.getReportList(param, function (data) {
+      this.$ReportAPI.getReportList(param, function(data) {
         if (data.Code == 1) {
           v.ReportList = data.Result;
         }
@@ -226,7 +237,7 @@ export default {
       let userInfo2 = JSON.stringify(userInfo);
       let userInfo3 = JSON.parse(userInfo);
       let param = new URLSearchParams(`adminId=${userInfo3.ID}`);
-      this.$PlanAPI.getPlanList(param, function (data) {
+      this.$PlanAPI.getPlanList(param, function(data) {
         if (data.Code == 1) {
           v.PlanList = data.Result;
         }
@@ -235,7 +246,7 @@ export default {
     getDeviceList() {
       let v = this;
       let param = new URLSearchParams();
-      this.$DeviceAPI.getDeviceList(param, function (data) {
+      this.$DeviceAPI.getDeviceList(param, function(data) {
         if (data.Code == 1) {
           v.DeviceList = data.Result;
         }
@@ -247,13 +258,13 @@ export default {
       let userInfo2 = JSON.stringify(userInfo);
       let userInfo3 = JSON.parse(userInfo);
       let param = new URLSearchParams(`adminId=${userInfo3.ID}`);
-      this.$ConsulationAPI.getConsultationList(param, function (data) {
+      this.$ConsulationAPI.getConsultationList(param, function(data) {
         if (data.Code == 1) {
           v.ConsultationLsit = data.Result;
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -271,5 +282,8 @@ export default {
 }
 h3 {
   text-align: left;
+}
+.bigPic img {
+  width: 100%;
 }
 </style>
