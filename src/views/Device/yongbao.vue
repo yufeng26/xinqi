@@ -87,7 +87,7 @@
           @change="handleCheckAllChange"
         >
         </el-table-column>
-        <el-table-column label="拥抱主题" prop="TopicName" width="200px">
+        <el-table-column label="拥抱主题" prop="TitleName" width="200px">
         </el-table-column>
 
         <el-table-column label="真实姓名" prop="RealName" width="130px">

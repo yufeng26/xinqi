@@ -24,7 +24,11 @@
             性别：<span>{{ testresult.Sex }}</span>
           </td>
           <td>
-            出生年月：<span>{{ testresult.BirthDate }}</span>
+            出生年月：<span>{{
+              testresult.BirthDate
+                ? /\d{4}-\d{1,2}-\d{1,2}/g.exec(testresult.BirthDate)[0]
+                : ""
+            }}</span>
           </td>
           <td>
             训练时间：<span
