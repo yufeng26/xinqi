@@ -43,18 +43,18 @@
         </tr>
       </table>
 
-      <h3>
+      <!-- <h3>
         量表名称：<span>{{ testresult.DeviceName }}</span>
-      </h3>
+      </h3> -->
     </div>
-    <div class="tlt">评估结果</div>
-    <div class="info">
+    <div class="tlt mt20" v-if="ReportType === 1">评估结果</div>
+    <div class="info" v-if="ReportType === 1">
       <p class="pinggujieguo">
         {{ testresult.TestResult ? JSON.parse(testresult.TestResult)[0] : "" }}
       </p>
     </div>
-    <div class="tlt">专注度参数</div>
-    <table border="1" class="resultTable">
+    <div class="tlt" v-if="ReportType === 2">专注度参数</div>
+    <table border="1" class="resultTable" v-if="ReportType === 2">
       <tr>
         <td>
           平均值：<span>{{ testresult.AttentionAvg }}</span>
@@ -74,8 +74,8 @@
       </tr>
     </table>
 
-    <div class="tlt">放松度参数</div>
-    <table border="1" class="resultTable">
+    <div class="tlt" v-if="ReportType === 2">放松度参数</div>
+    <table border="1" class="resultTable" v-if="ReportType === 2">
       <tr>
         <td>
           平均值：<span>{{ testresult.MeditationAvg }}</span>
@@ -95,10 +95,18 @@
       </tr>
     </table>
 
-    <div class="tlt">脑波曲线</div>
-    <div id="fiveEcharts" :style="{ width: '100%', height: '400px' }"></div>
-    <div class="tlt">因子得分图表</div>
-    <div id="sixEcharts" :style="{ width: '100%', height: '400px' }"></div>
+    <div class="tlt" v-if="ReportType === 2">脑波曲线</div>
+    <div
+      id="fiveEcharts"
+      v-if="ReportType === 2"
+      :style="{ width: '100%', height: '400px' }"
+    ></div>
+    <div class="tlt" v-if="ReportType === 1">因子得分图表</div>
+    <div
+      id="sixEcharts"
+      v-if="ReportType === 1"
+      :style="{ width: '100%', height: '400px' }"
+    ></div>
     <div class="tlt">各项说明</div>
     <div
       v-for="item in testresult.DimensionList
@@ -111,8 +119,8 @@
       <p>结果分析：{{ item.DAnalysis }}</p>
       <p>指导建议：{{ item.DAdvice }}</p>
     </div>
-    <div class="tlt">评估结果分析</div>
-    <div class="info">
+    <div class="tlt" v-if="ReportType === 1">评估结果分析</div>
+    <div class="info" v-if="ReportType === 1">
       <div
         class="rulest"
         v-for="item in testresult.DimisionList"
@@ -124,8 +132,8 @@
         </p>
       </div>
     </div>
-    <div class="tlt">指导建议</div>
-    <div class="info">
+    <div class="tlt" v-if="ReportType === 1">指导建议</div>
+    <div class="info" v-if="ReportType === 1">
       <div
         class="rulest"
         v-for="item in testresult.DimisionList"
@@ -193,8 +201,8 @@ export default {
         disimions: [],
         Suggestion: "",
         BrokenLine1: [],
-        BrokenLine2: [],
-      },
+        BrokenLine2: []
+      }
     };
   },
   methods: {
@@ -213,7 +221,7 @@ export default {
       let params = new URLSearchParams();
       params.append("id", this.testresult.ID);
       // 百思锐详情
-      this.$ReportOptionAPI.GetBaisiruiReport(params, function (data) {
+      this.$ReportOptionAPI.GetBaisiruiReport(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           v.ReportType = data.Result.ReportType; //数据类型
@@ -236,36 +244,36 @@ export default {
       myChart1.setOption({
         color: ["#3cc5a3", "#ffc000", "#5cdbf2"],
         tooltip: {
-          trigger: "axis",
+          trigger: "axis"
         },
         legend: {
-          data: ["专注度", "放松度"],
+          data: ["专注度", "放松度"]
         },
         title: {
           text: "脑波曲线",
           textStyle: {
             left: "center",
-            fontSize: 14,
+            fontSize: 14
           },
           fontSize: 12,
           left: "center",
-          top: 15,
+          top: 15
         },
         tooltip: {
           show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow",
-            shadowStyle: "rgba(150,150,150,0.3)",
-          },
+            shadowStyle: "rgba(150,150,150,0.3)"
+          }
         },
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: xData,
+          data: xData
         },
         yAxis: {
-          type: "value",
+          type: "value"
         },
         series: [
           {
@@ -274,7 +282,7 @@ export default {
             stack: "总量",
             data: this.testresult.lstAtt
               ? JSON.parse(this.testresult.lstAtt)
-              : [],
+              : []
           },
           {
             name: "放松度",
@@ -282,9 +290,9 @@ export default {
             stack: "总量",
             data: this.testresult.lstMed
               ? JSON.parse(this.testresult.lstMed)
-              : [],
-          },
-        ],
+              : []
+          }
+        ]
       });
       // 绘制图表
       const data2 = this.testresult.Factorscores
@@ -296,37 +304,37 @@ export default {
           trigger: "axis",
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-          },
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          }
         },
         grid: {
           left: "3%",
           right: "4%",
           bottom: "3%",
-          containLabel: true,
+          containLabel: true
         },
         xAxis: [
           {
             type: "category",
-            data: data2.map((item) => item.DimensionName),
+            data: data2.map(item => item.DimensionName),
             axisTick: {
-              alignWithLabel: true,
-            },
-          },
+              alignWithLabel: true
+            }
+          }
         ],
         yAxis: [
           {
-            type: "value",
-          },
+            type: "value"
+          }
         ],
         series: [
           {
             name: "分数",
             type: "bar",
             barWidth: "60%",
-            data: data2.map((item) => item.Score),
-          },
-        ],
+            data: data2.map(item => item.Score)
+          }
+        ]
       });
     },
     // //导出报告
@@ -351,14 +359,14 @@ export default {
       // document.body.appendChild(elt);
       // elt.click();
       // document.body.removeChild(elt);
-    },
+    }
   },
   mounted() {
     // 获取路由参数，回去详情数据
     this.testresult.ID = this.$route.query.ID;
     this.getdetail();
   },
-  computed: {},
+  computed: {}
 };
 </script>
 
@@ -366,6 +374,9 @@ export default {
 @import "../../../static/css/common.css";
 .img1 {
   width: 100%;
+}
+.mt20 {
+  margin-top: 20px;
 }
 .resultTable {
   margin: 20px auto;
