@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "App",
+  name: "App"
 };
 </script>
 
@@ -44,5 +44,8 @@ export default {
   text-align: center;
   font-weight: bold;
   text-align: 26px;
+}
+.user_dialog .el-dialog__header {
+  background-color: #0070e5;
 }
 </style>

@@ -67,6 +67,15 @@
   </p>
   </li>
   </ul>
+  <el-dialog
+  title="提示"
+  :visible.sync="centerDialogVisible"
+  width="30%"
+  :modal="false"
+  custom-class="user_dialog"
+  center>
+  <p class="dialog_info">{{PLImportUserMsg}}，<span>点击<button @click="exportExcelError()">这里</button>下载错误信息</span></p>
+</el-dialog>
   </div>
 
 </template>
@@ -81,6 +90,9 @@ export default {
       fileurl: "",
       AdminID: "",
       a_Authorization: "",
+      centerDialogVisible: false,
+      PLImportUserMsg:"",
+      importURL:"",
       tableData: [
         {
           ID: "",
@@ -107,6 +119,9 @@ export default {
     this.getSystem();
   },
   methods: {
+    exportExcelError(){
+      this.$SystemAPI.exportExcelError(this.importURL);
+    },
     getSystem() {
       let that = this;
       let param = new URLSearchParams();
@@ -185,10 +200,15 @@ export default {
         if (data.Code == 1) {
           // v.$set(v.groupid,'')
           // v.$set(v.fileurl,'')//暂时不知道这是什么业务逻辑
-          v.$message.success("导入成功!");
-          this.$router.push("/user");
+          // v.$message.success("导入成功!");
+          v.centerDialogVisible = true;
+          v.PLImportUserMsg = data.Msg;
+          v.importURL = data.Result;
+          // this.$router.push("/user");
         } else {
-          v.$message.error("导入失败!" + data.Msg);
+          v.$message.success("导入成功!");
+          v.$router.push("/user");
+          // v.$message.error("导入失败!" + data.Msg);
         }
       });
     },
@@ -338,5 +358,9 @@ export default {
 }
 .content .import li:nth-child(4) button {
   width: 100px;
+}
+.user_dialog .dialog_info {
+  text-align: center;
+  font-size: 16px;
 }
 </style>
