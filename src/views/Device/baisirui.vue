@@ -96,12 +96,7 @@
             {{ scope.row.Result ? JSON.parse(scope.row.Result)[0] : "" }}
           </template>
         </el-table-column>
-        <el-table-column
-          label="创建时间"
-          :formatter="dateFormat"
-          prop="CreateTime"
-          width="200px"
-        >
+        <el-table-column label="创建时间" prop="CreateTime" width="200px">
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">

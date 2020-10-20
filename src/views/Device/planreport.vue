@@ -10,7 +10,7 @@
             用户名：<span>{{ testresult.UserName }}</span>
           </td>
           <td>
-            分组：<span>{{ testresult.GroupName || "分组一" }}</span>
+            分组：<span>{{ testresult.GroupName || "" }}</span>
           </td>
           <td>
             真实姓名：<span>{{ testresult.RealName }}</span>
@@ -27,10 +27,14 @@
             出生年月：<span>{{ testresult.BirthDate }}</span>
           </td>
           <td>
-            训练时间：<span>{{ testresult.CreateTime }}</span>
+            训练时间：<span
+              >{{ testresult.StartTime }}--{{ testresult.EndTime }}</span
+            >
           </td>
           <td>
-            训练时长：<span>{{ testresult.TestTime }}</span>
+            训练时长：<span>{{
+              reduceTime(testresult.StartTime, testresult.EndTime)
+            }}</span>
           </td>
         </tr>
       </table>
@@ -137,6 +141,9 @@ export default {
   name: "cepingreport",
   data() {
     return {
+      // ReportType1测评，包含：测评结果，因子得分表，维度名称（结果分析），维度名称（指导建议）
+      // ReportType2游戏，包含：数据参数-专注度参数，放松度--参数，脑波曲线
+      ReportType: 1,
       testresult: {
         ID: "",
         UserName: "",
@@ -158,6 +165,12 @@ export default {
     };
   },
   methods: {
+    // 计算时间差分秒
+    reduceTime(a, b) {
+      let m1 = this.$moment(a);
+      let m2 = this.$moment(b);
+      return this.$moment(m2.diff(m1)).format("mm:ss");
+    },
     getdetail() {
       let v = this;
       let params = new URLSearchParams();
@@ -166,6 +179,7 @@ export default {
       this.$ReportOptionAPI.GetBaisiruiReport(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
+          v.ReportType = data.Result.ReportType; //数据类型
           v.initChart();
         }
       });
