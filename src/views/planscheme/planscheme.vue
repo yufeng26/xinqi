@@ -36,7 +36,7 @@
     </div>
     <div class="actionBox">
       <el-button
-        style="background: #01c8e7"
+        style="background: #01c8e7; border-color:#01c8e7"
         type="primary"
         v-if="menuModel.exportUsable"
         class="secachBtn"
