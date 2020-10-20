@@ -27,7 +27,7 @@
             出生年月：<span>{{ testresult.BirthDate }}</span>
           </td>
           <td>
-            训练时长：<span>{{ testresult.CreateTime }}</span>
+            训练时间：<span>{{ testresult.CreateTime }}</span>
           </td>
           <td>
             训练时长：<span>{{ testresult.TestTime }}</span>
@@ -35,11 +35,11 @@
         </tr>
       </table>
 
-      <h3>
+      <!-- <h3>
         量表名称：<span>{{ testresult.DeviceName }}</span>
-      </h3>
+      </h3> -->
     </div>
-    <div class="tlt mtop15">测评结果</div>
+    <div class="tlt mtop15">训练结果</div>
     <div class="info">
       <table border="1" class="resultTable">
         <tr>
