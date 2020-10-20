@@ -10,7 +10,7 @@
             用户名：<span>{{ testresult.UserName }}</span>
           </td>
           <td>
-            分组：<span>{{ testresult.GroupName || "分组一" }}</span>
+            分组：<span>{{ testresult.GroupName || "" }}</span>
           </td>
           <td>
             真实姓名：<span>{{ testresult.RealName }}</span>
@@ -31,10 +31,16 @@
             }}</span>
           </td>
           <td>
-            训练时间：<span>{{ testresult.CreateTime }}</span>
+            训练时间：<span
+              >{{ dateFormat(testresult.testStartTime) }}--{{
+                dateFormat(testresult.testEndtime)
+              }}</span
+            >
           </td>
           <td>
-            训练时长：<span>{{ testresult.TestTime }}</span>
+            训练时长：<span>{{
+              reduceTime(testresult.testStartTime, testresult.testEndtime)
+            }}</span>
           </td>
         </tr>
       </table>
@@ -42,7 +48,6 @@
       <h3 v-if="type !== 1 && type !== 2 && type !== 3 && type !== 4">
         量表名称：<span>{{ testresult.DeviceName }}</span>
       </h3>
-      -->
     </div>
     <div class="tlt mtop15" v-if="type !== 2 && type !== 3 && type !== 4">
       {{ type !== 1 ? "测评结果" : "训练结果" }}
@@ -117,16 +122,29 @@ export default {
         Suggestion: "",
         planschemelist: "",
         BrokenLine1: [],
-        BrokenLine2: [],
-      },
+        BrokenLine2: []
+      }
     };
   },
   methods: {
+    // 格式化时间
+    dateFormat(cellValue) {
+      if (cellValue == undefined) {
+        return "";
+      }
+      return this.$moment(cellValue).format("YYYY-MM-DD  HH:mm:ss");
+    },
+    // 计算时间差分秒
+    reduceTime(a, b) {
+      let m1 = this.$moment(a);
+      let m2 = this.$moment(b);
+      return this.$moment(m2.diff(m1)).format("mm:ss");
+    },
     getdetail() {
       let v = this;
       let params = new URLSearchParams();
       params.append("Id", this.testresult.ID);
-      this.$TestResultAPI.getReportResult(params, function (data) {
+      this.$TestResultAPI.getReportResult(params, function(data) {
         if (data.Code == 1) {
           v.testresult = data.Result;
           v.type = data.Result.Reportype; //1表示击打，2表示呐喊、3：拥抱、4：自信心
@@ -158,36 +176,36 @@ export default {
           text: "图表1",
           textStyle: {
             left: "center",
-            fontSize: 14,
+            fontSize: 14
           },
           fontSize: 12,
           left: "center",
-          top: 15,
+          top: 15
         },
         tooltip: {
           show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow",
-            shadowStyle: "rgba(150,150,150,0.3)",
-          },
+            shadowStyle: "rgba(150,150,150,0.3)"
+          }
         },
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: this.xData1,
+          data: this.xData1
         },
         yAxis: {
-          type: "value",
+          type: "value"
         },
         series: [
           {
             data: this.testresult.BrokenLine1
               ? JSON.parse(this.testresult.BrokenLine1)
               : [],
-            type: "line",
-          },
-        ],
+            type: "line"
+          }
+        ]
       });
       // 绘制图表
       myChart2.setOption({
@@ -196,42 +214,42 @@ export default {
           text: "图表1",
           textStyle: {
             left: "center",
-            fontSize: 14,
+            fontSize: 14
           },
           fontSize: 12,
           left: "center",
-          top: 15,
+          top: 15
         },
         tooltip: {
           show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow",
-            shadowStyle: "rgba(150,150,150,0.3)",
-          },
+            shadowStyle: "rgba(150,150,150,0.3)"
+          }
         },
         grid: [{ bottom: 40 }, { top: 50 }, { left: 30 }, { right: 30 }],
         xAxis: {
           type: "category",
-          data: this.xData2,
+          data: this.xData2
         },
         yAxis: {
-          type: "value",
+          type: "value"
         },
         series: [
           {
             data: this.testresult.BrokenLine2
               ? JSON.parse(JSON.parse(this.testresult.BrokenLine2).LstAtt)
               : [],
-            type: "line",
+            type: "line"
           },
           {
             data: this.testresult.BrokenLine2
               ? JSON.parse(JSON.parse(this.testresult.BrokenLine2).LstMed)
               : [],
-            type: "line",
-          },
-        ],
+            type: "line"
+          }
+        ]
       });
     },
     //导出报告
@@ -243,7 +261,7 @@ export default {
         // 击打、呐喊、拥抱导出
         this.$PlanSchemeAPI.ReportResult(this.$route.query.ID);
       }
-    },
+    }
     //导出报告
     // ExportRow() {
     //   // this.$TestResultAPI.ReportResult(this.testresult.ID);
@@ -276,8 +294,8 @@ export default {
         res = "自信心折线图";
       }
       return res;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -295,5 +313,8 @@ export default {
   text-align: left;
   font-size: 14px;
   text-indent: 2em;
+}
+.baseTable td {
+  width: 25%;
 }
 </style>
