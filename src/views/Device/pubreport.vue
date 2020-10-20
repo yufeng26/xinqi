@@ -42,6 +42,7 @@
       <h3 v-if="type !== 1 && type !== 2 && type !== 3 && type !== 4">
         量表名称：<span>{{ testresult.DeviceName }}</span>
       </h3>
+      -->
     </div>
     <div class="tlt mtop15" v-if="type !== 2 && type !== 3 && type !== 4">
       {{ type !== 1 ? "测评结果" : "训练结果" }}
