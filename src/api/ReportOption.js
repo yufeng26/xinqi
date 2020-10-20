@@ -21,10 +21,17 @@ const GetBaisiruiList = (params,success) => {
   const PLdelResult = (params, success) => {
     return ajax(baseurl + "/ReportOption/DelBaisiruiReport", params, success);
   };
+  //用于导出百思锐报告
+  const ExporttestBaisirui = (params, success) => {
+    return (location.href =
+      baseurl + "/exportOption/exporttestBaisirui?id=" + params);
+  };
+  
   export default{
     GetBaisiruiList,
     GetBaisiruiReport,
     PushBaisiruiReport,
     delResult,
-    PLdelResult
+    PLdelResult,
+    ExporttestBaisirui
   }
