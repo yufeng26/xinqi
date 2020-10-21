@@ -167,13 +167,13 @@ export default {
         loopFillGroupWithBlank: true,
         pagination: {
           el: ".swiper-pagination",
-          clickable: true
+          clickable: true,
         },
         navigation: {
           nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }
-      }
+          prevEl: ".swiper-button-prev",
+        },
+      },
     };
   },
   mounted() {
@@ -211,12 +211,12 @@ export default {
         loopFillGroupWithBlank: true,
         pagination: {
           el: ".swiper-pagination",
-          clickable: true
+          clickable: true,
         },
         navigation: {
           nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }
+          prevEl: ".swiper-button-prev",
+        },
       });
     },
     getReportList() {
@@ -225,7 +225,7 @@ export default {
       let userInfo2 = JSON.stringify(userInfo);
       let userInfo3 = JSON.parse(userInfo);
       let param = new URLSearchParams(`adminId=${userInfo3.ID}`);
-      this.$ReportAPI.getReportList(param, function(data) {
+      this.$ReportAPI.getReportList(param, function (data) {
         if (data.Code == 1) {
           v.ReportList = data.Result;
         }
@@ -237,7 +237,7 @@ export default {
       let userInfo2 = JSON.stringify(userInfo);
       let userInfo3 = JSON.parse(userInfo);
       let param = new URLSearchParams(`adminId=${userInfo3.ID}`);
-      this.$PlanAPI.getPlanList(param, function(data) {
+      this.$PlanAPI.getPlanList(param, function (data) {
         if (data.Code == 1) {
           v.PlanList = data.Result;
         }
@@ -246,7 +246,7 @@ export default {
     getDeviceList() {
       let v = this;
       let param = new URLSearchParams();
-      this.$DeviceAPI.getDeviceList(param, function(data) {
+      this.$DeviceAPI.getDeviceList(param, function (data) {
         if (data.Code == 1) {
           v.DeviceList = data.Result;
         }
@@ -258,19 +258,30 @@ export default {
       let userInfo2 = JSON.stringify(userInfo);
       let userInfo3 = JSON.parse(userInfo);
       let param = new URLSearchParams(`adminId=${userInfo3.ID}`);
-      this.$ConsulationAPI.getConsultationList(param, function(data) {
+      this.$ConsulationAPI.getConsultationList(param, function (data) {
         if (data.Code == 1) {
           v.ConsultationLsit = data.Result;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
+.layui-body {
+  height: calc(100vh - 70px);
+}
 .content {
   background: #ebebeb;
+  height: 100%;
+}
+.content .bigPic {
+  height: 100%;
+}
+.bigPic img {
+  width: 100%;
+  height: 100%;
 }
 .content .bigbox .layui-table {
   box-sizing: border-box;
@@ -282,8 +293,5 @@ export default {
 }
 h3 {
   text-align: left;
-}
-.bigPic img {
-  width: 100%;
 }
 </style>
