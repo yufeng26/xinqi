@@ -5,7 +5,14 @@
       <h3 class="createadm" @click="$router.push('/dutyedit')">编辑值班表</h3>
       <p
         v-if="data.uc_IsDuty == 0"
-        style="background:#0070e5;text-align: center;color:#fff;width:100%;line-height: 60px; font-size: 26px;"
+        style="
+          background: #0070e5;
+          text-align: center;
+          color: #fff;
+          width: 100%;
+          line-height: 60px;
+          font-size: 26px;
+        "
       >
         值班表
       </p>
@@ -219,28 +226,28 @@ export default {
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty1pm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty1wm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty2am: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
 
         duty2pm: {
@@ -248,35 +255,35 @@ export default {
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty2wm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty3am: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty3pm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty3wm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
 
         duty4am: {
@@ -284,87 +291,87 @@ export default {
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty4pm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty4wm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty5am: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty5pm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty5wm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty6am: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty6pm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty6wm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty7am: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty7pm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
+          time: "",
         },
         duty7wm: {
           weekName: "",
           IsDuty: 1,
           count: 0,
           state: 0,
-          time: ""
-        }
+          time: "",
+        },
       },
-      AdminID: ""
+      AdminID: "",
     };
   },
   methods: {
@@ -374,7 +381,7 @@ export default {
 
       param.append("AdminID", this.AdminID);
 
-      this.userList = this.$ConsulationAPI.getConsulterDuty(param, function(
+      this.userList = this.$ConsulationAPI.getConsulterDuty(param, function (
         data
       ) {
         if (data.Code == 1) {
@@ -382,15 +389,18 @@ export default {
           console.log(v.data);
         }
       });
-    }
+    },
   },
   mounted() {
     this.AdminID = this.$store.state.userinfo.ID;
     this.handleGetConsulterDuty();
-  }
+  },
 };
 </script>
 
 <style scoped>
 @import "../../../static/css/duty.css";
+.createadm {
+  cursor: pointer;
+}
 </style>
