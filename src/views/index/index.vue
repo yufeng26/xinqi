@@ -1,9 +1,6 @@
 <template>
   <div class="content">
-    <div class="bigPic" v-if="isShowbox" @click="boxPartShow()">
-      <img src="../../assets/image/bg.png" alt="" />
-    </div>
-    <div class="bigbox" v-else>
+    <div class="bigbox">
       <el-row :gutter="15">
         <el-col :span="12" style="padding-left: 0px; padding-right: 0px">
           <div class="report">
@@ -154,7 +151,6 @@ export default {
   name: "index",
   data() {
     return {
-      isShowbox: true,
       ReportList: [],
       PlanList: [],
       DeviceList: [],
@@ -177,21 +173,13 @@ export default {
     };
   },
   mounted() {
-    if (localStorage.getItem("isShowbox") === "false") {
-      this.isShowbox = false;
-    }
     this.getReportList();
-
     this.getPlanList();
     this.getDeviceList();
     this.getConsulationList();
   },
   watch: {},
   methods: {
-    boxPartShow() {
-      this.isShowbox = false;
-      localStorage.setItem("isShowbox", "false");
-    },
     dateFormat(cellValue) {
       if (cellValue == undefined) {
         return "";
@@ -269,18 +257,8 @@ export default {
 </script>
 
 <style>
-.layui-body {
-  height: calc(100vh - 70px);
-}
 .content {
   background: #ebebeb;
-  height: 100%;
-}
-.content .bigPic {
-  height: 100%;
-}
-.bigPic img {
-  width: 100%;
   height: 100%;
 }
 .content .bigbox .layui-table {
