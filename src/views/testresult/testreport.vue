@@ -187,7 +187,7 @@ export default {
       zongfen_name: "总分",
       zongfen_grade: "",
       dimisionList: [],
-      colorArr: ["#3CC24C", "#0070E5", "#D4BF00", "#ED49E7", "#ED4C45"],
+      colorArr: ["#3CC24C", "#0070E5", "#D4BF00", "#ED49E7", "#ED4C45"], // 绿色，蓝色，黄色，粉色，红色
       testresult: {
         ID: "",
         UserName: "",
